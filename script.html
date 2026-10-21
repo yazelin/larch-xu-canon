@@ -1,0 +1,205 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>劇本與心聲 · 仙泉．香布纏．續 製作手記</title><meta name="description" content="《續》全劇約四千句台詞，其中一千多句是魏續的心聲。這一章講這些句子怎麼寫、怎麼改：我試玩時退回了哪些句子，退回的理由怎麼變成寫稿規則和檢查程式，最後怎麼做成一道讓不同家族的 AI 互相審稿的閘門。只看一段的話，我推最後那道閘門：寫稿的 AI 不判自己的稿，換不換進劇本由程式算。"><meta name="theme-color" content="#100c0a">
+<meta property="og:title" content="劇本與心聲 · 仙泉．香布纏．續 製作手記"><meta property="og:description" content="《續》全劇約四千句台詞，其中一千多句是魏續的心聲。這一章講這些句子怎麼寫、怎麼改：我試玩時退回了哪些句子，退回的理由怎麼變成寫稿規則和檢查程式，最後怎麼做成一道讓不同家族的 AI 互相審稿的閘門。只看一段的話，我推最後那道閘門：寫稿的 AI 不判自己的稿，換不換進劇本由程式算。"><meta property="og:image" content="https://yazelin.github.io/larch-xu-canon/img/script-unsaid.webp">
+<style>:root{color-scheme:dark;--bg:#100c0a;--card:rgba(20,14,11,.9);--line:rgba(226,184,102,.26);--gold:#e2b866;--gold2:#f0d08f;--red:#c8502e;--fg:#f1e8dd;--dim:#b7a693}
+*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.9 "Noto Serif TC","Noto Serif CJK TC","Songti TC",serif}
+a{color:var(--gold2)}
+.bg{position:fixed;inset:0;z-index:0;background:#000}.bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.9}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,6,5,.6),rgba(8,6,5,.15) 30%,rgba(8,6,5,.15) 70%,rgba(8,6,5,.6)),linear-gradient(180deg,rgba(8,6,5,.35),rgba(8,6,5,.05) 40%,rgba(8,6,5,.65))}
+main{position:relative;z-index:2;max-width:900px;margin:40vh auto 110px;padding:34px 34px 44px;background:var(--card);border:1px solid var(--line);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+h1{color:var(--gold2);font-size:clamp(28px,4.4vw,40px);letter-spacing:.06em;margin:0 0 18px;text-shadow:0 2px 12px #000}
+h1::after{content:"";display:block;width:72px;height:3px;background:var(--red);margin-top:10px}
+h2{color:var(--gold2);font-size:24px;margin-top:60px;padding-left:12px;border-left:3px solid var(--red)}h3{color:var(--fg);margin-top:36px}
+table{border-collapse:collapse;width:100%;font-size:15px;display:block;overflow-x:auto}
+td,th{border:1px solid var(--line);padding:7px 11px;vertical-align:top}th{background:rgba(40,28,20,.9);color:var(--gold2);font-weight:500}tr:nth-child(even) td{background:rgba(40,28,20,.35)}
+blockquote{margin:16px 0;padding:6px 16px;border-left:2px solid var(--gold);color:#dccfc0;background:rgba(40,28,20,.5)}strong{color:var(--gold2);font-weight:600}
+code{font:14px/1.6 ui-monospace,"Noto Sans Mono CJK TC",monospace;background:rgba(0,0,0,.35);padding:1px 5px;border-radius:4px}
+pre{background:rgba(0,0,0,.45);border:1px solid var(--line);padding:14px 16px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}pre code{background:none;padding:0;font-size:13.5px}
+figure{margin:26px 0}figure img{display:block;width:100%;height:auto;border:1px solid var(--line);box-shadow:0 10px 36px rgba(0,0,0,.55)}
+figcaption{color:var(--dim);font-size:14.5px;margin-top:8px;line-height:1.7}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:22px 0}
+.cards a{display:block;text-decoration:none;background:rgba(40,28,20,.55);border:1px solid var(--line);color:var(--fg)}.cards a:hover{border-color:var(--gold)}
+.cards img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}.cards b{display:block;color:var(--gold2);padding:10px 12px 0;font-size:18px}.cards span{display:block;padding:2px 12px 12px;color:var(--dim);font-size:14.5px;line-height:1.6}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:60px}.pager a{padding:6px 16px;border:1px solid var(--line);border-radius:16px;text-decoration:none;background:rgba(10,7,6,.55)}
+.top{position:fixed;left:0;right:0;top:0;z-index:5;display:flex;align-items:center;gap:14px;padding:12px 24px 22px;
+  background:linear-gradient(180deg,rgba(6,4,3,.9),rgba(6,4,3,.6) 60%,rgba(6,4,3,0));text-shadow:0 1px 3px #000,0 0 12px rgba(0,0,0,.9)}
+.top .brand{color:var(--gold);font-size:21px;line-height:1.25;letter-spacing:.12em;font-weight:600;text-decoration:none;white-space:nowrap}
+.top .brand small{display:block;font-size:12.5px;font-weight:400;letter-spacing:.2em;color:#cfa760}
+.top nav{margin-left:auto;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none}.top nav::-webkit-scrollbar{display:none}
+.top nav a{padding:3px 11px;border:1px solid rgba(226,184,102,.3);border-radius:14px;background:rgba(10,7,6,.55);color:var(--gold);text-decoration:none;font-size:14.5px;line-height:1.7;white-space:nowrap}
+.top nav a.on{background:var(--red);border-color:var(--red);color:#fff}
+footer.foot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;
+  padding:20px 16px calc(10px + env(safe-area-inset-bottom));font-size:13px;color:#d4c6b5;text-shadow:0 1px 3px #000,0 0 10px #000;
+  background:linear-gradient(0deg,rgba(6,4,3,.92),rgba(6,4,3,.7) 60%,rgba(6,4,3,0))}footer.foot a{color:var(--gold);text-decoration:none}
+@media (max-width:760px){body{font-size:16px}main{margin-top:46vh;padding:24px 16px 34px}.top{flex-direction:column;align-items:flex-start;gap:6px;padding:10px 12px 16px}
+  .top .brand{font-size:18px}.top nav{margin-left:0;max-width:100%}.top nav a{padding:2px 8px;font-size:13px}footer.foot{gap:10px;font-size:12px}}</style></head><body>
+<header class="top"><a class="brand" href="index.html"><small>仙泉．香布纏．續</small>劇本與心聲</a><nav><a href="how.html">做法</a><a href="script.html" class="on">劇本</a><a href="sprites.html">角色</a><a href="cg.html">CG</a><a href="city.html">建城</a><a href="walkin.html">原畫</a><a href="confirm.html">確認頁</a><a href="sound.html">聲光</a><a href="engine.html">引擎</a></nav></header>
+<div class="bg" aria-hidden="true"><img src="img/script-unsaid.webp" alt=""></div>
+<main><h1>劇本與心聲</h1>
+<p>《續》全劇約四千句台詞，其中一千多句是魏續的心聲。這一章講這些句子怎麼寫、怎麼改：我試玩時退回了哪些句子，退回的理由怎麼變成寫稿規則和檢查程式，最後怎麼做成一道讓不同家族的 AI 互相審稿的閘門。只看一段的話，我推最後那道閘門：寫稿的 AI 不判自己的稿，換不換進劇本由程式算。</p>
+<h2>開案那天先定的事：心聲說不出口</h2>
+<p>《續》是《仙泉．香布纏》同一段故事，換成魏續的眼睛：從五原城破（173）走到谷口那碗水（223），最後由玩家替他選喝或不喝。2026-10-05 開案那天，我一條一條定，AI 一條一條寫進 <code>xu/設計.md</code>，那一天 <code>xu/</code> 底下有 56 個提交。</p>
+<p>設計檔裡叫「核心機制」的那一條也是那天定的：每章有一兩個時刻跳出選項，玩家選的是他的心聲，可是不論選哪一句，說出口的都是沉默，或前作裡一句不相干的話（「進來。」「嗯。」「這邊我顧著。」）。選的那句記進背包裡一樣只有玩家看得到的道具，我把它叫「思念」。不喝的結局，臨死前的回想會把這些話一句一句帶回來。</p>
+<p>2026-10-07 我又定了寫法：《續》要讓玩家完完全全明白所有事，原作那種只露痕跡的冰山寫法這一部不用。不變的只有一件：他從來沒對布說出口。他當時不知道的事，由老了的魏續用旁白說清楚：「這些，是後來她們告訴我的。」</p>
+<p>設定以 <code>buchan/canon.md</code> 為準，呂布一家（呂布、貂蟬、嚴湘、呂荃、魏續）的事都寫在那裡，別的作品寫到這一家也一律查它。設計《續》時我新定的事，例如魏續被拖走後在表親嚴家住了三年、約 176 年才為了修城搬回五原，也寫回正典，提交訊息標「續與正典」，共 9 次；正典的冰山原則旁邊也註明「《續》不適用」。改原作之前要先跑 <code>python3 buchan/check_canon.py</code>，它擋幾種已經定掉的寫法，例如貂蟬自稱「奴家」（她自稱「妾」）、布叫湘「阿湘」（布叫「湘兒」）。AI 不准自己動 canon.md，要我點頭。</p>
+<h2>劇本檔長什麼樣</h2>
+<p>每一章一個 Markdown 檔，例如 <code>xu/劇本_第一章_城牆下.md</code>，一場戲一個 <code>##</code> 小節，台詞是兩欄表格「講者｜台詞」。講者寫「魏續（心聲）」的，遊戲裡只有玩家看得到。表格之間用【地圖】【事件】【日常】【心聲選項】寫演出：走到哪裡觸發、哪些事可做可不做。每句後面標來源：「（作者定）」是我確認過的字，「（代理定）」是 2026-10-13 我授權 AI 接著完稿的字。建置程式（入口是 <code>xu/game/src/build.py</code>）讀這些檔、拿掉兩種標記，產出 Larch 的專案 JSON。</p>
+<p>另外兩種劇本檔：<code>劇本_想念_*.md</code> 是日常裡偶爾冒出來的心聲。我 2026-10-15 說過，玩家做生活小事時，要「時不時就會觸發到與布相關的感覺」，而且「各種情緒，但都能被解讀成因為愛」。<code>xu/game/src/thought_plan.py</code> 把每一節掛到地圖上的路人或標記，互動時有一定機率冒出一句。<code>劇本_生活小事.md</code> 是劈柴、挑水、煎藥這類小任務的台詞，AI 先寫了約 290 件提案，再挑做得出來的進遊戲。</p>
+<h2>先定心境，再寫心聲</h2>
+<p>2026-10-15 我在本機預覽玩第一到三章，留了 51 則回饋，還交代：「後面也一樣照我講的方向去修改，盡可能不要再讓我檢查出相同問題。」關於心聲的方向是用白話、寫長，把思念、擔心、憂傷寫滿，外表冷靜、內心波瀾。AI 照這個方向把第四到九章的心聲 106 句改成白話長句，三個子代理各改兩章。</p>
+<p>同一天晚上我又抓到一句：「想叫住奉先的話…這個家就沒有我站的位子…我就賺到了」。我說有點問題，要先定出魏續真實的心境，再用那個心境去寫。AI 寫了 <code>xu/心境.md</code>：他愛她，不說的理由只有一個，說出口她就得替他想怎麼回，她已經扛了太多；他不算計，不用「賺到」「划算」；每句心聲動筆前過四個檢查。我補了兩件事進去。一是盟友：「原作中的湘，其實就很像是『說出愛以後和布修成正果的那種續』的可能性」，湘看得出他的心思，兩個人都不說破。二是脫稿：「偶爾能看似脫稿，也算是一種能表現出內心強烈情感的方式」，但「應該是我們設計好的脫稿演出」。規則定成每章最多一兩次、全劇約 10 到 14 次，台詞標「（脫稿）」。</p>
+<p>我也問 AI：「我們有沒有系統地用各角色的心境、身心靈狀態寫出該角色會講的話？」它補了 <code>xu/角色狀態.md</code>，每個角色一張人生階段表。魏續分六段，續-1 少年到續-6 老年，再列一張「階段專屬句式表」：同手同腳、耳朵紅放在十八到二十二歲；排練了說不出口的話，只放到三十歲左右；「愛」字直說屬於六十二歲那碗水前面。</p>
+<p>能用規則抓的部分，AI 寫成 <code>xu/game/tests/check_voice.py</code>，檔頭記著起因：我擔心失誤，要有嚴謹的架構。它先判斷每一列是哪一年、誰說的，再套規則。硬規則一出現檢查就失敗：冠禮（約 183 年）以前心聲叫布「奉先」、emoji、破折號、先否定再肯定的對比句、「奴家」、簡體字、中文裡夾半形標點。警告只列出來給人判斷：「愛」字出現在兩處以外、四十歲以後還同手同腳或耳朵紅、200 年以後還在排練、把愛當算帳、荃十八歲以後還用驚嘆號、一句心聲超過 140 字。</p>
+<h2>試玩退回的句子</h2>
+<p>2026-10-18 我回饋，嚴家那幾年的心聲讀起來魏續像花痴、很怯，第一次玩的人會覺得他很怪。AI 照這則寫了 <code>xu/心聲語氣守則.md</code>，找出三個原因：年紀不對（十二到十五歲時他跟布是玩伴，只能有兄弟、愧疚和想念）；每個念頭都繞回布（幹活、學刀、肚子餓、想爹娘幾乎沒寫）；口吻怯又黏（排練、愣住、嘴角壓不下去）。守則附了改前改後：</p>
+<blockquote>
+<p>改前：要是布這時候從街角走出來，我大概先愣三下，然後事先想好的那句『你回來了』，說出口會變成『餅要不要』。</p>
+<p>改後：我路過這個街角，腳會自己慢下來。以前布常從這裡跑出來，手裡拿著餅。現在街角空著，我還是慢了一步，才想起不用等了。</p>
+</blockquote>
+<p>同一天 AI 掃第二到九章，列出全劇反覆出現的口頭禪：「嘴角壓不下去」20 處，「夠我高興一整天／一整年」5 處。我授權改了 31 句以後，嘴角剩 12 處，高興一整天剩 2 處，留下的都有情境，例如撿到箭尾那道刻痕、知道她還活著。</p>
+<p>2026-10-20 我分章試玩，又退回幾類：</p>
+<ul>
+<li>第七章我留了六則，說魏續太愛說笑、會鬼扯。AI 改了我點的六句，同一類的也一起改。</li>
+<li>「咬住舌尖」讀起來像要自盡，改成「咬緊牙關」。</li>
+<li>「又在那邊亂猜奉先了，很煩了」：心聲一直寫「奉先要是看見，大概會……」。全劇這種句子改掉 22 句。</li>
+<li>「兩邊身上都亮了是什麼？如何解決 AI 一再使用這種方式講話？」：那句的意思是兩邊都受了傷，改成「都帶了傷」。</li>
+</ul>
+<p>亂猜奉先和自創說法這兩類，變成審稿準則（<code>xu/審稿/準則.md</code>）第 14、13 條，也加進 <code>check_voice.py</code> 當硬規則：</p>
+<pre><code class="language-python">GUESS = re.compile(r'奉先要是|要是奉先|奉先若是')
+ODD = ['身上都亮了', '身上亮了']   # 自創說法（審稿/準則.md 第 13 條）：作者看不懂、問過的，加在這裡
+assert GUESS.search('奉先要是看見，大概會笑我') and GUESS.search('要是奉先在') and not GUESS.search('奉先還活著，要是能見一面')
+</code></pre>
+<p>最後一行是給規則本身的檢查：該擋的要擋到，「奉先還活著，要是能見一面」這種正常的句子不能誤擋。ODD 那張清單抓到一次加一筆。</p>
+<p>一起改「同一類」，也改到過不該改的句子。說笑那批送去閘門，十場過九場；沒過的是〈想念．路過（曹營）〉，AI 刪掉「鼻子有點酸，又覺得好笑」的後半句，評審六票都選舊稿，理由是那是鼻酸裡帶笑的真實心情，所以照規則換回舊稿（閘門見〈讓另一個 AI 抓問題〉一節）。</p>
+<h2>選了沒有回應：心聲分成兩類</h2>
+<p>後來發現一個問題：心聲選項選了沒有效果。2026-10-18 AI 先量現況：九章劇本的【心聲選項】69 處，生活小事 137 處，合計約 206 處；魏續說出口的台詞約 166 行，只有省略號或只有「嗯」的 16 行，約一成。「很多都是點點點」是感覺，真正讓人覺得沒回應的是結構：三個選項走到同一個結果，玩到第三次就學會了，之後兩百多次都在重複同一個經驗。</p>
+<p>我那時對 AI 的要求是：參考知名 RPG 怎麼讓主角隨遊戲成長；愛不能一路只是一個「愛」字，要有微妙的變化；他沒有戰鬥力，但要有很多小場面讓他守護人，愛屋及烏。AI 的提案（<code>xu/設計提案_成長弧與心聲改良.md</code>）把心聲分成兩類，我當天批准：</p>
+<ul>
+<li>第一類是對布說的話。維持原規則，選什麼說出口都一樣，但數量壓到全劇 12 到 15 個。</li>
+<li>第二類是其他選項：對湘、荃、娘、同袍說的話，獨處時的取捨。這些一定要有回應，提案說最重要的一種是說出口的一樣、做的不一樣。提案的例子是布回家那一刻，說出口的都是「進來。」：選「妳去哪了」，他握緊門框；選「別走了」，他把門推得更開；選「妳瘦了」，他先去灶邊盛一碗熱湯。</li>
+</ul>
+<p>最後保留選項的第一類關鍵時刻是 14 個，<code>xu/game/src/first_class.py</code> 在這 14 個選項上方加一行「說不出口的時刻」，玩家看到就知道這次選什麼都不會改變對話，只會被他記住。沒入選的第一類改成自動心聲，直接顯示一句。第二類每個選項掛一個心態標籤：守、藏、讓、等、近，選完畫面上方淡入一行「記下了：守」；<code>check_xin.py</code> 對照盤點表比對 588 個選項，一個選項只准一個標籤。第八章那二十五年，每年冬天坐上門檻刻痕時，旁白讀這一年最後一次選的心態，例如「這一年，我又把話吞回去。」</p>
+<figure><a href="img/script-unsaid.webp" target="_blank" rel="noopener"><img src="img/script-unsaid.webp" alt="第一章立約的地方：第一類心聲選項上方標著「說不出口的時刻」，三句選哪一句，說出口的都一樣" loading="lazy"></a><figcaption>第一章立約的地方：第一類心聲選項上方標著「說不出口的時刻」，三句選哪一句，說出口的都一樣</figcaption></figure>
+<h2>關係點數：先定上限，再回推事件</h2>
+<p>同一份提案還有關係階：布、湘、荃各五階（認得、在意、守著、默契、不用說），娘、蟬、成素各三階。做小任務、守護場面、關係事件會加點，升階時演一小場只屬於那兩個人的戲。</p>
+<p>2026-10-18 我定的原則是：先定上限，再用上限回推事件；每個主角的關係都要能養滿，任何一條路徑都做得到，滿了有獎勵；同一件事的幾個選項加的點一樣，選項只改風格，關係好壞只看有沒有做。AI 開三個代理逐章盤點，列出 230 個會加點的事件。結論是布、湘、荃的事件遠多於上限，蟬和成素才是缺口：成素全劇只在第七章出場，玩家能互動的只有 2 件。AI 把上限定成「最差路徑的點數除以 1.3」，任何路徑都有三成緩衝，之後蟬和成素各補了 8 個新事件。</p>
+<p>升階小場踩過兩次年代的錯，都是我試玩時抓到的：娘已經過世，墳前卻演了娘的升階小場；第七章划船時演出一段寫少年時候的小場。AI 改成升階小場只在劇本那幾年的章節演（<code>rel_points.ERA</code>、<code>rel_points.GONE</code>），別章跨過門檻只更新階數。</p>
+<p>生活小事的玩法，方向更早就定了。2026-10-15 我說這是獨立遊戲，不只是讓玩家讀魏續的心聲：小事要有真的玩法，資源、時間壓力、有代價的選擇，並連到主線與結局；每件小事要練五種思考之一：注意、取捨、克制、記得、守候。</p>
+<h2>思念：每一句心聲配一張圖</h2>
+<p>開案時就定了，不喝結局的床邊回想會穿插玩家記下的心聲。2026-10-06 我再加一條：每個心聲時刻都要有一張圖。AI 列出九章 102 個心聲時刻，各配一張前作或本作的 CG，缺的 7 張新畫（<code>xu/心聲CG對照.md</code>）。回想照前作原句一句一句走，每一句後面插一句玩家在那一章記下的心聲，畫面換成記下那一刻的圖，加暗角、褪一點色；那一章一句都沒記，就不插。</p>
+<p>碗前還有一段：選喝或不喝之前，「思念」從第一頁翻起，右上角顯示頁數，最後一頁是前作原句「我沒說出口的，也不只這一件。」</p>
+<figure><a href="img/script-ledger.webp" target="_blank" rel="noopener"><img src="img/script-ledger.webp" alt="第九章碗前翻「思念」：最後一頁是「我沒說出口的，也不只這一件。」，右上角是頁數" loading="lazy"></a><figcaption>第九章碗前翻「思念」：最後一頁是「我沒說出口的，也不只這一件。」，右上角是頁數</figcaption></figure>
+<h2>拿原作逐句對照</h2>
+<p>《續》有很多台詞是前作原句，設計檔寫明這些要照原句。2026-10-16 夜裡 AI 開了四條工作線（k1 到 k4），各拿一段劇本跟前作上線版台詞和正典逐句對，分三級：A 是跟原作明確矛盾，直接改；B 是原作沒寫、《續》補得合理，列給我知道；C 是原作沒有定論，等我拍板。隔天我授權第三步一律以原作為準。抓到的例子：</p>
+<ul>
+<li>第八章魏續第一次坐上曹營的門檻，心聲寫「從下邳到現在，整整一年了」。第一道刻痕就在下邳城破那個冬天，改成「從下邳出來到現在，還不到一季。」</li>
+<li>第八章麥城那段，他想像布「然後去磨戟」。綁成素的就是他，他知道那桿戟跟著替身上了白門樓，改成「然後一個人出去，站很久。」</li>
+<li>《續》原本讓魏續對湘說過「手肘別翹」。前作裡湘是在荒原上聽布說這一句才認出布，魏續先說了，那一刻就會連到兩個人。改成話到嘴邊又嚥回去：「這句話是布的。等布回來，讓布自己跟湘說。」</li>
+<li>「不會老」改成「老得很慢」，正典寫的是成年後老得很慢。</li>
+</ul>
+<p>k2 還查出：它找到的 12 處 A 級裡，有 6 處是 2026-10-16 那一輪 Codex 審稿改掉的前作原句。那一輪讓 Codex 照 <code>心境.md</code> 審全部台詞、採用確實違反規則的，結果連該照原句的句子也改了，全部改回。2026-10-17 我也拍板兩件事：「姑娘」是明清才有的叫法，全劇不用，17 處依說話人與年份改掉；湘是這個家的軍師，她的前作原句一律還原。</p>
+<h2>改一句設定，掃一遍全劇</h2>
+<p>2026-10-20 早上 AI 只改了第零幕〈認識〉一場，我接著問：布的爹到底是城主，還是帶一隊人守城的？代理先前補的「布的爹是守城的軍官」已經一路寫進好幾個檔，沒有人回頭查。我說：「類似這種事你能主動修嗎，不要我提。」</p>
+<p>之後的規矩是：改一句設定，就搜全部劇本、補全清單、角色卡；正典沒寫又非補不可的，選最不衝突的預設，記進 <code>xu/審稿/設定帳.md</code>，標「代理補」或「作者定」。這件事後來做進出貨指令：<code>runner.py ship</code> 會找出這次改掉的舊句子，看它在劇本、補全清單、角色卡、遊戲程式和測試裡還在不在，還在就拒絕提交，除非寫明理由。測試也綁著台詞，自動玩家會等某一句出現才往下走，所以 <code>check_test_texts.py</code> 會比對測試裡寫的句子跟劇本對不對得上。</p>
+<h2>讓另一個 AI 抓問題：審稿閘門</h2>
+<p>審稿是一步一步加上去的。2026-10-16 是 Codex 一個模型審全劇。2026-10-18 我要求這麼多劇情對話，要讓 Codex 跟另一個大型語言模型交叉審，AI 寫了 <code>xu/game/tools/review_all.py</code>：劇本切成約 7000 字一段，兩個模型各列最多 10 句問題，分四類（違反心聲守則、指代含糊、前後矛盾、彆扭或 AI 腔）。2026-10-19 凌晨彙整出來，兩個模型都抓到的 113 句先修，只有一個抓到的 485 句另外判斷；同一晚改了想念與場景互動約 130 句。</p>
+<p>2026-10-20 換了做法，起因是第零幕〈認識〉。那一場有幾處讀者會卡住：「嘴巴會閉得特別直」「我大」「城頭那個」，還有布的爹到底是不是城主。被問到時 AI 都答得出來，可是寫的時候沒有人問。我定的方向是：寫劇本的每個環節都加審查關卡，由另一個 AI 看出問題，寫稿的 AI 去修。</p>
+<figure><a href="img/script-renshi.webp" target="_blank" rel="noopener"><img src="img/script-renshi.webp" alt="第零幕〈認識〉：左邊是 2026-10-20 早上審稿前的版本，右邊是同一天改稿、過了閘門的現行版本" loading="lazy"></a><figcaption>第零幕〈認識〉：左邊是 2026-10-20 早上審稿前的版本，右邊是同一天改稿、過了閘門的現行版本</figcaption></figure>
+<p>一場戲的關卡寫在 <code>xu/審稿/流程.md</code>：</p>
+<table>
+<thead>
+<tr>
+<th>關</th>
+<th>做什麼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>提問</td>
+<td>動筆前，讓審稿模型讀正典與這場簡述，只問這一場真的牽涉到、答案會改變寫法的設定</td>
+</tr>
+<tr>
+<td>讀稿</td>
+<td>四位讀稿人各自一幕幕讀，找搭配不當、口氣不合年紀、單字連答、旁白替讀者下結論、含蓄到看不懂、金句腔、設定矛盾</td>
+</tr>
+<tr>
+<td>查證</td>
+<td>人名、官職、年代、器物分成史實、演義、本作編的、不確定；模型自己的歷史記憶不算，只認引得出正典或史料考證原句的依據</td>
+</tr>
+<tr>
+<td>修</td>
+<td>兩位以上讀稿人提到同一句才算必修；問題多的場走重寫比賽</td>
+</tr>
+<tr>
+<td>閘門</td>
+<td>舊稿、新稿各讓四位讀稿人讀一次，再請不同家族的評審兩兩比較</td>
+</tr>
+<tr>
+<td>出貨</td>
+<td>掃舊句、重建、跑檢查，只提交列出的檔</td>
+</tr>
+<tr>
+<td>通讀</td>
+<td>我只看剩下的問題、要拍板的設定、本作編的清單</td>
+</tr>
+</tbody>
+</table>
+<p>四位讀稿人來自四個模型家族：Claude Opus、GPT（透過 Codex）、Gemini、DeepSeek，各讀各的，看不到彼此的意見。第零幕第一次讀完，問題單記了 128 條，必修 49 條。日常照這五個指令走：</p>
+<pre><code class="language-bash">python3 審稿/runner.py next 劇本_X.md              # 各場狀態，最後一行印「下一步」
+python3 審稿/runner.py read 劇本_X.md &quot;場名&quot;        # 四位讀稿人讀、查證，併進問題單
+python3 審稿/runner.py packet 劇本_X.md &quot;場名&quot;      # 修稿包：準則、這一場、問題、別處引用的句子
+python3 審稿/runner.py gate 劇本_X.md &quot;場名&quot;        # 改完一定要過
+python3 審稿/runner.py ship &quot;提交訊息&quot; 改過的檔…    # 連帶掃描、重建、檢查、提交
+</code></pre>
+<p>那天中午，這套流程加了一條原則，後來寫在交接手冊第一條：寫的人不判自己的稿。早上的版本是 Sonnet 5.5 搭的，它從重寫比賽的稿子裡憑感覺挑了三句補進〈認識〉，評審 4 比 2 喜歡新稿，可是讀稿人在那三句抓到 3 條新的共識問題，其中一句是「練戟啊，你看不出來喔？」（「喔」太現代）。中午我改用 Opus 一起重新設計，目標是之後換回 Sonnet 寫稿時，照著跑也有好結果。現在換不換進劇本，看程式算出來的結果：</p>
+<ul>
+<li><strong>閘門</strong>只看改動造成的差：新出現的共識問題比修掉的少，而且新稿兩兩比較不輸；或新出現的不比修掉的多，而且新稿多贏兩票以上。兩版都有的句子不算，避開讀稿人每次抓得不一樣的雜訊。最多改三輪，三輪不過就把這一場換回原稿。</li>
+<li><strong>評審</strong>排除 Anthropic 家族（原稿和多數改稿出自 Claude）和寫新稿那個模型的家族，A、B 順序對調各問一次。</li>
+<li><strong>重寫比賽</strong>：必修 6 條以上，或佔這一場台詞三成以上才走。三家寫手各寫一版，寫稿的 Claude 也寫一版，寫完之前不准看別人的；評審匿名排名、去掉同家族的票，取平均名次前三，再挑共識問題最少的。同一場只比一次。</li>
+</ul>
+<p>排除同家族是量出來的：〈認識〉比了兩輪，Opus 當評審四次都把 Opus 的稿排第一，DeepSeek 四次有三次，GPT 兩次都是。去掉同家族的票以後，前段四家兩兩比較多半平手，所以不指定主力寫手，每場交給閘門判。提示詞也有規矩：一律由程式產生，不放例句。曾經在提示詞裡放例句，讀稿人被帶偏；也曾經把六歲的布寫成「她」，寫手就照著寫錯。拿掉例句、也不列問題類型以後，讀稿人一樣抓得到「閉得特別直」「我大」，那是它們自己看出來的。回報給我的數字也規定從工具輸出抄，不憑記憶。</p>
+<figure><a href="img/script-gate.webp" target="_blank" rel="noopener"><img src="img/script-gate.webp" alt="〈認識〉第二次過閘門的輸出：修掉 5 條、新出現 2 條，評審 5 比 1，通過；下面依序列出新稿還有的共識問題、修掉的問題、每張評審票的理由" loading="lazy"></a><figcaption>〈認識〉第二次過閘門的輸出：修掉 5 條、新出現 2 條，評審 5 比 1，通過；下面依序列出新稿還有的共識問題、修掉的問題、每張評審票的理由</figcaption></figure>
+<p>2026-10-20 這一天閘門跑了 77 次，57 次通過，跑過閘門的有 41 場。問題單記了 781 條，最多的三類是「含蓄到看不懂」161 條、「搭配不當」149 條、「設定矛盾」110 條。設定矛盾一律標成升級，AI 不自己改設定，留給我拍板。第二章鄰居認出那桿戟的台詞，第一輪寫「從前帶兵守城的呂家」，閘門判它像在補設定，沒過；改成「那桿戟，我看著眼熟。不是以前呂家那個男孩的嗎？」</p>
+<h2>準則是一條一條累積的</h2>
+<p>修稿包和重寫比賽都會自動帶入 <code>xu/審稿/準則.md</code>，現在 14 條，來源是正典、角色卡的原作守門守則、<code>角色狀態.md</code>、<code>心聲語氣守則.md</code> 和我的回饋。幾條的出處：</p>
+<ul>
+<li>第 1 條，布十歲以前的回憶叫「布」、用「他」，冠禮以後叫「奉先」、用「她」：我 2026-10-15 試玩時要的，<code>check_voice.py</code> 也擋冠禮前的心聲叫「奉先」。</li>
+<li>第 3 條，「愛」字只留在第二章城頭夜和第九章碗前：我 10-15 說過「愛」字能不寫就不寫，靠思念、擔心、具體的小事寫明白。城頭夜那句「我怕她會看出我心裡藏著的…愛」，是我那次試玩時要加的。</li>
+<li>第 4 條的「姑娘」不用，是 10-17 的拍板；「奴家」不用，是正典。</li>
+<li>第 8 條，描寫用加法：說秀氣就寫十分秀氣，不寫「不硬」。這條是我 2026-09-29 審《洛泉．袁真跡》時定的，帶過來用。</li>
+<li>第 12 條，被別處引用的句子盡量保留：修稿包會列出這一場哪些句子在別的場、別的檔也出現。</li>
+<li>第 13、14 條，不自創說法、心聲不猜奉先：2026-10-20 那兩則回饋。</li>
+</ul>
+<h2>試過、後來不用的做法</h2>
+<ul>
+<li>讀稿人換過幾個：網頁版 Gemini 長回應會被截斷，改寫建議也常常更差；gemini-3.8-flash 跟另一位 Gemini 讀稿人同家族；gpt-oss-120b 太弱；舊的 Codex 預設模型 gpt-6-luna 在比賽裡墊底。</li>
+<li>憑感覺挑版本、補句子：上面那三句。</li>
+<li>一個模型審全劇：2026-10-16 那一輪連前作原句也改了。</li>
+<li>角色卡演出（2026-10-19）。我的目標是對話自然，不要讓人一看就是 AI 寫的。那一天試的做法是讓每個角色由一個隔離的 AI 演，手上只有角色卡和導演單（目標、不說的事、底線），導演排拍序，演完由另一個 AI 剪成遊戲格式；當晚全劇跑了 78 場、303 個代理。結果記在 <code>xu/角色卡/整理_2026-10-19.md</code>：第七章〈門檻〉讓演員演原台詞、只補動作，原台詞一字沒改，剪完只多 7 行旁白；演員演出的動作約九成玩家看不到；演員選的句子不一定好，還要剪輯和我挑；這個做法對原稿薄、或代理新寫的場最有用。角色卡留了下來，改稿時跟準則一起當依據；演出這一步沒有放進後來的審稿流程。</li>
+</ul>
+<h2>下一步：改前改後給我選</h2>
+<p>閘門判的是讀稿人和評審的口味，跟我的口味不一定一樣。評審稱讚過「你看不出來喔？」，可是全劇四千句幾乎不用「喔」。所以流程最後一步是每章挑一場，把改前、改後匿名成 A、B 給我選，記進 <code>xu/審稿/校正.md</code>；我選舊稿的次數變多，就表示準則或評審偏了，要回頭調。這張表現在還是空的。還沒定的也有幾件：「喔、啦、欸」這類語尾要不要開放；「現在是。」這種短句，比賽評審稱讚，讀稿人卻都標成金句腔。</p>
+<p>地圖怎麼從整張原畫做出來，見<a href="walkin.html">走進原畫</a>；心聲時刻用的 CG 怎麼產，見 <a href="cg.html">CG</a>；整部怎麼跟 AI 分工，見<a href="how.html">一個人跟 AI 怎麼做完一部 RPG</a>。</p><div class="pager"><a href="how.html">← 上一章</a><a href="sprites.html">下一章 →</a></div></main>
+<footer class="foot"><span>仙泉．香布纏．續 · 製作手記 · 作者 亞澤 · 內容授權 CC BY-NC 4.0</span>
+<a href="https://github.com/yazelin/larch-xu-canon" target="_blank" rel="noopener">GitHub</a><a href="https://www.facebook.com/yaze.lin.gm" target="_blank" rel="noopener">Facebook</a>
+<a href="https://buymeacoffee.com/yazelin" target="_blank" rel="noopener">請我喝咖啡</a><a href="https://yazelin.github.io/" target="_blank" rel="noopener">亞澤的部落格</a></footer>
+<script>
+/* yz-promo-footer (trimmed) | 三件套+BMC 注意力效果 | https://github.com/yazelin/promo-footer-skill
+   對 footer 既有的 Buy Me a Coffee 連結加 bobbing + 講話氣泡（不重新注入連結）。 */
+(function(){"use strict";
+if(window.__yzPromoInit)return;window.__yzPromoInit=1;
+try{if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return}catch(e){}
+var LINES=["嘿，這裡這裡，我是咖啡按鈕","我是一顆很努力的按鈕，求被點一下","噓，亞澤不知道我在偷偷拉贊助","你看我跳得這麼賣力，不請一杯嗎？","不請也沒關係，你來玩我就很開心","一杯咖啡，是下一個作品的燃料","你的咖啡會變成下一個作品，真的","咖啡因進入亞澤體內，程式碼就會自己寫完","用愛發電中，咖啡因可提升發電效率","覺得好玩嗎？抖內一下下","這個網站沒有廣告，只有我這顆按鈕"];
+var CSS="@keyframes yzIdle{0%,55%,100%{transform:translateY(0)}62%{transform:translateY(-4px)}70%{transform:translateY(0)}78%{transform:translateY(-2px)}84%{transform:translateY(0)}}.yz-idle{animation:yzIdle 2.6s ease-in-out infinite}@keyframes yzHop{0%,100%{transform:translateY(0)}20%{transform:translateY(-6px) scale(1.04)}40%{transform:translateY(0) scale(1)}55%{transform:translateY(-3px)}70%{transform:translateY(0)}}.yz-hop{animation:yzHop .9s cubic-bezier(.36,.07,.19,.97)}.yz-bubble{position:fixed;z-index:2147483000;max-width:200px;padding:6px 11px;border-radius:14px;background:#fffdf7;color:#4a3f35;border:1px solid rgba(0,0,0,.1);box-shadow:0 4px 14px rgba(0,0,0,.18);font:13px/1.5 system-ui,-apple-system,'Noto Sans TC',sans-serif;pointer-events:none;opacity:0;transform:translateY(5px);transition:opacity .25s ease,transform .25s ease}.yz-bubble.yz-on{opacity:1;transform:translateY(0)}.yz-bubble::after{content:'';position:absolute;left:var(--yz-tail,50%);margin-left:-6px;border:6px solid transparent}.yz-bubble.yz-above::after{bottom:-6px;border-bottom:0;border-top:6px solid #fffdf7}.yz-bubble.yz-below::after{top:-6px;border-top:0;border-bottom:6px solid #fffdf7}";
+var bubble,anchor;
+function addCss(){if(document.getElementById("yz-promo-css"))return;var s=document.createElement("style");s.id="yz-promo-css";s.textContent=CSS;document.head.appendChild(s)}
+function findAnchor(){var as=document.querySelectorAll('a[href*="buymeacoffee.com/yazelin"]');if(!as.length)return null;var vis=[],i,r;for(i=0;i<as.length;i++){r=as[i].getBoundingClientRect();if(r.width||r.height)vis.push(as[i])}var pool=vis.length?vis:[].slice.call(as);return pool[pool.length-1]}
+function hop(){anchor.classList.remove("yz-hop");void anchor.offsetWidth;anchor.classList.add("yz-hop")}
+var shown=0,MAX_SHOWS=3;
+function say(){if(document.hidden)return;var r=anchor.getBoundingClientRect();if(!r.width&&!r.height)return;if(r.bottom<0||r.top>innerHeight)return;if(shown>=MAX_SHOWS)return;shown++;bubble.textContent=LINES[Math.floor(Math.random()*LINES.length)];bubble.classList.remove("yz-on","yz-above","yz-below");bubble.style.left="0px";bubble.style.top="0px";var bw=bubble.offsetWidth,bh=bubble.offsetHeight,cx=r.left+r.width/2;var left=Math.max(8,Math.min(cx-bw/2,innerWidth-bw-8));var above=r.top-bh-12>=8;bubble.style.left=left+"px";bubble.style.top=(above?r.top-bh-12:r.bottom+12)+"px";bubble.classList.add(above?"yz-above":"yz-below");bubble.style.setProperty("--yz-tail",Math.max(12,Math.min(cx-left,bw-12))+"px");hop();requestAnimationFrame(function(){bubble.classList.add("yz-on")});setTimeout(function(){bubble.classList.remove("yz-on")},4200)}
+function start(){addCss();anchor=findAnchor();if(!anchor)return false;try{if(getComputedStyle(anchor).display==="inline")anchor.style.display="inline-block"}catch(e){}anchor.classList.add("yz-idle");anchor.addEventListener("animationend",function(e){if(e.animationName==="yzHop")anchor.classList.remove("yz-hop")});bubble=document.createElement("div");bubble.className="yz-bubble";bubble.setAttribute("aria-hidden","true");document.body.appendChild(bubble);window.__yzPromo=say;(function loop(first){if(shown>=MAX_SHOWS)return;setTimeout(function(){say();loop(false)},first?18e3+Math.random()*12e3:9e4+Math.random()*9e4)})(true);return true}
+function boot(){var tries=0;(function t(){if(start())return;if(++tries<20)setTimeout(t,1500)})()}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+})();
+</script></body></html>

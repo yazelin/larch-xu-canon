@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>續 連結圖</title>
+<style>html { scroll-padding-top: env(safe-area-inset-top, 0px); } body { margin: 0; padding: 0; } img { max-width: 100%; } [hidden]:not([hidden=until-found i]) { display: none !important; } :root { color-scheme: light; }</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&display=swap">
+<style>
+/* 版面：一欄讀下來。先大地圖（城的圖示可以拖、四面入口通到哪裡），再五原的切塊圖（每一塊＝一張 64×64 格的地圖，可以拖著換位置），右邊或下面是選到那一塊的內容與意見欄 */
+:root {
+  --bg: #eeebe3;
+  --surface: #fbf9f4;
+  --ink: #25211b;
+  --muted: #6b6455;
+  --line: #d8d0c0;
+  --accent: #7b4b1e;
+  --accent-ink: #fff8ec;
+  --land: #e5d9bf;
+  --wall: #8a7a62;
+  --in: #f4ead5;              /* 城內的塊 */
+  --out: #dfe8d2;             /* 城外的塊 */
+  --room: #e9dff0;            /* 屋內 */
+  --gate: #b5452f;
+  --river: #6f9cbf;
+  --ok: #2f7d4a;
+  --warn: #a76a12;
+  --display: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  --body: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #15130f; --surface: #1e1b16; --ink: #ece5d6; --muted: #a59c8a; --line: #36302a; --accent: #d79b5e; --accent-ink: #1a1207; --land: #2b261e; --wall: #8f8068; --in: #33291b; --out: #24301f; --room: #2c2433; --gate: #e0705a; --river: #5b8db3; --ok: #6cc28c; --warn: #e2a64a; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #15130f; --surface: #1e1b16; --ink: #ece5d6; --muted: #a59c8a; --line: #36302a; --accent: #d79b5e; --accent-ink: #1a1207; --land: #2b261e; --wall: #8f8068; --in: #33291b; --out: #24301f; --room: #2c2433; --gate: #e0705a; --river: #5b8db3; --ok: #6cc28c; --warn: #e2a64a; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.65; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 80px; display: grid; gap: 30px; }
+h1 { font-family: var(--display); font-size: 32px; margin: 0; letter-spacing: .04em; }
+h2 { font-family: var(--display); font-size: 23px; margin: 0 0 8px; }
+.lead { color: var(--muted); margin: 6px 0 0; max-width: 72ch; }
+.box { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+.box svg { width: 100%; height: auto; display: block; touch-action: none; user-select: none; }
+.cap { color: var(--muted); font-size: 13px; margin: 8px 2px 0; }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 18px; align-items: start; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 8px; min-width: 0; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); }
+.panel h3 { font-family: var(--display); font-size: 19px; margin: 0; }
+.panel .sub { color: var(--muted); font-size: 13px; }
+.panel ul { margin: 0; padding-left: 1.2em; font-size: 14px; }
+.panel textarea { width: 100%; min-height: 70px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 8px; padding: 6px 10px; font: inherit; font-size: 14px; resize: vertical; }
+.panel textarea:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.acts { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 6px 12px; font: inherit; font-size: 14px; cursor: pointer; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.state { color: var(--muted); font-size: 13px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--muted); font-size: 13px; margin-top: 8px; }
+.legend i { display: inline-block; width: 14px; height: 14px; border-radius: 3px; margin-right: 5px; vertical-align: -2px; border: 1px solid var(--line); }
+.periods { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; margin-top: 10px; }
+.periods div { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 13px; }
+.periods b { display: block; font-size: 14px; }
+.toast { position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 18px); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 16px; border-radius: 8px; font-size: 14px; z-index: 20; display: none; }
+/* 存檔版：作者當時的回覆，取代原本的意見欄與按鈕 */
+.ans { border-top: 1px dashed var(--line); padding-top: 8px; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; font-size: 14px; }
+.ans .who { font-weight: 700; }
+.ans .mk { font-size: 12px; border-radius: 999px; padding: 0 9px; border: 1px solid var(--ok); color: var(--ok); }
+.ans .mk.change { border-color: var(--warn); color: var(--warn); }
+.ans .tm { color: var(--muted); font-size: 12px; font-family: var(--mono); }
+.ans p { flex-basis: 100%; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.ans .none { color: var(--muted); }
+.allnotes { display: grid; gap: 10px; }
+.allnotes article { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; display: grid; gap: 4px; min-width: 0; }
+.allnotes h3 { font-family: var(--display); font-size: 17px; margin: 0; }
+.allnotes .ans { border-top: 0; padding-top: 0; }
+.arc { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 10px; padding: 14px 16px; display: grid; gap: 8px; }
+.arc .tag { font-size: 12px; color: var(--muted); letter-spacing: .08em; }
+.arc p { margin: 0; max-width: 72ch; }
+.arc nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; }
+.arc a { color: var(--accent); }
+@media (max-width: 900px) { .two { grid-template-columns: minmax(0, 1fr); } .panel { position: static; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="arc" aria-label="存檔說明">
+    <span class="tag">確認頁存檔</span>
+    <p>這一頁是 2026-10-21 凌晨的連結圖：產新地圖之前，先定大地圖上九個點的位置與四面入口，再把五原切成一塊塊 64×64 格的地圖、標出塊和塊怎麼接。我回了二十三項，都按了同意。五原那一格我寫了四面各通到哪裡：北面接北門外的軍營、南面接南門外大路，東西兩面先到城外、要看得到城門，AI 照這句加了 C6、C7 兩塊。軍侯的帳子我也留了話：試玩時進去什麼都不能做，至少要能跟軍侯說話。之後我要 AI 照史實經緯度重排大地圖、四周留空畫自然地表，這裡的大地圖是重排後的樣子，下一步是照這張圖排<a href="../plan/index.html">五原配置</a>。存檔版不能拖，點城或塊一樣看得到內容和我的回覆，全部的回覆也列在最下面。</p>
+    <nav><a href="../../confirm.html">回確認頁一覽</a><a href="../../city.html">建城工法：拼出來的城</a></nav>
+  </section>
+
+  <header>
+    <h1>續 連結圖</h1>
+    <p class="lead">產新地圖之前先定好每張地圖的相對位置與出入口。做法：一座城先在一張大畫布上整體設計，再切成好幾張 64×64 格（約 32×32 公尺）的地圖；走出這一張的邊界就進到相鄰那一張的同一個位置，所以方位一定對得上。屋子是另外的小地圖，從城裡的門進去。點任何一塊可以看內容、寫意見；塊和城都可以拖著換位置，放開就存。</p>
+  </header>
+
+  <section>
+    <h2>一、大地圖（天下）</h2>
+    <div class="two">
+      <div class="box"><svg id="world" viewBox="0 0 1024 1024" role="img" aria-label="大地圖連結圖"></svg>
+        <div class="cap">64×64 格，一格約 18 公里。城的位置照史實經緯度換算（東經 107–120 度、北緯 32.5–42.8 度），嚴家是推的。河、海岸、山脈照真實地圖（Natural Earth 公開地理資料）換算；黃河在滎陽以東、淮河下游照東漢的河道，洛水、潁水、泗水、沂水照古今地名的位置畫。城的圖示比實際大很多，河碰到圖示就沿著外緣繞過去。這些河、山、海、沙地是之後產大地圖的地表參考。大城 4×4 格、小城或村 2×2 格，四邊各有一個入口（紅色小方格）；點城的圖示，右邊會列出從哪一面進去到城裡的哪一張。拖城的圖示可以換位置。</div></div>
+      <div class="panel" id="wp"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>二、五原（第一座照這個做法做的城）</h2>
+    <div class="two">
+      <div class="box"><svg id="city" viewBox="0 0 1000 1060" role="img" aria-label="五原切塊圖"></svg>
+        <div class="legend"><span><i style="background:var(--in)"></i>城內</span><span><i style="background:var(--out)"></i>城外</span><span><i style="background:var(--room)"></i>屋內（從門進去）</span><span><i style="background:var(--gate)"></i>城門／出入口</span></div>
+        <div class="cap">每一塊是一張 64×64 格的地圖。城內六塊（3×2，合起來約 96×64 公尺，四面城牆），城外七塊（四面城門外各一張，加上校場、墳地、荒原），屋內四間（紫色小塊，擺在哪裡不代表實際方位；塊上寫「從哪一塊的哪個門進」，那一塊的下方寫「屋內」有哪幾間）。城內只從四個城門通到城外。相鄰的塊走過邊界就換圖；城牆只在城門那裡通。拖一塊放到別的塊上，兩塊對調。</div></div>
+      <div class="panel" id="cp"></div>
+    </div>
+    <div class="periods" id="periods"></div>
+  </section>
+
+  <section>
+    <h2>三、我在這一頁留的回覆</h2>
+    <p class="lead">頁面資料庫裡存的回覆，照大地圖、五原切塊的順序排；時間是當地時間（UTC+8）。</p>
+    <div class="allnotes" id="allnotes"></div>
+  </section>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+// ── 大地圖：x、y 是格子（64×64），size 4＝大城、2＝小城或村；entries 是四面入口通到哪一張 ──
+// 位置照史實經緯度換算（2026-10-21 作者：「照史實位置然後週邊要留有空畫一些自然的地表」）：
+//   x = (東經 − 107) × 4.906，y = (42.8 − 北緯) × 6.21（緯度 37.5 度一帶經度一度約是緯度一度的 0.79 倍）；圖示比實際大，河沿著圖示外緣繞過去；
+//   五原往北挪兩格（河在城南）、谷口往北挪三格（不跟五原的入口碰在一起）、許都往東南挪一格（不跟洛陽碰在一起），其他照算出來的位置
+const WORLD = [
+  { id: 'wuyuan', name: '五原', x: 12, y: 10, size: 4, entries: { n: 'C1 北門外・城北軍營', s: 'C5 南門外大路', e: 'C7 五原城東（城外，看得到東門）', w: 'C6 五原城西（城外，看得到西門）' }, note: '第零幕到第四章、第九章。四面都先到城外，再從城門進城（作者 2026-10-21）。' },
+  { id: 'valley', name: '靈山谷口（仙泉）', x: 14, y: 5, size: 2, entries: { s: '林子第一張' }, note: '五原北邊的山；只從南面進（林子），其他三面是山。' },
+  { id: 'yan', name: '嚴家（位置假設）', x: 21, y: 24, size: 2, entries: { n: '村口北', s: '村口南（往外面的野地）', e: '溪邊', w: '田邊' }, note: '正典寫「并州別的縣」，劇本寫往南走了十幾天；推在黃河東岸的山裡（約北緯 38.7、東經 111.4，汾水上游的西邊）。' },
+  { id: 'jinyang', name: '丁原刺史營（推在晉陽）', x: 26, y: 30, size: 2, entries: { n: '營門', s: '營後', e: '校場', w: '城門外大路' }, note: '第四章 188。晉陽在汾水邊。' },
+  { id: 'luoyang', name: '洛陽', x: 26, y: 48, size: 4, entries: { n: '城外丁原營', s: '南門', e: '東門', w: '西門（城裡的小屋那一帶）' }, note: '第四章 189；黃河在城北。' },
+  { id: 'changan', name: '長安', x: 7, y: 51, size: 4, entries: { n: '北門', s: '城南大街（龐家、城南宅）', e: '東門（196 東行出城）', w: '西門' }, note: '第五、六章 190–196；渭水在城北，秦嶺在南邊。' },
+  { id: 'puyang', name: '濮陽（兗州，只有消息）', x: 38, y: 43, size: 2, entries: {}, note: '不能進。' },
+  { id: 'xudu', name: '許都', x: 33, y: 54, size: 4, entries: { n: '城北曹營', s: '南門', e: '東門', w: '西門' }, note: '第八章 199–223。' },
+  { id: 'xiapi', name: '下邳', x: 52, y: 51, size: 4, entries: { n: '北門', s: '南門', e: '水門（出城、船邊）', w: '西門外' }, note: '第七章 196–198；泗水、沂水在城邊會合，城外曹營在西北。' },
+];
+// 地表參考（格子座標）：Natural Earth（公有領域）的河、海岸、山脈換算過來；黃河滎陽以東、淮河下游照東漢河道，洛水、潁水、泗水、沂水照古今地名手寫。
+// 產生：tools/world_terrain.py（換算、河碰到城的圖示就沿外緣繞過去）；之後產大地圖的配置照這份。land 是陸地（先鋪海再鋪陸地）
+const TERRAIN = {"rivers":[{"name":"黃河","w":5,"at":[6.38,14.59],"pts":[[-7.12,32.93],[-5.45,32.3],[-4.94,30.52],[-4.01,29.67],[-3.58,28.42],[-2.37,27.16],[-2.09,25.4],[-0.69,23.51],[-0.58,22.95],[-1.23,21.0],[-1.05,19.41],[-1.42,18.02],[-1.34,17.0],[0.63,15.21],[1.33,13.43],[3.47,12.6],[3.43,12.24],[3.72,12.05],[5.76,11.93],[6.01,12.31],[7.05,12.31],[7.8,13.28],[8.66,13.59],[8.93,13.99],[10.7,14.15],[11.6,15.3],[16.4,15.3],[17.3,14.4],[17.3,15.02],[17.69,15.42],[19.34,15.82],[19.79,15.54],[21.11,16.42],[21.61,17.23],[21.77,17.9],[21.39,18.94],[21.9,19.75],[21.71,19.71],[21.69,20.36],[21.18,20.93],[20.16,21.21],[20.73,21.67],[20.28,22.7],[20.6,22.7],[19.49,23.76],[19.64,24.2],[18.99,25.95],[19.12,26.48],[18.9,26.97],[17.56,28.02],[17.17,28.78],[17.24,30.09],[18.36,31.27],[18.18,31.59],[18.62,31.93],[18.38,33.04],[17.84,33.42],[18.09,33.8],[17.98,34.27],[16.9,35.88],[16.55,35.91],[16.77,36.22],[16.57,37.41],[16.88,37.72],[16.63,37.95],[17.17,39.08],[16.91,41.35],[17.76,44.73],[16.36,47.21],[15.99,48.78],[15.95,50.53],[16.73,50.99],[19.05,50.51],[19.19,50.1],[19.57,50.17],[20.3,49.56],[20.72,49.69],[22.36,49.29],[22.97,48.39],[23.77,47.9],[24.32,47.85],[24.7,48.23],[24.7,47.6],[25.6,46.7],[30.4,46.7],[31.3,47.6],[31.3,48.61],[33.61,48.13],[36.7,45.58],[36.7,42.6],[37.6,41.7],[40.4,41.7],[41.3,42.6],[41.3,42.37],[42.68,41.92],[45.38,39.74],[47.1,36.33],[50.53,34.16],[57.4,31.55],[59.12,31.17]]},{"name":"渭水","w":3,"at":[2.94,50.8],"pts":[[-7.31,50.31],[-6.73,50.21],[-5.47,51.17],[-2.52,51.39],[-1.59,52.27],[-0.09,52.14],[5.69,53.3],[5.7,50.6],[6.6,49.7],[11.4,49.7],[12.3,50.6],[12.3,51.29],[12.67,51.47],[13.06,51.03],[14.08,50.91],[14.6,50.48],[16.16,50.78]]},{"name":"汾水","w":3,"at":[20.85,38.5],"pts":[[24.9,24.46],[25.14,25.3],[24.53,26.31],[23.73,28.94],[24.7,30.02],[24.7,32.4],[25.6,33.3],[26.03,33.3],[24.84,34.95],[24.06,35.38],[22.84,37.45],[23.09,38.65],[22.87,40.43],[21.6,42.22],[21.65,43.64],[21.36,44.23],[20.5,44.91],[18.34,44.91],[17.44,45.59]]},{"name":"涇水","w":2,"at":[4.42,47.82],"pts":[[-2.85,45.74],[-2.36,45.12],[-1.75,44.94],[1.59,46.26],[2.71,46.01],[3.52,46.21],[4.64,46.85],[4.73,47.84],[5.77,48.35],[6.01,48.93],[7.24,49.7]]},{"name":"沁水","w":2,"at":[28.21,42.85],"pts":[[26.33,38.65],[25.64,41.55],[26.2,42.3],[26.15,43.55],[27.03,44.31],[27.06,45.41],[27.5,46.7],[30.4,46.7],[31.3,47.6],[31.65,48.64]]},{"name":"漳水","w":2,"at":[35.32,37.57],"pts":[[29.18,35.59],[28.85,37.05],[29.55,37.23],[31.51,39.97],[34.25,39.99],[34.63,40.31],[35.01,40.1],[35.51,40.66],[36.51,40.65],[37.64,41.04],[40.38,39.95],[41.59,37.55],[42.59,36.99]]},{"name":"洛水","w":2,"at":[21.1,55.08],"pts":[[15.45,54.15],[19.87,54.34],[22.81,52.29],[24.7,51.59]]},{"name":"潁水","w":2,"at":[38.02,59.31],"pts":[[31.11,53.3],[31.7,53.72],[32.6,52.7],[37.4,52.7],[38.3,53.6],[38.35,57.69],[39.74,58.37],[43.17,61.48],[46.61,63.96]]},{"name":"淮河","w":4,"at":[44.15,62.6],"pts":[[32.87,64.46],[37.29,65.2],[41.21,64.27],[46.61,63.96],[51.02,61.17],[56.42,60.86],[58.87,57.44],[64.76,53.41]]},{"name":"泗水","w":3,"at":[46.85,48.75],"pts":[[49.31,44.71],[48.08,45.95],[48.72,50.11],[49.94,52.97],[50.7,52.9],[50.7,55.4],[51.6,56.3],[56.77,56.3],[58.87,57.44]]},{"name":"沂水","w":2,"at":[58.14,45.64],"pts":[[54.7,41.3],[57.06,43.53],[55.68,48.0],[55.74,49.7]]}],"mountains":[{"name":"靈山","at":[8.9,7.7],"pts":[[22.36,6.94],[23.09,9.79],[20.63,11.65],[18.72,12.2],[0.9,8.92],[0.03,10.01],[-2.22,10.89],[-6.37,7.82],[-4.82,4.1],[-2.14,2.94],[3.35,2.46],[20.11,5.19],[22.36,6.94]]},{"name":"太行山","at":[33.4,27.9],"pts":[[33.67,45.47],[30.67,46.23],[29.76,45.72],[30.27,41.78],[29.27,34.68],[29.75,31.91],[28.83,28.51],[31.03,22.87],[30.78,9.17],[31.34,8.47],[35.44,7.07],[38.06,8.55],[38.72,11.3],[37.33,15.74],[37.7,19.19],[36.27,24.61],[36.39,40.77],[36.04,41.99],[33.67,45.47]]},{"name":"呂梁山","at":[24.9,34.0],"pts":[[27.07,49.78],[25.59,50.19],[22.46,48.98],[21.05,46.05],[20.69,33.79],[21.09,30.57],[20.29,26.79],[22.34,18.14],[22.41,15.12],[22.92,13.84],[25.57,11.11],[28.12,23.49],[28.6,31.27],[29.24,33.95],[29.6,45.3],[28.89,49.01],[27.07,49.78]]},{"name":"秦嶺","at":[20.3,56.8],"pts":[[29.4,50.13],[31.35,53.92],[31.04,55.53],[35.17,61.22],[35.27,62.24],[34.29,63.65],[33.7,63.69],[28.28,57.67],[27.11,57.02],[26.56,57.03],[26.98,58.69],[26.36,59.38],[25.33,59.48],[23.84,58.78],[24.32,60.5],[22.99,62.84],[18.52,61.79],[13.7,63.13],[9.47,62.72],[2.93,59.17],[-6.91,59.41],[-7.26,51.06],[-3.65,50.56],[1.71,51.3],[4.16,52.43],[10.86,52.49],[20.31,49.68],[24.9,50.47],[28.5,49.32],[29.4,50.13]]},{"name":"泰山","at":[49.55,42.23],"pts":[[48.08,40.05],[51.02,39.74],[52.0,41.3],[49.55,41.92],[47.83,41.3]]}],"sands":[{"name":"沙地","at":[8.9,21.9],"pts":[[4.72,11.7],[18.53,15.26],[20.76,17.28],[20.91,18.82],[20.31,21.53],[18.84,23.71],[18.21,25.64],[18.39,31.24],[15.86,34.5],[13.02,32.62],[7.71,31.86],[2.65,32.79],[-6.6,32.13],[-7.07,18.38],[-4.42,15.29],[-1.34,14.45],[-0.12,15.16],[3.63,11.88],[4.72,11.7]]}],"land":[[[-0.98,65.2],[-0.98,-1.24],[64.76,-1.24],[64.76,16.59],[61.5,18.07],[61.48,18.54],[60.98,18.66],[59.9,20.06],[60.0,20.27],[60.25,20.03],[60.24,21.21],[58.51,22.79],[58.72,22.4],[58.29,22.52],[58.25,22.27],[57.87,22.66],[56.55,22.67],[55.57,23.41],[55.12,23.27],[54.44,22.34],[53.4,22.35],[52.57,22.91],[52.86,23.72],[52.5,23.63],[51.9,24.89],[51.73,25.95],[52.57,27.46],[54.29,28.92],[56.63,29.38],[57.7,28.84],[58.63,29.2],[58.86,30.04],[60.15,31.57],[60.13,31.85],[59.46,31.44],[59.05,31.53],[58.6,33.67],[58.74,34.28],[59.59,34.91],[61.04,35.27],[62.39,35.14],[63.27,34.47],[63.09,33.78],[64.76,32.78],[64.76,40.86],[64.2,40.93],[64.76,42.74],[64.03,43.08],[63.79,43.92],[63.33,43.81],[63.31,44.56],[63.09,44.67],[62.99,44.35],[62.52,44.86],[62.47,44.58],[62.05,44.81],[61.58,46.08],[60.95,46.49],[60.63,47.83],[59.96,48.04],[59.82,48.44],[59.82,50.19],[60.57,49.8],[61.04,50.02],[62.03,51.32],[64.76,52.57],[64.76,65.2],[63.0,65.2],[62.02,64.84],[62.22,65.2]],[[57.07,23.13],[56.49,24.1],[56.27,23.56],[56.36,23.28],[56.8,23.54],[57.07,23.13]],[[52.56,23.81],[53.06,24.03],[52.58,24.09],[52.56,23.81]]]};
+const ROADS = [['wuyuan', 'valley'], ['wuyuan', 'yan'], ['yan', 'jinyang'], ['wuyuan', 'jinyang'], ['jinyang', 'luoyang'], ['luoyang', 'changan'], ['luoyang', 'xudu'], ['xudu', 'xiapi'], ['changan', 'xudu'], ['luoyang', 'puyang'], ['puyang', 'xiapi']];
+
+// ── 五原切塊：c、r 是在切塊圖上的欄列；kind：in 城內、out 城外、room 屋內 ──
+const CITY = [
+  { id: 'A1', c: 1, r: 1, kind: 'in', name: '北牆西段・城牆下廣場西半・魏家那條巷',
+    items: ['北邊城牆內側，牆根下的空地（摔跤）、木樁、一盞火把', '魏家老屋在廣場的西南角（第零幕原文）', '魏家院子（木樁當桌子）、門口門檻（劈柴）', '西門在這一塊的西牆'],
+    scenes: '第零幕 認識、摔跤、一起吃飯、過年、城破前夜；第一章 城破；第二、三章 魏家院子與門口' },
+  { id: 'A2', c: 2, r: 1, kind: 'in', name: '北門・登城道・城頭・廣場東半',
+    items: ['北門（城門洞、門內空地），出去就是城北軍營', '登城的石階；城頭走道、旗杆，立約在旗杆左邊', '廣場東邊的牆角（大孩子）', '城破那夜城頭起火；燒過那幾年城頭三個塌口'],
+    scenes: '第零幕 箭壺、城頭立約、大孩子、跟班；第一章 修城、每年城破那天；第二章 城頭夜' },
+  { id: 'A3', c: 3, r: 1, kind: 'in', name: '東北角・郡府與倉',
+    items: ['郡府（太守府）大門與照壁', '糧倉、兵器庫（修城時的工地）', '東門在這一塊的東牆'],
+    scenes: '目前劇本沒有直接寫到；做成城裡逛得到的地方，之後可以放日常與小事' },
+  { id: 'B1', c: 1, r: 2, kind: 'in', name: '西南巷子・鄰居與井',
+    items: ['民居巷子、鄰居家、井（挑水、鄰居叫住他）', '晾衣竿、雞、柴堆這類生活擺設'],
+    scenes: '第二章 街坊；生活小事（挑水、幫鄰居）' },
+  { id: 'B2', c: 2, r: 2, kind: 'in', name: '南北大街・市集・南門',
+    items: ['南北大街貫穿城中，市集在大街兩邊（藥鋪、鋪子、賣柴的、攤子）', '南門在這一塊的南牆，出去是南門外大路', '空了的五原（223）從南門進城'],
+    scenes: '第一章 城破那夜往南逃；第二章 藥錢倒數；第四章 市集；第九章 空了的五原' },
+  { id: 'B3', c: 3, r: 2, kind: 'in', name: '東南・作坊與東市',
+    items: ['作坊（木匠、鐵匠）、東市的小攤', '往東門的路'],
+    scenes: '目前劇本沒有直接寫到；可以放賣柴、幫工這類活' },
+  { id: 'C1', c: 2, r: 0, kind: 'out', name: '北門外・城北軍營',
+    items: ['營門、營房、軍侯的帳子（帳子裡是屋內）', '大地圖從北面進五原會到這裡'],
+    scenes: '第二章 入營；第三章 快馬；第四章 營裡' },
+  { id: 'C2', c: 3, r: 0, kind: 'out', name: '城北軍營・校場',
+    items: ['校場：木樁一排、對練的空地、兵器架、點將台', '刑凳（四十軍棍）'],
+    scenes: '第二章 校場教學戰；第三章 四十軍棍；第四章 祿米' },
+  { id: 'C3', c: 1, r: 0, kind: 'out', name: '城北山腳・墳地',
+    items: ['往北的山腳、墳地（埋爹娘）', '往山裡的小路（173 有人看見一個男孩拖著戟往山裡走）'],
+    scenes: '第一章 山腳；第二章 城北的墳；第四章 城北的山' },
+  { id: 'C4', c: 1, r: -1, kind: 'out', name: '邊牆外的荒原',
+    items: ['邊牆、荒原、一道乾河溝（巡邊打胡騎）', '再往北是靈山（大地圖）'],
+    scenes: '第三章 巡邊（第一次實戰）' },
+  { id: 'C5', c: 2, r: 3, kind: 'out', name: '南門外大路',
+    items: ['南門外的大路、路邊的茶棚', '大地圖從南面進五原會到這裡；往嚴家、往晉陽都從這裡出去'],
+    scenes: '第一章 逃難出城；第四章 搬家出發；第九章 回到五原' },
+  { id: 'C6', c: 0, r: 1, kind: 'out', name: '五原城西（西門外）',
+    items: ['西門外的路與城門（城門畫在這一張）', '大地圖從西面進五原會到這裡；從西門進城到 A1（魏家那一帶）'], scenes: '作者 2026-10-21 加：四面都先到城外' },
+  { id: 'C7', c: 4, r: 1, kind: 'out', name: '五原城東（東門外）',
+    items: ['東門外的路與城門（城門畫在這一張）', '大地圖從東面進五原會到這裡；從東門進城到 A3（郡府那一帶）'], scenes: '作者 2026-10-21 加：四面都先到城外' },
+  { id: 'R1', c: 0, r: 4, kind: 'room', name: '魏家屋裡（老屋）', items: ['第零幕、第一章的魏家屋裡', '從 A1 魏家門口進去'], scenes: '第零幕 過年；第一章 修屋' },
+  { id: 'R2', c: 1, r: 4, kind: 'room', name: '魏家屋裡（修好）', items: ['第二到四章的屋裡（爹娘的床、灶、桌子、箱子）', '從 A1 魏家門口進去'], scenes: '第二章 爹娘；第三章 後來那些日子、冠禮' },
+  { id: 'R3', c: 3, r: 4, kind: 'room', name: '軍侯的帳子', items: ['從 C1 帳子門口進去'], scenes: '第三章 快馬' },
+  { id: 'R4', c: 4, r: 4, kind: 'room', name: '藥鋪', items: ['從 B2 藥鋪門口進去（第二章抓藥）'], scenes: '第二章 藥錢倒數' },
+];
+// 相鄰的塊之間有沒有通：城內彼此相通；城外只從城門進出；屋內走門
+const LINKS = [['A1', 'A2', '廣場'], ['A2', 'A3', '北街'], ['A1', 'B1', '巷子'], ['A2', 'B2', '南北大街'], ['A3', 'B3', '東街'], ['B1', 'B2', '西街'], ['B2', 'B3', '東市'],
+  ['A2', 'C1', '北門'], ['A1', 'C6', '西門'], ['A3', 'C7', '東門'], ['C1', 'C2', '營裡'], ['C1', 'C3', '城北小路'], ['C3', 'C4', '往邊牆'], ['B2', 'C5', '南門'],
+  ['A1', 'R1', '門'], ['A1', 'R2', '門'], ['C1', 'R3', '帳門'], ['B2', 'R4', '鋪門']];
+const PERIODS = [['完整（169–173）', '第零幕：A1、A2、B1、B2、C3、C5；軍營還沒有（C1、C2 是空地）'], ['城破那夜（173）', '第一章：A1 起火、A2 城頭、B2 往南逃、C5'],
+  ['燒過（176–179）', '第一章：全部燒過，城頭三個塌口，魏家老屋要修；C1 軍營門口已經有'], ['修好（179–189）', '第二到四章：全部，城北軍營、校場都在'], ['空了（223）', '第九章：A1（老屋塌了）、A2、B2、C5，沒有人']];
+
+// 存檔版：頁面資料庫讀出來的回覆（notes）與位置（world、city），時間是 UTC+8；只留選擇、文字、時間、座標
+const NOTES = {"c-A1":{"mark":"ok","text":"","when":"2026-10-21 00:36"},"c-A2":{"mark":"ok","text":"","when":"2026-10-21 00:35"},"c-A3":{"mark":"ok","text":"","when":"2026-10-21 00:35"},"c-B1":{"mark":"ok","text":"","when":"2026-10-21 00:36"},"c-B2":{"mark":"ok","text":"","when":"2026-10-21 00:36"},"c-B3":{"mark":"ok","text":"","when":"2026-10-21 00:36"},"c-C1":{"mark":"ok","text":"","when":"2026-10-21 00:35"},"c-C2":{"mark":"ok","text":"","when":"2026-10-21 00:35"},"c-C3":{"mark":"ok","text":"","when":"2026-10-21 00:35"},"c-C4":{"mark":"ok","text":"","when":"2026-10-21 00:35"},"c-C5":{"mark":"ok","text":"","when":"2026-10-21 00:36"},"c-R1":{"mark":"ok","text":"","when":"2026-10-21 00:36"},"c-R2":{"mark":"ok","text":"","when":"2026-10-21 00:40"},"c-R3":{"mark":"ok","text":"我今天玩到的時候，進去什麼事都不行做，感覺很差。我至少要讓我進去 可以跟軍候說話吧","when":"2026-10-21 00:41"},"c-R4":{"mark":"ok","text":"","when":"2026-10-21 00:36"},"w-jinyang":{"mark":"ok","text":"","when":"2026-10-21 00:28"},"w-luoyang":{"mark":"ok","text":"開發進城參觀，我們可以之後製作很多古洛陽相關知識進去。如果還沒有的資訊，可以先互動時說尚未開放之類的","when":"2026-10-21 00:27"},"w-puyang":{"mark":"ok","text":"不用進，有城圖就好","when":"2026-10-21 00:29"},"w-valley":{"mark":"ok","text":"","when":"2026-10-21 00:27"},"w-wuyuan":{"mark":"ok","text":"北面面是連進C1　北門外・城北軍營\n西門是連進一張五原城西(不是原內，要有城門\n東面是連進一張五原城東(不是城內，要有城門)\n南門是連進C5　南門外大路","when":"2026-10-21 00:34"},"w-xiapi":{"mark":"ok","text":"開發進城參觀，我們可以之後製作很多古洛陽相關知識進去。如果還沒有的資訊，可以先互動時說尚未開放之類的","when":"2026-10-21 00:29"},"w-xudu":{"mark":"ok","text":"開發進城參觀，我們可以之後製作很多古洛陽相關知識進去。如果還沒有的資訊，可以先互動時說尚未開放之類的","when":"2026-10-21 00:29"},"w-yan":{"mark":"ok","text":"OK","when":"2026-10-21 00:28"}};
+const WORLD_POS = {"changan":{"x":7,"y":51},"jinyang":{"x":26,"y":30},"luoyang":{"x":26,"y":48},"puyang":{"x":38,"y":43},"valley":{"x":14,"y":5},"wuyuan":{"x":12,"y":10},"xiapi":{"x":52,"y":51},"xudu":{"x":33,"y":54},"yan":{"x":21,"y":24}};
+const CITY_POS = {"A3":{"c":3,"r":1},"B3":{"c":3,"r":2},"C7":{"c":4,"r":1},"R2":{"c":1,"r":4},"R3":{"c":4,"r":0},"R4":{"c":3,"r":4}};
+const MARK = { ok: '同意', change: '要改' };
+let saved = { world: WORLD_POS, city: CITY_POS, notes: NOTES }, sel = { w: 'wuyuan', c: 'A1' };
+const wpos = id => saved.world[id] || (({ x, y }) => ({ x, y }))(WORLD.find(w => w.id === id));
+const cpos = id => saved.city[id] || (({ c, r }) => ({ c, r }))(CITY.find(t => t.id === id));
+
+function drawWorld() {
+  const S = 16, svg = $('#world');
+  // 先鋪海、再鋪陸地：陸地沒蓋到的地方就是海
+  let s = `<rect width="1024" height="1024" fill="${css('--land')}"/><rect width="1024" height="1024" fill="${css('--river')}" opacity=".4"/>`;
+  const P = pts => pts.map(([x, y]) => `${x * S},${y * S}`).join(' ');
+  const tlabel = ([x, y], t, c) => `<text x="${x * S}" y="${y * S}" font-size="13" text-anchor="middle" fill="${c}" opacity=".9" stroke="${css('--land')}" stroke-width="3" paint-order="stroke">${esc(t)}</text>`;
+  for (const t of TERRAIN.land) s += `<polygon points="${P(t)}" fill="${css('--land')}"/>`;
+  s += tlabel([58.5, 27], '渤海', css('--river')) + tlabel([62.4, 47.5], '海', css('--river'));
+  for (const t of TERRAIN.sands) s += `<polygon points="${P(t.pts)}" fill="${css('--warn')}" opacity=".16"/>` + tlabel(t.at, t.name, css('--muted'));
+  for (const t of TERRAIN.mountains) s += `<polygon points="${P(t.pts)}" fill="${css('--wall')}" opacity=".24"/>` + tlabel(t.at, t.name, css('--muted'));
+  for (const t of TERRAIN.rivers) s += `<polyline points="${P(t.pts)}" fill="none" stroke="${css('--river')}" stroke-width="${t.w}" stroke-linecap="round" stroke-linejoin="round" opacity=".75"/>` + tlabel(t.at, t.name, css('--river'));
+  for (let x = 0; x <= 64; x += 4) s += `<line x1="${x * S}" y1="0" x2="${x * S}" y2="1024" stroke="${css('--line')}" stroke-width="${x % 16 ? .5 : 1.2}" opacity=".6"/>`;
+  for (let y = 0; y <= 64; y += 4) s += `<line x1="0" y1="${y * S}" x2="1024" y2="${y * S}" stroke="${css('--line')}" stroke-width="${y % 16 ? .5 : 1.2}" opacity=".6"/>`;
+  const ctr = w => { const p = wpos(w.id); return [(p.x + w.size / 2) * S, (p.y + w.size / 2) * S]; };
+  for (const [a, b] of ROADS) { const A = WORLD.find(w => w.id === a), B = WORLD.find(w => w.id === b); const [x1, y1] = ctr(A), [x2, y2] = ctr(B); s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${css('--wall')}" stroke-width="3" stroke-dasharray="8 5" opacity=".7"/>`; }
+  for (const w of WORLD) {
+    const p = wpos(w.id), x = p.x * S, y = p.y * S, z = w.size * S, on = sel.w === w.id;
+    s += `<g data-w="${w.id}" style="cursor:pointer">`;
+    s += `<rect x="${x}" y="${y}" width="${z}" height="${z}" rx="4" fill="${w.size === 4 ? css('--in') : css('--out')}" stroke="${on ? css('--accent') : css('--wall')}" stroke-width="${on ? 4 : 2}"/>`;
+    const E = { n: [x + z / 2, y - S / 2], s: [x + z / 2, y + z + S / 2], e: [x + z + S / 2, y + z / 2], w: [x - S / 2, y + z / 2] };
+    for (const [d, [ex, ey]] of Object.entries(E)) if (w.entries[d]) s += `<rect x="${ex - S / 2}" y="${ey - S / 2}" width="${S}" height="${S}" fill="${css('--gate')}" opacity=".85"/>`;
+    const ly = y + z + (w.entries.s ? 34 : 20), ty = ly > 1016 ? y - (w.entries.n ? 22 : 8) : ly;   // 最下面幾列的城名字寫在上面，不然被切掉
+    s += `<text x="${x + z / 2}" y="${ty}" font-size="15" font-weight="700" text-anchor="middle" fill="${css('--ink')}" stroke="${css('--land')}" stroke-width="4" paint-order="stroke">${esc(w.name)}</text></g>`;
+  }
+  svg.innerHTML = s;
+  const w = WORLD.find(x => x.id === sel.w), n = saved.notes['w-' + w.id] || {};
+  $('#wp').innerHTML = `<h3>${esc(w.name)}</h3><div class="sub">${w.size === 4 ? '大城 4×4 格' : '小城或村 2×2 格'}・位置 ${wpos(w.id).x},${wpos(w.id).y}</div>
+    <ul>${['n', 'e', 's', 'w'].map(d => w.entries[d] ? `<li>${{ n: '北面', e: '東面', s: '南面', w: '西面' }[d]}進去：${esc(w.entries[d])}</li>` : '').join('') || '<li>不能進</li>'}</ul>
+    <div class="sub">${esc(w.note)}</div>${noteBox('w-' + w.id, n)}`;
+  bindNote();
+}
+function drawCity() {
+  const T = 150, ox = 120, oy = 170, svg = $('#city');
+  let s = `<rect width="1000" height="1060" rx="10" fill="${css('--land')}"/>`;
+  const box = id => { const p = cpos(id); return [ox + p.c * T, oy + p.r * T]; };
+  // 城牆：圍住城內那些塊的外框
+  const ins = CITY.filter(t => t.kind === 'in').map(t => box(t.id));
+  const minx = Math.min(...ins.map(b => b[0])), miny = Math.min(...ins.map(b => b[1])), maxx = Math.max(...ins.map(b => b[0])) + T, maxy = Math.max(...ins.map(b => b[1])) + T;
+  s += `<rect x="${minx - 6}" y="${miny - 6}" width="${maxx - minx + 12}" height="${maxy - miny + 12}" fill="none" stroke="${css('--wall')}" stroke-width="12" rx="4"/>`;
+  // 屋內不畫線（線會穿過別的塊）：屋子那塊寫從哪裡進，門所在的那塊下方寫屋內有哪幾間
+  const isRoom = id => CITY.find(t => t.id === id).kind === 'room';
+  const textW = str => [...str].reduce((n, ch) => n + (ch.charCodeAt(0) > 255 ? 12 : 7), 0);
+  for (const t of CITY) {
+    const [x, y] = box(t.id), on = sel.c === t.id, fill = t.kind === 'in' ? css('--in') : t.kind === 'out' ? css('--out') : css('--room');
+    const w = t.kind === 'room' ? T * .74 : T - 10, h = t.kind === 'room' ? T * .56 : T - 10, rx = x + (T - w) / 2, ry = y + (T - h) / 2;
+    s += `<g data-c="${t.id}" style="cursor:pointer"><rect x="${rx}" y="${ry}" width="${w}" height="${h}" rx="6" fill="${fill}" stroke="${on ? css('--accent') : css('--line')}" stroke-width="${on ? 4 : 1.5}" opacity=".97"/>`;
+    s += `<text x="${x + T / 2}" y="${ry + 22}" font-size="16" font-weight="700" text-anchor="middle" fill="${css('--ink')}">${t.id}</text>`;
+    const words = t.name.split('・'); words.slice(0, 3).forEach((wd, i) => s += `<text x="${x + T / 2}" y="${ry + 44 + i * 18}" font-size="13" text-anchor="middle" fill="${css('--ink')}">${esc(wd.length > 9 ? wd.slice(0, 9) + '…' : wd)}</text>`);
+    if (t.kind === 'room') {
+      const l = LINKS.find(l => l[1] === t.id);
+      if (l) s += `<text x="${x + T / 2}" y="${ry + 66}" font-size="12" text-anchor="middle" fill="${css('--muted')}">從 ${esc(l[0])} ${esc(l[2])}進</text>`;
+    } else {
+      const rs = LINKS.filter(l => l[0] === t.id && isRoom(l[1])).map(l => l[1]);
+      if (rs.length) { const tx = '屋內 ' + rs.join('、'), bw = textW(tx) + 14; s += `<rect x="${x + T / 2 - bw / 2}" y="${y + 112}" width="${bw}" height="19" rx="4" fill="${css('--room')}" stroke="${css('--line')}"/><text x="${x + T / 2}" y="${y + 126}" font-size="12" text-anchor="middle" fill="${css('--ink')}">${esc(tx)}</text>`; }
+    }
+    s += '</g>';
+  }
+  // 連線畫在方塊上面：相鄰兩塊在共用的邊上畫一道門（名稱寫在門旁）；拖開了不相鄰的畫虛線箭頭指過去
+  s += `<defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${css('--muted')}"/></marker></defs>`;
+  for (const [a, b, label] of LINKS) {
+    if (isRoom(b)) continue;
+    const [x1, y1] = box(a), [x2, y2] = box(b), adj = Math.abs(x1 - x2) + Math.abs(y1 - y2) === T;
+    const cx1 = x1 + T / 2, cy1 = y1 + T / 2, cx2 = x2 + T / 2, cy2 = y2 + T / 2;
+    if (adj) {
+      const mx = (cx1 + cx2) / 2, my = (cy1 + cy2) / 2, vert = x1 === x2;   // 上下相鄰：門橫躺在水平邊上
+      const w = vert ? 54 : 14, h = vert ? 14 : 54, gate = /門/.test(label);
+      s += `<rect x="${mx - w / 2}" y="${my - h / 2}" width="${w}" height="${h}" rx="3" fill="${gate ? css('--gate') : css('--accent')}" stroke="${css('--surface')}" stroke-width="2"/>`;
+      const tx = vert ? mx + 32 : mx, ty = vert ? my + 5 : my + 44;   // 左右相鄰的門：名稱寫在門的下面，不跟塊裡的字擠在一起
+      s += `<text x="${tx}" y="${ty}" font-size="13" font-weight="700" text-anchor="${vert ? 'start' : 'middle'}" fill="${gate ? css('--gate') : css('--accent')}" stroke="${css('--surface')}" stroke-width="4" paint-order="stroke">${esc(label)}</text>`;
+    } else {
+      const k = 0.62, ex = cx1 + (cx2 - cx1) * 0.92, ey = cy1 + (cy2 - cy1) * 0.92;
+      s += `<line x1="${cx1}" y1="${cy1 + 30}" x2="${ex}" y2="${ey - 28}" stroke="${css('--muted')}" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr)"/>`;
+      s += `<text x="${cx1 + (ex - cx1) * k}" y="${cy1 + 30 + (ey - 28 - cy1 - 30) * k}" font-size="12" text-anchor="middle" fill="${css('--muted')}" stroke="${css('--surface')}" stroke-width="4" paint-order="stroke">${esc(a)} ${esc(label)} → ${esc(b)}</text>`;
+    }
+  }
+  s += `<text x="985" y="30" font-size="14" text-anchor="end" fill="${css('--muted')}">北 ↑</text>`;
+  svg.innerHTML = s;
+  const t = CITY.find(x => x.id === sel.c), n = saved.notes['c-' + t.id] || {};
+  $('#cp').innerHTML = `<h3>${esc(t.id)}　${esc(t.name)}</h3><div class="sub">${t.kind === 'in' ? '城內・一張 64×64 格' : t.kind === 'out' ? '城外・一張 64×64 格' : '屋內・小地圖'}</div>
+    <ul>${t.items.map(i => `<li>${esc(i)}</li>`).join('')}</ul><div class="sub">用到的場景：${esc(t.scenes)}</div>
+    <div class="sub">相連：${LINKS.filter(l => l[0] === t.id || l[1] === t.id).map(l => `${l[0] === t.id ? l[1] : l[0]}（${l[2]}）`).join('、')}</div>${noteBox('c-' + t.id, n)}`;
+  bindNote();
+}
+function noteBox(id, n) {
+  if (!n || !n.mark) return '<div class="ans"><span class="none">這一項沒有存到回覆。</span></div>';
+  return `<div class="ans"><span class="who">我的回覆</span><span class="mk ${n.mark === 'change' ? 'change' : ''}">${MARK[n.mark] || esc(n.mark)}</span><span class="tm">${esc(n.when || '')}</span>${n.text ? `<p>${esc(n.text)}</p>` : ''}</div>`;
+}
+function bindNote() {}
+
+// 存檔版：不能拖，點城或塊看內容
+$('#world').addEventListener('click', ev => { const g = ev.target.closest('[data-w]'); if (!g) return; sel.w = g.dataset.w; drawWorld(); });
+$('#city').addEventListener('click', ev => { const g = ev.target.closest('[data-c]'); if (!g) return; sel.c = g.dataset.c; drawCity(); });
+
+$('#periods').innerHTML = '<div><b>同一套配置用在五個時期</b>只換地面與物件，地圖之間的連法不變。</div>' + PERIODS.map(([a, b]) => `<div><b>${esc(a)}</b>${esc(b)}</div>`).join('');
+function renderAll() {
+  const items = [...WORLD.map(w => ['w-' + w.id, '大地圖・' + w.name]), ...CITY.map(t => ['c-' + t.id, '五原・' + t.id + '　' + t.name])];
+  $('#allnotes').innerHTML = items.filter(([id]) => NOTES[id]).map(([id, name]) => `<article><h3>${esc(name)}</h3>${noteBox(id, NOTES[id])}</article>`).join('');
+}
+drawWorld(); drawCity(); renderAll();
+</script>
+</body>
+</html>

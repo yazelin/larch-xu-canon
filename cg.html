@@ -1,0 +1,185 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CG · 仙泉．香布纏．續 製作手記</title><meta name="description" content="《續》用的 CG 有兩種：前作（原作《仙泉．香布纏》）的 140 張直接沿用，另外新畫魏續視角的場面。新畫的場面檔有 90 個，其中 12 個是封面候選；2026-10-13 那時，遊戲裡用到的本作 CG 有 67 張。這一章寫新 CG 怎麼產、從原作帶過來的規矩，以及哪幾張重產過、為什麼。大部分規"><meta name="theme-color" content="#100c0a">
+<meta property="og:title" content="CG · 仙泉．香布纏．續 製作手記"><meta property="og:description" content="《續》用的 CG 有兩種：前作（原作《仙泉．香布纏》）的 140 張直接沿用，另外新畫魏續視角的場面。新畫的場面檔有 90 個，其中 12 個是封面候選；2026-10-13 那時，遊戲裡用到的本作 CG 有 67 張。這一章寫新 CG 怎麼產、從原作帶過來的規矩，以及哪幾張重產過、為什麼。大部分規"><meta property="og:image" content="https://yazelin.github.io/larch-xu-canon/img/cg-door.webp">
+<style>:root{color-scheme:dark;--bg:#100c0a;--card:rgba(20,14,11,.9);--line:rgba(226,184,102,.26);--gold:#e2b866;--gold2:#f0d08f;--red:#c8502e;--fg:#f1e8dd;--dim:#b7a693}
+*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.9 "Noto Serif TC","Noto Serif CJK TC","Songti TC",serif}
+a{color:var(--gold2)}
+.bg{position:fixed;inset:0;z-index:0;background:#000}.bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.9}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,6,5,.6),rgba(8,6,5,.15) 30%,rgba(8,6,5,.15) 70%,rgba(8,6,5,.6)),linear-gradient(180deg,rgba(8,6,5,.35),rgba(8,6,5,.05) 40%,rgba(8,6,5,.65))}
+main{position:relative;z-index:2;max-width:900px;margin:40vh auto 110px;padding:34px 34px 44px;background:var(--card);border:1px solid var(--line);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+h1{color:var(--gold2);font-size:clamp(28px,4.4vw,40px);letter-spacing:.06em;margin:0 0 18px;text-shadow:0 2px 12px #000}
+h1::after{content:"";display:block;width:72px;height:3px;background:var(--red);margin-top:10px}
+h2{color:var(--gold2);font-size:24px;margin-top:60px;padding-left:12px;border-left:3px solid var(--red)}h3{color:var(--fg);margin-top:36px}
+table{border-collapse:collapse;width:100%;font-size:15px;display:block;overflow-x:auto}
+td,th{border:1px solid var(--line);padding:7px 11px;vertical-align:top}th{background:rgba(40,28,20,.9);color:var(--gold2);font-weight:500}tr:nth-child(even) td{background:rgba(40,28,20,.35)}
+blockquote{margin:16px 0;padding:6px 16px;border-left:2px solid var(--gold);color:#dccfc0;background:rgba(40,28,20,.5)}strong{color:var(--gold2);font-weight:600}
+code{font:14px/1.6 ui-monospace,"Noto Sans Mono CJK TC",monospace;background:rgba(0,0,0,.35);padding:1px 5px;border-radius:4px}
+pre{background:rgba(0,0,0,.45);border:1px solid var(--line);padding:14px 16px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}pre code{background:none;padding:0;font-size:13.5px}
+figure{margin:26px 0}figure img{display:block;width:100%;height:auto;border:1px solid var(--line);box-shadow:0 10px 36px rgba(0,0,0,.55)}
+figcaption{color:var(--dim);font-size:14.5px;margin-top:8px;line-height:1.7}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:22px 0}
+.cards a{display:block;text-decoration:none;background:rgba(40,28,20,.55);border:1px solid var(--line);color:var(--fg)}.cards a:hover{border-color:var(--gold)}
+.cards img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}.cards b{display:block;color:var(--gold2);padding:10px 12px 0;font-size:18px}.cards span{display:block;padding:2px 12px 12px;color:var(--dim);font-size:14.5px;line-height:1.6}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:60px}.pager a{padding:6px 16px;border:1px solid var(--line);border-radius:16px;text-decoration:none;background:rgba(10,7,6,.55)}
+.top{position:fixed;left:0;right:0;top:0;z-index:5;display:flex;align-items:center;gap:14px;padding:12px 24px 22px;
+  background:linear-gradient(180deg,rgba(6,4,3,.9),rgba(6,4,3,.6) 60%,rgba(6,4,3,0));text-shadow:0 1px 3px #000,0 0 12px rgba(0,0,0,.9)}
+.top .brand{color:var(--gold);font-size:21px;line-height:1.25;letter-spacing:.12em;font-weight:600;text-decoration:none;white-space:nowrap}
+.top .brand small{display:block;font-size:12.5px;font-weight:400;letter-spacing:.2em;color:#cfa760}
+.top nav{margin-left:auto;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none}.top nav::-webkit-scrollbar{display:none}
+.top nav a{padding:3px 11px;border:1px solid rgba(226,184,102,.3);border-radius:14px;background:rgba(10,7,6,.55);color:var(--gold);text-decoration:none;font-size:14.5px;line-height:1.7;white-space:nowrap}
+.top nav a.on{background:var(--red);border-color:var(--red);color:#fff}
+footer.foot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;
+  padding:20px 16px calc(10px + env(safe-area-inset-bottom));font-size:13px;color:#d4c6b5;text-shadow:0 1px 3px #000,0 0 10px #000;
+  background:linear-gradient(0deg,rgba(6,4,3,.92),rgba(6,4,3,.7) 60%,rgba(6,4,3,0))}footer.foot a{color:var(--gold);text-decoration:none}
+@media (max-width:760px){body{font-size:16px}main{margin-top:46vh;padding:24px 16px 34px}.top{flex-direction:column;align-items:flex-start;gap:6px;padding:10px 12px 16px}
+  .top .brand{font-size:18px}.top nav{margin-left:0;max-width:100%}.top nav a{padding:2px 8px;font-size:13px}footer.foot{gap:10px;font-size:12px}}</style></head><body>
+<header class="top"><a class="brand" href="index.html"><small>仙泉．香布纏．續</small>CG</a><nav><a href="how.html">做法</a><a href="script.html">劇本</a><a href="sprites.html">角色</a><a href="cg.html" class="on">CG</a><a href="city.html">建城</a><a href="walkin.html">原畫</a><a href="confirm.html">確認頁</a><a href="sound.html">聲光</a><a href="engine.html">引擎</a></nav></header>
+<div class="bg" aria-hidden="true"><img src="img/cg-door.webp" alt=""></div>
+<main><h1>CG</h1>
+<p>《續》用的 CG 有兩種：前作（原作《仙泉．香布纏》）的 140 張直接沿用，另外新畫魏續視角的場面。新畫的場面檔有 90 個，其中 12 個是封面候選；2026-10-13 那時，遊戲裡用到的本作 CG 有 67 張。這一章寫新 CG 怎麼產、從原作帶過來的規矩，以及哪幾張重產過、為什麼。大部分規矩是做原作時，我驗收抓到錯以後定下來的；每一條都附上當時的例子，和《續》裡遇到的例子。</p>
+<h2>一張 CG 從場面檔開始</h2>
+<p>每一張新 CG 先寫成一個場面檔：<code>library/場面/仙泉香布纏續/&lt;id&gt;.yaml</code>。欄位有劇本那一行、在場（每個人的造型、站位、動作、表情、備註）、場景、參考（前作的 CG 或素材，每張附一句「這張只參考什麼」）、內容（時間、地點、畫面），最後是選定的那一張。〈地窖完工〉的在場欄長這樣：</p>
+<pre><code class="language-yaml">在場:
+- 名字: 嚴湘
+  造型: 嚴湘.常服
+  站位: 畫面中間偏右，裡間的門口
+  動作: 站直身子，頭頂離土頂還有一掌，一隻手扶著裡間門框的木柱
+  表情: 平靜、鬆了一口氣
+  備註: 二十七歲，灰青素布衣，袖子捲起、裙擺沾土
+- 名字: 魏續
+  造型: 魏續.布袍
+  站位: 畫面左，木梯腳下
+  動作: 背對畫面、彎腰把最後一袋米靠牆放好（看不到臉）
+  表情: （看不到臉）
+  備註: 三十一歲，不穿甲：土褐舊粗布袍、袖子捲起、滿身土
+場景: 地窖
+</code></pre>
+<p>產線是 <code>xu/cg_xu.py</code>（2026-10-06）。它讀場面檔，照在場每個人的造型去素材庫找定錨圖，加上場景定錨和參考欄的圖，每張圖寫一句「Image N 是誰、照它的什麼」，再接上場面的文字、燈的規則、瞳色規則、畫風，送產圖服務。每個場面預設產三張候選，存成 <code>xu/cg/&lt;id&gt;_&lt;字母&gt;_v2.webp</code>，旁邊一個同名的 JSON 記下實際送出的提示詞和參考圖，事後查得到每一張是怎麼來的。〈糧窖底下〉重產那一張實際送出的提示詞：</p>
+<pre><code>參考圖：Image 1＝魏續：魏續的定錨，長安扮成龐家僕人時（男性，深棕色眼睛，方臉短鬍渣，土褐舊粗布長袍、深褐布帶、綁腿布靴；**不穿甲**）；臉、髮型、衣服照它
+Image 2＝嚴湘：嚴湘的定錨（茶褐色眼睛，木簪挽髻，灰青土褐素布衣）；臉、髮型、衣服照它
+Image 3＝地窖的場景定錨（兩間土室、大人站得直、土壁、油燈；照它的空間與陳設）；臉、髮型、衣服照它
+〈糧窖底下〉xu5_cellar
+時間：初平元年（190），夜
+地點：長安城南龐舒家的糧窖底下，正在往下挖的地窖
+畫面：16:9 電影級場景 CG。地底下，一盞油燈照著剛挖出來的土壁。左邊男人背著一筐土爬木梯往上；右邊挖到一半的裡間，女人舉手貼著土頂量高度。米袋堆在一邊。燈只用東漢的油燈：青銅或陶的淺燈盞、一根燈芯、一小朵火，沒有玻璃燈罩、沒有紙燈籠
+- **每個人這一張要畫出的動作、表情與服裝狀態**：
+  - 魏續：背著一筐土往木梯上爬，背對畫面、仰頭看著上面的洞口（看不到臉；作者 2026-10-20：回頭往下看畫成頭轉了一百八十度）；（看不到臉）；二十九歲，不穿甲：土褐舊粗布袍、袖子捲起、滿身土
+  - 嚴湘：站在挖到一半的裡間，一隻手舉高貼著土頂，量裡間夠不夠高；認真；二十五歲，灰青素布衣，袖子捲起、裙擺沾土
+長安地窖那幾年一律穿這套，不穿甲（作者 2026-10-02）
+燈：東漢只有油燈（青銅或陶的淺燈盞、一根燈芯、一小朵火，放在矮燈座上或牆龕裡）與火把、火盆；**沒有紙燈籠、沒有玻璃燈罩、沒有掛在門口或街上的燈籠、沒有蠟燭燈台**（照前作 buchan/cg_v345.py 的燈規則）
+**只有呂布是紅色眼睛；嚴湘是茶褐色（淺、偏暖的紅褐）眼睛，貂蟬是黑褐色（深到近乎黑）眼睛，魏續是深棕色眼睛；呂荃是明亮的琥珀色（黃褐）眼睛，比嚴湘的眼睛明顯淺。**
+畫風：日系厚塗動漫電影插畫，與參考圖一致。嚴格正常人體結構，每隻手五根手指，手與手不重疊、不融合。無文字、無浮水印。
+</code></pre>
+<p>瞳色那一句有一個例外：十歲的布還沒喝仙泉，眼睛是黑的，這種場面會多加一行「畫面裡沒有任何人是紅色眼睛」。</p>
+<h2>在場的人一定掛定錨</h2>
+<p>這條是做原作時立的。2026-09-30 我問「為什麼你那麼不喜歡用定錨生圖」；2026-10-01 一整天抓到十幾張沒帶參考亂畫的 CG，我說：「我們是要畫角色，當然一定要有角色對應的參考圖，不然怎麼知道怎麼畫」。從那時起，產線送圖前的最後一關是檢查器（<code>buchan/cg_jobs.py</code> 的 <code>missing_refs</code>）：提示詞提到誰，就要掛那個人的定錨，沒掛就不送。《續》的 <code>cg_xu.py</code> 走同一條產線，還沒有定錨的人先做定錨再產圖。《續》在素材庫補了十筆新定錨：魏續十二、十五、四十五、五十五歲，湘九歲，荃五歲，魏續的爹、娘，侯成，宋憲。</p>
+<p>有兩種情況要繞過去：</p>
+<ul>
+<li>定錨本身就是要改掉的樣子。〈門檻相認（布衣）〉裡的魏續十八歲，素材庫的定錨穿著邊軍甲，這一幕他還沒從軍。場面檔把他寫成「無名」，不掛十八歲札甲的定錨，臉和衣服改照他的布衣立繪，免得畫回甲。</li>
+<li>沒有名字的人。〈第二天，營裡〉四個并州兵沒有定錨，只能用文字把每個人的長相分開寫，後面會講。</li>
+</ul>
+<h2>原作有的，一律掛原作</h2>
+<p>2026-10-06 開始畫《續》的第一批 CG，我交代：原作世界裡有的地方、物件、人物打扮，「請務必參考原作香布纏中的 CG 或物件場景，不要又另外亂想」。同一天就踩到兩次：〈被拖走，回頭〉原作的設計寫明拖走魏續的是他娘，AI 畫成了他爹；「思念」那卷帳畫成了線裝書，屋裡點的是玻璃燈。之後燈的規則寫進 <code>cg_xu.py</code>，每一張都帶；「思念」的圖示改成一卷麻繩編的竹簡。</p>
+<p>掛原作的參考，有三種用法：</p>
+<ol>
+<li>只借場景。〈第二天，營裡〉掛前作〈送赤兔〉，參考欄寫「只參考洛陽城外丁原營（營帳、旗、柵欄）的樣子；畫面裡的人與馬不要照搬」。</li>
+<li>照構圖重畫，只改一處。2026-10-10 我試玩到〈戟劈木樁〉，說「續應該要有另一張是穿布衣的」；〈門檻相認〉也一樣，那兩張前作的圖裡魏續穿著甲，179 年他還沒從軍。AI 拿前作的圖當構圖參考重畫，參考欄寫「構圖、鏡頭、場景（……）、光線、兩個人的姿勢全部照它；唯一要改的是右邊坐著的年輕男子」。</li>
+<li>借原作的人和地方，換一個時間點。2026-10-20 試玩第七章，我看到成素交信那張卡用的是前作〈枕邊的信〉，那張是 198 年冬天她中箭以後，這張卡卻在 197 年秋天。新畫的〈枕下的信〉掛前作那張，參考欄寫「只參考營房、草鋪、油燈、那疊布包舊信的樣子與成素的臉」；她還沒受傷，換崗回來坐在草鋪邊，捧著那疊信沒有打開。</li>
+</ol>
+<figure><a href="img/cg-door.webp" target="_blank" rel="noopener"><img src="img/cg-door.webp" alt="〈門檻相認〉：前作裡魏續穿甲（左），本作照同一個構圖重畫成布衣（右）" loading="lazy"></a><figcaption>〈門檻相認〉：前作裡魏續穿甲（左），本作照同一個構圖重畫成布衣（右）</figcaption></figure>
+<figure><a href="img/cg-letters.webp" target="_blank" rel="noopener"><img src="img/cg-letters.webp" alt="前作〈枕邊的信〉（左，198 冬）當參考，新畫〈枕下的信〉（右，197 秋）" loading="lazy"></a><figcaption>前作〈枕邊的信〉（左，198 冬）當參考，新畫〈枕下的信〉（右，197 秋）</figcaption></figure>
+<p>用前作還是畫新的，AI 在 2026-10-09 定了一條原則：魏續看得到的，用他的視角新畫；他看不到的，用前作的圖。例如布繫紅繩那一段，他只在帳外遠遠看，就用本作的遠景〈燈下繫紅繩〉，前作的近景沒用上。2026-10-14 也照這條，五原撤郡、閬中這兩件遠方的消息，魏續沒有親眼看到，不替它們補新的 CG。</p>
+<h2>給我看之前先過一遍</h2>
+<p>這張清單也是原作時期來的。2026-10-02 一天之內我連續抓到好幾個錯：現代的剪刀、拿大人的手當荃的手、荃的衣服寫錯、白門樓那天有的圖下雪有的沒有。我問「為什麼會有那麼多錯，怎樣可以避免」，也說有問題、需要我確認的才給我看圖。從那以後，AI 給我看候選以前要先自己逐項對過，沒過的自己重產。《續》的版本寫在 <code>xu/README.md</code>：</p>
+<ul>
+<li>手指和手的數量，兵器的握法。</li>
+<li>道具的形制。</li>
+<li>衣服對照造型的定錨圖，不對照設計文字。</li>
+<li>瞳色：只有布是紅色眼睛。</li>
+<li>背景的時間、季節。</li>
+<li>燈只用油燈、火把，不畫燈籠和玻璃燈罩。</li>
+</ul>
+<h3>〈軍營門口，兩個人〉重產五輪</h3>
+<p>第二章開頭，十八歲的魏續帶剛從山裡回來的布走進城北軍營。這一張從 2026-10-06 的第一版開始，到 2026-10-08 凌晨又重產了五輪：</p>
+<ol>
+<li>2026-10-07 深夜：場面檔補上「跟魏續一樣高」，寫明她是十六歲少女、身形是成年女性，多掛前作〈城頭望月〉當兩人並肩的身高參考。</li>
+<li>2026-10-08 01:15：把戟的拿法寫死，戟扛在右肩，一整支直的長桿從戟頭經過肩膀斜向後下方，不可以在手那裡斷掉。</li>
+<li>2026-10-08 01:39：我改成右手握在戟桿中段、戟直立在身側；這一輪挑的是手指真的握住桿子的那一張。</li>
+<li>2026-10-08 01:49 和 02:03：我定了布十六歲的髮型，先是後腦偏高處用麻繩紮一束，再改成公主頭（上半部攏到後腦中段用麻繩紮、下半部放著），都照前作〈城頭望月〉〈戟劈木樁〉。髮型寫進素材庫的規則，走路圖、立繪和這張 CG 一起重做。</li>
+</ol>
+<figure><a href="img/cg-campgate.webp" target="_blank" rel="noopener"><img src="img/cg-campgate.webp" alt="〈軍營門口，兩個人〉每一輪的候選之一" loading="lazy"></a><figcaption>〈軍營門口，兩個人〉每一輪的候選之一</figcaption></figure>
+<p>這張留下兩條檢查。看手要放大到手那一塊，縮圖看不出手只是貼在桿子旁邊。長兵器要在設計裡寫死拿法：哪隻手、握在哪一段、整支長桿完整入畫；扛在肩上、拿在背後最容易錯，優先寫「直立在身側、右手握中段」。</p>
+<h3>場景定錨會把時間帶進來</h3>
+<p>2026-10-09 那幾天整部交給 AI 自己做，它自己的檢查抓到第六章兩張 CG 的背景在燒：〈扛著新木板〉〈火堆邊爬出去〉都是 194 年夏天，長安那時沒有在燒。〈火堆邊爬出去〉掛了「長安城下」這張場景定錨，那張圖本身就是燒城，火就跟著進來了。重產時拿掉那張場景定錨，只留坑邊的營火；〈扛著新木板〉改成同一天天快亮。同一批的〈燈下〉沒畫出睡著的荃，場面檔改寫成畫面三個人、荃一定要畫出來。README 的清單在「背景時間季節」後面註了一句：曾有參考圖把燒城帶進夏天。</p>
+<h3>我驗收時抓到的</h3>
+<ul>
+<li>〈被拖走，回頭〉（2026-10-07）：原本那張他沒回頭。重產時把方向寫死：娘往畫面左邊拖，他身體被拉向左，頭整個轉向右後方望著城牆，城牆下抱戟的布要看得出是十歲男孩。</li>
+<li>〈校場邊數棍〉（2026-10-10，四十軍棍那一場）：我看到圖裡少了一條腿，要它重生。場面檔寫明兩條腿都要畫出來，三張候選裡挑兩條腿都在的那張。</li>
+</ul>
+<figure><a href="img/cg-dragged.webp" target="_blank" rel="noopener"><img src="img/cg-dragged.webp" alt="〈被拖走，回頭〉：原本那一輪他沒有回頭（左），重產後頭轉回去望著城牆（右）" loading="lazy"></a><figcaption>〈被拖走，回頭〉：原本那一輪他沒有回頭（左），重產後頭轉回去望著城牆（右）</figcaption></figure>
+<h2>換上之前，整張再對一次</h2>
+<p>2026-10-03 原作卷四那一晚，AI 修好我點到的手，卻沒看甲；把我認可過的一張換成甲像縮小模型的另一張；把棕馬寫成「栗紅」，產出一匹紅馬。我問「為什麼我都要一直重覆一樣的話」。之後的規矩：換上新 CG 以前，對著定錨和前一張逐項看完（臉、衣服、甲、兵器、手數、馬色、場景）；我認可過的圖，不因為 AI 覺得比較像定錨就自己換掉；寫給模型的顏色、款式，先對原圖確認。</p>
+<p>2026-10-20 我試玩第二到七章的回饋裡，一共重產了五張。每張選定時，場面檔都記了好幾項檢查：</p>
+<ul>
+<li>〈營中夜色，火一樣的馬〉：上一張穿甲、下一張穿袍，同一夜換裝太快。舊圖掛的是布十九歲邊軍甲的定錨；重產改掛百花戰袍，照前作〈送赤兔〉那一夜的樣子。選定時記的是：布穿戰袍、戴金冠垂紅繩，魏續的手按在環首刀上。</li>
+<li>〈第二天，營裡〉：我說四個人的臉太像。這四個兵沒有定錨，場面檔改成每個人寫一種長相：胖、花白絡腮鬍的老兵，瘦高、沒鬍子、尖下巴的年輕兵，左臉一道長刀疤的，矮壯、八字鬍、塌鼻子的。</li>
+<li>〈糧窖底下〉：魏續回頭往下看，畫成頭轉了一百八十度。改成背對畫面往上爬，看不到臉。選定時記的是：筐背在背上，手扶著梯子。</li>
+<li>〈地窖完工〉：原本用的〈枯井〉從井口往下看，我看不出那是入口還是通氣口。新畫地窖裡面：木梯通到柴房地板的洞口，外間堆著米，湘站在裡間門口，頭頂離土頂還有一掌。</li>
+<li>〈枕下的信〉：前面講過。選定時記的是：沒受傷、捧著布包、手指和環首刀都對。</li>
+</ul>
+<figure><a href="img/cg-firehorse.webp" target="_blank" rel="noopener"><img src="img/cg-firehorse.webp" alt="〈營中夜色，火一樣的馬〉：舊圖裡布穿邊軍甲（左），重產照〈送赤兔〉那一身（右）" loading="lazy"></a><figcaption>〈營中夜色，火一樣的馬〉：舊圖裡布穿邊軍甲（左），重產照〈送赤兔〉那一身（右）</figcaption></figure>
+<figure><a href="img/cg-grumble.webp" target="_blank" rel="noopener"><img src="img/cg-grumble.webp" alt="〈第二天，營裡〉：四個兵的臉太像（左），分開寫長相以後重產（右）" loading="lazy"></a><figcaption>〈第二天，營裡〉：四個兵的臉太像（左），分開寫長相以後重產（右）</figcaption></figure>
+<figure><a href="img/cg-cellar.webp" target="_blank" rel="noopener"><img src="img/cg-cellar.webp" alt="〈糧窖底下〉：回頭往下看，頭轉了一百八十度（左），改成背對畫面往上爬（右）" loading="lazy"></a><figcaption>〈糧窖底下〉：回頭往下看，頭轉了一百八十度（左），改成背對畫面往上爬（右）</figcaption></figure>
+<h3>AI 自己放過的偏差</h3>
+<p>2026-10-18 做封面，我交代老人的衣服「不要全土褐，帶一點冷色布」，沒講清楚冷色要來自衣服還是光線。AI 當成衣服的染色，場面檔寫了袖口、腰帶、綁腿是靛灰色的布，模型把整件袍子畫成靛灰，偏離定錨的土褐粗布袍。AI 當時看到了，只在報告裡標「偏差」，沒有當成錯退回重產。我問 G2 的顏色為什麼會變，G3 改成衣服完全照定錨，冷色只來自光線：老人那一側的環境光、陰影、背光的邊緣偏冷藍，回想那一側維持暖金。封面的另一張 B 也有類似的事：我交代布的甲要高領、加紅披風，跟定錨衝突；後來我確認是我交辦寫錯，B3 改回照定錨原樣，不加不減。</p>
+<figure><a href="img/cg-cover.webp" target="_blank" rel="noopener"><img src="img/cg-cover.webp" alt="封面 G2：袍子整件畫成藍灰（左）；G3：袍子回到土褐，冷色交給光線（右）" loading="lazy"></a><figcaption>封面 G2：袍子整件畫成藍灰（左）；G3：袍子回到土褐，冷色交給光線（右）</figcaption></figure>
+<h2>手、臉，還有被擋下來的圖</h2>
+<h3>手的左右只能重畫</h3>
+<p>2026-09-25 原作尾聲〈掀簾伸手〉，貂蟬兩隻手從身體同一側伸出來，是兩隻左手。AI 先說是對的，被我指出以後，又提議把整張左右鏡射。鏡射只會把同一側的兩隻手一起翻到另一側，要一左一右只能重畫。之後的做法：換一個兩手各在身體一側的構圖，提示詞用「畫面左邊、畫面右邊」講位置，不只寫左手、右手；一次產兩版挑對的；左右手、箭的支數這類 AI 判斷不準的，直接拿放大圖給我數。</p>
+<p>《續》的走路圖也照這個寫法：武器規則寫明「正面時戟出現在畫面左邊」，<code>frontpose.py</code> 寫明每隻腳在畫面的哪一邊（見<a href="sprites.html">角色與走路圖</a>）。</p>
+<h3>多人同框，臉會跑掉</h3>
+<p>2026-10-03 原作〈第五個口〉五個人同框，只送全身定錨的時候臉太小，模型畫成別人；加一張從定錨頭部裁切放大的臉部對照，臉就對上了。同一次也查出布的頭髮越畫越紅：拿舊的選定圖當「人物照這張」的參考，紅色會一路傳下去。所以人物的樣子照定錨原圖，不拿舊的生成圖當人物的參考。</p>
+<p>《續》也遇到同一類問題：走路圖重畫幾層以後甲越來越紅（2026-10-15）；兵和同袍的立繪掛了魏續的定錨，長得像魏續（2026-10-17）；〈第二天，營裡〉四個沒有定錨的兵，長得像同一個人（2026-10-20）。</p>
+<h3>產圖被安全規則擋下</h3>
+<p>2026-10-02 原作〈舉起〉，湘哭著舉起剪刀對著闖進來的人，試了十幾版。產圖服務回「沒有圖」的時候，多半是被安全規則擋下，跟額度無關；「哭泣驚恐的女人加上高舉的利器、刃尖朝下」會被判成自傷。緩解的寫法：寫成她擋在孩子前面、對著闖進來的人，避開「刺、殺」這類字，用「下一刻就要往下揮落」描述蓄力。整張精修比整張重生更容易被擋。</p>
+<p>《續》也被擋過一次。2026-10-20 第七章城頭的傷兵，有一張「靠著沙包、左臂吊著」的道具圖，描述裡寫了血，產圖服務不出圖；改寫成「布條上一塊深色的污漬」才產出來。</p>
+<h3>不准拿像素合成交差</h3>
+<p>2026-10-02 原作的漢代交股剪一直畫不對，AI 把剪刀定錨的原圖摳出來貼進生成圖。我看了說醜：光影、筆觸、畫風都對不上，看得出是貼上去的。之後合成圖只能當構圖草稿：草稿只照構圖和握法，再加定錨原圖、定錨裁下來的局部，讓模型整張重畫。這一章講到的重產，都是改場面檔以後整張重新產；封面那兩輪的報告也寫明沒有疊修。</p>
+<h2>選圖：從挑選頁到確認頁</h2>
+<p><code>xu/pick_page.py</code>（2026-10-06）把還沒選定的場面列成一頁：同一個場面的候選並排，預先勾好 AI 推薦的那一張，附推薦理由（存在 <code>xu/cg/_recommend.json</code>）。我點圖改選、在框裡寫意見，最後按「複製回饋」，把一段文字貼回給 AI。</p>
+<p>原作時期還有一條默契（2026-10-01）：我貼一張候選圖的網址、沒附別的話，就是選這張，AI 直接記成選定，不再問一次。那次 AI 每張都評一遍再問要不要選，我第三次直接說「我貼給你就是要更新」。</p>
+<p>2026-10-13 那時遊戲用到 67 張本作 CG：3 張在場面檔裡明確選定，其餘 64 張用推薦圖，AI 逐張總覽過畫面和用途。挑選頁留著，我想換隨時能換。</p>
+<p>2026-10-20 我又定了一條：要我確認的圖、RPG 裡組合出來的資源，直接做成網頁給我看，我在頁面上回應，AI 讀回來比較快；叫我開播放器找到那張地圖，反而不方便。之後的確認頁都帶頁面資料庫，選擇和留言存在頁面上，例如走路圖的站姿縮放（見<a href="sprites.html">角色與走路圖</a>）。各確認頁的存檔在<a href="confirm.html">確認頁一覽</a>。</p>
+<h2>心聲時刻也要有圖</h2>
+<p>2026-10-06 我交代：不喝那個結局的床邊回想，會穿插玩家這一輪記下的心聲，每個心聲時刻都要有一張圖。AI 列了 <code>xu/心聲CG對照.md</code>：九章一共 102 個心聲時刻，50 個配本作的新 CG，45 個配前作的 CG，另外新畫 7 張（〈偷學刀〉〈爹，我們回去〉〈修城要人手〉〈箱子裡的小木弓〉〈塌掉的那一頭〉〈第二天，營裡〉〈告示前〉）。</p>
+<p>床邊回想插進心聲時，畫面換成那一刻的 CG 的記憶版：<code>xu/game/art/memories.py</code> 把原圖褪色、加一點暖褐、四周壓暗角，照前作不喝回想的做法。哪一刻配哪一張，AI 在 2026-10-09 改成自動找：記下那個心聲之前，最後播的那張對話卡的背景。理由是一百多個時刻手配太久，自動推的大多對到那一刻；少數逐句指定；最後只拿到那一章預設圖的，<code>check_static</code> 會擋下來。</p>
+<figure><a href="img/cg-memory.webp" target="_blank" rel="noopener"><img src="img/cg-memory.webp" alt="〈山腳〉的原圖（左），和床邊回想時插進來的記憶版（右）" loading="lazy"></a><figcaption>〈山腳〉的原圖（左），和床邊回想時插進來的記憶版（右）</figcaption></figure>
+<p>翻「思念」那一頁要不要也每句配一張 CG，2026-10-20 還在等我選：整頁當背景，或正中間放一張小圖。</p>
+<h2>前作的圖搬進 repo</h2>
+<p>2026-10-09 遊戲用到的 140 張前作 CG，都硬連結一份進 <code>xu/game/assets/prev/</code> 並收進版控。原因是原作那邊的 <code>buchan/cg_v/</code> 有 109 張選定圖沒進版控，別條工作線清理 <code>buchan/</code> 的時候會一起不見。<code>check_static</code> 現在會擋來源在 <code>xu/</code> 外面、或沒進版控的圖。</p>
+<p>有些場景只有對話和選項，人不用走動（第九章的晚飯、翻「思念」、碗前、床邊，第一章進屋以後），就把整張 CG 當成地圖，心聲選項疊在 CG 上；做法在 <a href="engine.html">Larch RPG 引擎實測</a>。</p>
+<h2>接下來</h2>
+<p>還沒做的有兩件：立繪多畫幾種表情（2026-10-20 記下），和翻「思念」那一頁的配圖。走路圖和立繪的做法在<a href="sprites.html">角色與走路圖</a>，地圖重做以後的畫法在<a href="walkin.html">走進原畫</a>。</p><div class="pager"><a href="sprites.html">← 上一章</a><a href="city.html">下一章 →</a></div></main>
+<footer class="foot"><span>仙泉．香布纏．續 · 製作手記 · 作者 亞澤 · 內容授權 CC BY-NC 4.0</span>
+<a href="https://github.com/yazelin/larch-xu-canon" target="_blank" rel="noopener">GitHub</a><a href="https://www.facebook.com/yaze.lin.gm" target="_blank" rel="noopener">Facebook</a>
+<a href="https://buymeacoffee.com/yazelin" target="_blank" rel="noopener">請我喝咖啡</a><a href="https://yazelin.github.io/" target="_blank" rel="noopener">亞澤的部落格</a></footer>
+<script>
+/* yz-promo-footer (trimmed) | 三件套+BMC 注意力效果 | https://github.com/yazelin/promo-footer-skill
+   對 footer 既有的 Buy Me a Coffee 連結加 bobbing + 講話氣泡（不重新注入連結）。 */
+(function(){"use strict";
+if(window.__yzPromoInit)return;window.__yzPromoInit=1;
+try{if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return}catch(e){}
+var LINES=["嘿，這裡這裡，我是咖啡按鈕","我是一顆很努力的按鈕，求被點一下","噓，亞澤不知道我在偷偷拉贊助","你看我跳得這麼賣力，不請一杯嗎？","不請也沒關係，你來玩我就很開心","一杯咖啡，是下一個作品的燃料","你的咖啡會變成下一個作品，真的","咖啡因進入亞澤體內，程式碼就會自己寫完","用愛發電中，咖啡因可提升發電效率","覺得好玩嗎？抖內一下下","這個網站沒有廣告，只有我這顆按鈕"];
+var CSS="@keyframes yzIdle{0%,55%,100%{transform:translateY(0)}62%{transform:translateY(-4px)}70%{transform:translateY(0)}78%{transform:translateY(-2px)}84%{transform:translateY(0)}}.yz-idle{animation:yzIdle 2.6s ease-in-out infinite}@keyframes yzHop{0%,100%{transform:translateY(0)}20%{transform:translateY(-6px) scale(1.04)}40%{transform:translateY(0) scale(1)}55%{transform:translateY(-3px)}70%{transform:translateY(0)}}.yz-hop{animation:yzHop .9s cubic-bezier(.36,.07,.19,.97)}.yz-bubble{position:fixed;z-index:2147483000;max-width:200px;padding:6px 11px;border-radius:14px;background:#fffdf7;color:#4a3f35;border:1px solid rgba(0,0,0,.1);box-shadow:0 4px 14px rgba(0,0,0,.18);font:13px/1.5 system-ui,-apple-system,'Noto Sans TC',sans-serif;pointer-events:none;opacity:0;transform:translateY(5px);transition:opacity .25s ease,transform .25s ease}.yz-bubble.yz-on{opacity:1;transform:translateY(0)}.yz-bubble::after{content:'';position:absolute;left:var(--yz-tail,50%);margin-left:-6px;border:6px solid transparent}.yz-bubble.yz-above::after{bottom:-6px;border-bottom:0;border-top:6px solid #fffdf7}.yz-bubble.yz-below::after{top:-6px;border-top:0;border-bottom:6px solid #fffdf7}";
+var bubble,anchor;
+function addCss(){if(document.getElementById("yz-promo-css"))return;var s=document.createElement("style");s.id="yz-promo-css";s.textContent=CSS;document.head.appendChild(s)}
+function findAnchor(){var as=document.querySelectorAll('a[href*="buymeacoffee.com/yazelin"]');if(!as.length)return null;var vis=[],i,r;for(i=0;i<as.length;i++){r=as[i].getBoundingClientRect();if(r.width||r.height)vis.push(as[i])}var pool=vis.length?vis:[].slice.call(as);return pool[pool.length-1]}
+function hop(){anchor.classList.remove("yz-hop");void anchor.offsetWidth;anchor.classList.add("yz-hop")}
+var shown=0,MAX_SHOWS=3;
+function say(){if(document.hidden)return;var r=anchor.getBoundingClientRect();if(!r.width&&!r.height)return;if(r.bottom<0||r.top>innerHeight)return;if(shown>=MAX_SHOWS)return;shown++;bubble.textContent=LINES[Math.floor(Math.random()*LINES.length)];bubble.classList.remove("yz-on","yz-above","yz-below");bubble.style.left="0px";bubble.style.top="0px";var bw=bubble.offsetWidth,bh=bubble.offsetHeight,cx=r.left+r.width/2;var left=Math.max(8,Math.min(cx-bw/2,innerWidth-bw-8));var above=r.top-bh-12>=8;bubble.style.left=left+"px";bubble.style.top=(above?r.top-bh-12:r.bottom+12)+"px";bubble.classList.add(above?"yz-above":"yz-below");bubble.style.setProperty("--yz-tail",Math.max(12,Math.min(cx-left,bw-12))+"px");hop();requestAnimationFrame(function(){bubble.classList.add("yz-on")});setTimeout(function(){bubble.classList.remove("yz-on")},4200)}
+function start(){addCss();anchor=findAnchor();if(!anchor)return false;try{if(getComputedStyle(anchor).display==="inline")anchor.style.display="inline-block"}catch(e){}anchor.classList.add("yz-idle");anchor.addEventListener("animationend",function(e){if(e.animationName==="yzHop")anchor.classList.remove("yz-hop")});bubble=document.createElement("div");bubble.className="yz-bubble";bubble.setAttribute("aria-hidden","true");document.body.appendChild(bubble);window.__yzPromo=say;(function loop(first){if(shown>=MAX_SHOWS)return;setTimeout(function(){say();loop(false)},first?18e3+Math.random()*12e3:9e4+Math.random()*9e4)})(true);return true}
+function boot(){var tries=0;(function t(){if(start())return;if(++tries<20)setTimeout(t,1500)})()}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+})();
+</script></body></html>

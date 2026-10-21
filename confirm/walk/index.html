@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>續 待你確認：走路圖站姿縮小（確認頁存檔）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&display=swap">
+<style>
+/* 版面：上方說明與篩選，下面一張圖一張卡；每張卡正面、背面各一組「原本／調整後」走路動畫與站姿滑桿 */
+:root {
+  --bg: #ecebe6;
+  --surface: #fbfaf7;
+  --ink: #23201b;
+  --muted: #6b655b;
+  --line: #d8d3c8;
+  --accent: #8a5a1c;          /* 舊銅色 */
+  --accent-ink: #fff8ee;
+  --stage: #4b463e;           /* 動畫底色：接近地圖的土色，大小差看得清楚 */
+  --ok: #2f7d4a;
+  --warn: #a76a12;
+  --bad: #b23a2a;
+  --display: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  --body: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #16140f; --surface: #1f1c16; --ink: #ece6da; --muted: #a39b8c; --line: #343026; --accent: #d39b52; --accent-ink: #1a1306; --stage: #3a362f; --ok: #6cc28c; --warn: #e2a64a; --bad: #ef7a63; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #16140f; --surface: #1f1c16; --ink: #ece6da; --muted: #a39b8c; --line: #343026; --accent: #d39b52; --accent-ink: #1a1306; --stage: #3a362f; --ok: #6cc28c; --warn: #e2a64a; --bad: #ef7a63; color-scheme: dark; }
+* { box-sizing: border-box; }
+img { max-width: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.6; margin: 0; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 26px 70px; display: grid; gap: 22px; }
+header h1 { font-family: var(--display); font-size: 30px; margin: 0; letter-spacing: .04em; }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 70ch; }
+.bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 6px 12px; font: inherit; font-size: 14px; cursor: pointer; }
+.btn:hover, .btn:focus-visible { border-color: var(--accent); outline: none; }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn[aria-pressed="true"] { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+.btn:disabled { cursor: default; opacity: .5; }
+.btn:disabled[aria-pressed="true"] { opacity: 1; }
+.count { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+h2 { font-family: var(--display); font-size: 22px; margin: 8px 0 0; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(520px, 1fr)); gap: 16px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: grid; gap: 10px; min-width: 0; }
+.card.done-adjust, .card.done-ok { border-color: var(--ok); }
+.card.done-orig { border-color: var(--muted); }
+.card.done-redo { border-color: var(--bad); }
+.top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.top .nm { font-weight: 700; font-size: 16px; }
+.top .id { font-family: var(--mono); color: var(--muted); font-size: 12px; }
+.chip { font-size: 12px; border-radius: 999px; padding: 0 9px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.chip.adjust { color: var(--ok); border-color: var(--ok); }
+.chip.orig { color: var(--ink); border-color: var(--ink); }
+.chip.redo { color: var(--bad); border-color: var(--bad); }
+.row { display: grid; grid-template-columns: 44px auto auto minmax(0, 1fr); gap: 10px; align-items: center; }
+.row .lbl, .sides .lbl { color: var(--muted); font-size: 13px; }
+.cv { display: grid; gap: 2px; justify-items: center; }
+.cv canvas { width: 96px; height: 128px; background: var(--stage); border-radius: 6px; }
+.cv small { color: var(--muted); font-size: 12px; }
+.ctrl { display: grid; gap: 4px; min-width: 0; }
+.ctrl input[type="range"] { width: 100%; accent-color: var(--accent); }
+.ctrl .v { font-size: 13px; font-variant-numeric: tabular-nums; }
+.ctrl .v b { font-size: 15px; }
+.moved { display: inline-block; margin-left: 6px; font-size: 12px; color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: 0 7px; }
+.sides { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.acts { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.when { color: var(--muted); font-size: 13px; font-family: var(--mono); }
+.saved-note { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 8px; padding: 4px 10px; font-size: 14px; }
+.status { color: var(--muted); font-size: 14px; }
+.recheck { border-left: 4px solid var(--warn); background: var(--bg); border-radius: 6px; padding: 6px 10px; font-size: 14px; }
+/* 存檔說明 */
+.archive { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 10px; padding: 12px 14px; display: grid; gap: 8px; }
+.archive p { margin: 0; max-width: 78ch; }
+.archive .kicker { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: .04em; }
+.archive .links { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 14px; }
+.archive .how { color: var(--muted); font-size: 13px; }
+a { color: var(--accent); }
+.split { margin: 0; border: 1px dashed var(--accent); border-radius: 10px; padding: 8px 12px; background: var(--surface); font-size: 14px; }
+@media (max-width: 600px) {
+  .cards { grid-template-columns: minmax(0, 1fr); }
+  .row { grid-template-columns: auto auto minmax(0, 1fr); }
+  .row .lbl, .row .ctrl { grid-column: 1 / -1; }
+  .cv canvas { width: 84px; height: 112px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside class="archive" aria-label="存檔說明">
+    <p class="kicker">確認頁存檔．原頁面 2026-10-20 到 2026-10-21</p>
+    <p>2026-10-20 試玩時，我看到角色往前走一下大一下小，AI 量出原因：站著那一格的人比跨步那兩格大一圈。AI 照每張走路圖量出站著那一格建議縮成多少，做成這一頁：左邊是原本，右邊是縮小後，滑桿可以調。我從 23:32 看到 00:25，舊的 59 張都按了「用調整後的」，其中 40 張我自己拖了滑桿；背面建議縮到 85% 的 23 張，我全部拉回 90% 到 97%。三個新產的大孩子，胖的和瘦高的我按了「可以」，領頭的那個背面一隻腳不對，重產後還沒再按。AI 照這些比例縮了 57 張的站姿（布 30 歲和同袍 tongpao3 我選了 100%，沒動），換進遊戲的走路圖（git 提交 63abf52a，2026-10-21 01:04）。</p>
+    <p class="links"><a href="../../confirm.html">回確認頁一覽</a><span>相關的章：<a href="../../sprites.html">角色與走路圖</a></span></p>
+    <p class="how">存檔版的按鈕和滑桿都停用了：滑桿停在我選的比例，右邊的動畫照這個比例縮；卡片上寫著建議值、我選的值和按的時間，拖過滑桿的標「我拖過」。篩選還能用。原頁面的文字是 AI 寫給我的，裡面的「你」是我。</p>
+  </aside>
+  <header>
+    <h1>續 待你確認</h1>
+    <p>最上面是五原城裡新的動物、車和路人的三視圖（2026-10-21），先看樣子，按「可以」我再做走路圖。下面是走路圖：每張圖的正面、背面各兩個動畫，左邊是原本，右邊是把「站著那一格」縮小以後。拖滑桿縮到右邊走起來不再一大一小，按「用調整後的」。滑桿一開始放的是量出來的建議值。</p>
+  </header>
+  <p class="split">新角色的三視圖（原頁面最上面那一段）存在另一頁：<a href="../threeview/index.html">新角色的三視圖</a>。這一頁是下面的走路圖。</p>
+  <div class="bar" role="group" aria-label="篩選">
+    <button class="btn" data-f="all" aria-pressed="true">全部</button>
+    <button class="btn" data-f="todo" aria-pressed="false">還沒決定</button>
+    <button class="btn" data-f="done" aria-pressed="false">已決定</button>
+    <span class="count" id="count"></span>
+  </div>
+  <div id="list"></div>
+</div>
+
+<script>
+const DATA = {"cell":[144,192],"items":[{"id":"bigkid1","name":"大孩子：領頭的","rows":{"front":{"k":1,"suggest":1.0},"back":{"k":1,"suggest":1.0}},"new":true,"recheck":"背面那一列照你的意見（「背面其中一腳不對」）重產了，這次兩步腳有換。再看一次背面。"},{"id":"bigkid2","name":"大孩子：胖的","rows":{"front":{"k":1.115,"suggest":0.897},"back":{"k":1.175,"suggest":0.851}},"new":true},{"id":"bigkid3","name":"大孩子：瘦高的","rows":{"front":{"k":1.145,"suggest":0.873},"back":{"k":1.125,"suggest":0.889}},"new":true},{"id":"lubu19","name":"布（19 歲）","rows":{"front":{"k":0.99,"suggest":1.0},"back":{"k":1.48,"suggest":0.847}},"new":false},{"id":"lisu","name":"李肅","rows":{"front":{"k":1.015,"suggest":1.0},"back":{"k":1.395,"suggest":0.847}},"new":false},{"id":"diaochanpl","name":"貂蟬（便服）","rows":{"front":{"k":1.045,"suggest":0.957},"back":{"k":1.35,"suggest":0.847}},"new":false},{"id":"neighbor3","name":"鄰居／婦人（neighbor3）","rows":{"front":{"k":1.04,"suggest":0.962},"back":{"k":1.29,"suggest":0.847}},"new":false},{"id":"weixumom","name":"魏續的娘","rows":{"front":{"k":1.035,"suggest":0.966},"back":{"k":1.26,"suggest":0.847}},"new":false},{"id":"weixubp","name":"魏續（背包袱）","rows":{"front":{"k":1.09,"suggest":0.917},"back":{"k":1.255,"suggest":0.847}},"new":false},{"id":"oldman3","name":"老人（oldman3）","rows":{"front":{"k":1.02,"suggest":1.0},"back":{"k":1.25,"suggest":0.847}},"new":false},{"id":"oldman","name":"老人（oldman）","rows":{"front":{"k":1.045,"suggest":0.957},"back":{"k":1.245,"suggest":0.847}},"new":false},{"id":"weixu27","name":"魏續（27 歲）","rows":{"front":{"k":1.045,"suggest":0.957},"back":{"k":1.245,"suggest":0.847}},"new":false},{"id":"neighbor2","name":"鄰居／婦人（neighbor2）","rows":{"front":{"k":1.045,"suggest":0.957},"back":{"k":1.235,"suggest":0.847}},"new":false},{"id":"quan20","name":"荃（20 歲）","rows":{"front":{"k":1.045,"suggest":0.957},"back":{"k":1.23,"suggest":0.847}},"new":false},{"id":"quan10","name":"荃（10 歲）","rows":{"front":{"k":0.955,"suggest":1.0},"back":{"k":1.225,"suggest":0.847}},"new":false},{"id":"caobing","name":"曹兵","rows":{"front":{"k":1.04,"suggest":0.962},"back":{"k":1.22,"suggest":0.847}},"new":false},{"id":"soldier3","name":"兵（soldier3）","rows":{"front":{"k":1.22,"suggest":0.847},"back":{"k":1.075,"suggest":0.93}},"new":false},{"id":"soldier4","name":"兵（soldier4）","rows":{"front":{"k":1.015,"suggest":1.0},"back":{"k":1.22,"suggest":0.847}},"new":false},{"id":"weixu55","name":"魏續（55 歲）","rows":{"front":{"k":1.035,"suggest":0.966},"back":{"k":1.22,"suggest":0.847}},"new":false},{"id":"xiang","name":"湘","rows":{"front":{"k":1.05,"suggest":0.952},"back":{"k":1.21,"suggest":0.847}},"new":false},{"id":"tongpao5","name":"同袍（tongpao5）","rows":{"front":{"k":1.045,"suggest":0.957},"back":{"k":1.205,"suggest":0.847}},"new":false},{"id":"tongpao4","name":"同袍（tongpao4）","rows":{"front":{"k":1.05,"suggest":0.952},"back":{"k":1.19,"suggest":0.847}},"new":false},{"id":"weixu15","name":"魏續（15 歲）","rows":{"front":{"k":1.08,"suggest":0.926},"back":{"k":1.19,"suggest":0.847}},"new":false},{"id":"xiang17","name":"湘（17 歲）","rows":{"front":{"k":1.055,"suggest":0.948},"back":{"k":1.19,"suggest":0.847}},"new":false},{"id":"caobing2","name":"曹兵（二）","rows":{"front":{"k":1.07,"suggest":0.935},"back":{"k":1.185,"suggest":0.847}},"new":false},{"id":"junhou","name":"軍侯","rows":{"front":{"k":1.035,"suggest":0.966},"back":{"k":1.185,"suggest":0.847}},"new":false},{"id":"lubu10","name":"布（10 歲）","rows":{"front":{"k":1.035,"suggest":0.966},"back":{"k":1.18,"suggest":0.847}},"new":false},{"id":"soldier","name":"兵（soldier）","rows":{"front":{"k":0.965,"suggest":1.0},"back":{"k":1.165,"suggest":0.858}},"new":false},{"id":"tongpao","name":"同袍（tongpao）","rows":{"front":{"k":1.07,"suggest":0.935},"back":{"k":1.165,"suggest":0.858}},"new":false},{"id":"tongpao2","name":"同袍（tongpao2）","rows":{"front":{"k":1.075,"suggest":0.93},"back":{"k":1.165,"suggest":0.858}},"new":false},{"id":"weixu45","name":"魏續（45 歲）","rows":{"front":{"k":1.03,"suggest":0.971},"back":{"k":1.16,"suggest":0.862}},"new":false},{"id":"diaochan","name":"貂蟬","rows":{"front":{"k":1.025,"suggest":1.0},"back":{"k":1.155,"suggest":0.866}},"new":false},{"id":"haomeng2","name":"郝萌的兵","rows":{"front":{"k":1.05,"suggest":0.952},"back":{"k":1.14,"suggest":0.877}},"new":false},{"id":"lubupl","name":"布（便服）","rows":{"front":{"k":1.135,"suggest":0.881},"back":{"k":1.045,"suggest":0.957}},"new":false},{"id":"soldier5","name":"兵（soldier5）","rows":{"front":{"k":0.99,"suggest":1.0},"back":{"k":1.12,"suggest":0.893}},"new":false},{"id":"tongpao3","name":"同袍（tongpao3）","rows":{"front":{"k":1.105,"suggest":0.905},"back":{"k":1.065,"suggest":0.939}},"new":false},{"id":"yanelder4","name":"路人（yanelder4）","rows":{"front":{"k":1.07,"suggest":0.935},"back":{"k":1.105,"suggest":0.905}},"new":false},{"id":"oldman2","name":"老人（oldman2）","rows":{"front":{"k":1.01,"suggest":1.0},"back":{"k":1.095,"suggest":0.913}},"new":false},{"id":"xiliang","name":"西涼兵","rows":{"front":{"k":1.09,"suggest":0.917},"back":{"k":1.06,"suggest":0.943}},"new":false},{"id":"quan5","name":"荃（5 歲）","rows":{"front":{"k":1.08,"suggest":0.926},"back":{"k":1.015,"suggest":1.0}},"new":false},{"id":"weixu62","name":"魏續（62 歲）","rows":{"front":{"k":1.005,"suggest":1.0},"back":{"k":1.08,"suggest":0.926}},"new":false},{"id":"yanelder","name":"路人（yanelder）","rows":{"front":{"k":1.08,"suggest":0.926},"back":{"k":1.055,"suggest":0.948}},"new":false},{"id":"dingyuan","name":"丁原","rows":{"front":{"k":1.075,"suggest":0.93},"back":{"k":1.03,"suggest":0.971}},"new":false},{"id":"weixu7c","name":"魏續（背著荃）","rows":{"front":{"k":0.99,"suggest":1.0},"back":{"k":1.075,"suggest":0.93}},"new":false},{"id":"kid9","name":"孩子（9 歲）","rows":{"front":{"k":1.07,"suggest":0.935},"back":{"k":1.03,"suggest":0.971}},"new":false},{"id":"yanelder2","name":"路人（yanelder2）","rows":{"front":{"k":1.06,"suggest":0.943},"back":{"k":1.07,"suggest":0.935}},"new":false},{"id":"weixu18a","name":"魏續（18 歲，入營）","rows":{"front":{"k":1.06,"suggest":0.943},"back":{"k":1.065,"suggest":0.939}},"new":false},{"id":"lubu16","name":"布（16 歲）","rows":{"front":{"k":1.045,"suggest":0.957},"back":{"k":1.06,"suggest":0.943}},"new":false},{"id":"neighbor","name":"鄰居／婦人（neighbor）","rows":{"front":{"k":1.05,"suggest":0.952},"back":{"k":1.06,"suggest":0.943}},"new":false},{"id":"weixu12","name":"魏續（12 歲）","rows":{"front":{"k":1.055,"suggest":0.948},"back":{"k":1.06,"suggest":0.943}},"new":false},{"id":"weixudad","name":"魏續的爹","rows":{"front":{"k":1.045,"suggest":0.957},"back":{"k":1.06,"suggest":0.943}},"new":false},{"id":"xiang9","name":"湘（9 歲）","rows":{"front":{"k":1.06,"suggest":0.943},"back":{"k":1.045,"suggest":0.957}},"new":false},{"id":"chengsu","name":"成素","rows":{"front":{"k":1.03,"suggest":0.971},"back":{"k":1.055,"suggest":0.948}},"new":false},{"id":"haomeng","name":"郝萌","rows":{"front":{"k":1.045,"suggest":0.957},"back":{"k":1.055,"suggest":0.948}},"new":false},{"id":"neighbor4","name":"鄰居／婦人（neighbor4）","rows":{"front":{"k":1.055,"suggest":0.948},"back":{"k":1.03,"suggest":0.971}},"new":false},{"id":"huqi","name":"胡騎","rows":{"front":{"k":1.005,"suggest":1.0},"back":{"k":1.05,"suggest":0.952}},"new":false},{"id":"weixu18","name":"魏續（18 歲）","rows":{"front":{"k":1.05,"suggest":0.952},"back":{"k":1.05,"suggest":0.952}},"new":false},{"id":"yanelder3","name":"路人（yanelder3）","rows":{"front":{"k":1.025,"suggest":1.0},"back":{"k":1.05,"suggest":0.952}},"new":false},{"id":"soldier2","name":"兵（soldier2）","rows":{"front":{"k":1.005,"suggest":1.0},"back":{"k":1.04,"suggest":0.962}},"new":false},{"id":"xiliang2","name":"西涼兵（二）","rows":{"front":{"k":1.035,"suggest":0.966},"back":{"k":0.965,"suggest":1.0}},"new":false},{"id":"lubu25","name":"布（25 歲）","rows":{"front":{"k":1.025,"suggest":1.0},"back":{"k":0.985,"suggest":1.0}},"new":false},{"id":"lubu30","name":"布（30 歲）","rows":{"front":{"k":0.98,"suggest":1.0},"back":{"k":0.95,"suggest":1.0}},"new":false}],"picks":{"bigkid2":{"choice":"ok","front":1,"back":1,"note":"","time":"2026-10-20 23:32"},"bigkid3":{"choice":"ok","front":1,"back":1,"note":"OK","time":"2026-10-20 23:32"},"caobing":{"choice":"adjust","front":1,"back":0.9,"note":"","time":"2026-10-21 00:03"},"caobing2":{"choice":"adjust","front":1,"back":0.95,"note":"","time":"2026-10-21 00:05"},"chengsu":{"choice":"adjust","front":0.971,"back":0.948,"note":"","time":"2026-10-21 00:24"},"diaochan":{"choice":"adjust","front":1,"back":0.94,"note":"","time":"2026-10-21 00:22"},"diaochanpl":{"choice":"adjust","front":1,"back":0.93,"note":"","time":"2026-10-20 23:36"},"dingyuan":{"choice":"adjust","front":0.93,"back":0.971,"note":"","time":"2026-10-21 00:24"},"haomeng":{"choice":"adjust","front":0.957,"back":0.948,"note":"","time":"2026-10-21 00:24"},"haomeng2":{"choice":"adjust","front":1,"back":0.93,"note":"","time":"2026-10-21 00:22"},"huqi":{"choice":"adjust","front":1,"back":0.952,"note":"","time":"2026-10-21 00:24"},"junhou":{"choice":"adjust","front":1,"back":0.93,"note":"","time":"2026-10-21 00:06"},"kid9":{"choice":"adjust","front":0.935,"back":0.971,"note":"","time":"2026-10-21 00:24"},"lisu":{"choice":"adjust","front":1,"back":0.94,"note":"","time":"2026-10-20 23:34"},"lubu10":{"choice":"adjust","front":1,"back":0.9,"note":"","time":"2026-10-21 00:05"},"lubu16":{"choice":"adjust","front":0.957,"back":0.943,"note":"","time":"2026-10-21 00:24"},"lubu19":{"choice":"adjust","front":1,"back":0.9,"note":"","time":"2026-10-20 23:33"},"lubu25":{"choice":"adjust","front":0.94,"back":0.95,"note":"","time":"2026-10-21 00:25"},"lubu30":{"choice":"adjust","front":1,"back":1,"note":"","time":"2026-10-21 00:25"},"lubupl":{"choice":"adjust","front":0.96,"back":0.95,"note":"","time":"2026-10-21 00:22"},"neighbor":{"choice":"adjust","front":0.952,"back":0.943,"note":"","time":"2026-10-21 00:24"},"neighbor2":{"choice":"adjust","front":1,"back":0.97,"note":"","time":"2026-10-20 23:37"},"neighbor3":{"choice":"adjust","front":1,"back":0.94,"note":"","time":"2026-10-20 23:36"},"neighbor4":{"choice":"adjust","front":0.948,"back":0.971,"note":"","time":"2026-10-21 00:24"},"oldman":{"choice":"adjust","front":0.957,"back":0.95,"note":"","time":"2026-10-20 23:36"},"oldman2":{"choice":"adjust","front":1,"back":0.97,"note":"","time":"2026-10-21 00:23"},"oldman3":{"choice":"adjust","front":1,"back":0.95,"note":"","time":"2026-10-20 23:36"},"quan10":{"choice":"adjust","front":1,"back":0.93,"note":"","time":"2026-10-21 00:03"},"quan20":{"choice":"adjust","front":1,"back":0.95,"note":"","time":"2026-10-21 00:03"},"quan5":{"choice":"adjust","front":0.98,"back":0.97,"note":"","time":"2026-10-21 00:24"},"soldier":{"choice":"adjust","front":1,"back":0.95,"note":"","time":"2026-10-21 00:21"},"soldier2":{"choice":"adjust","front":1,"back":0.962,"note":"","time":"2026-10-21 00:24"},"soldier3":{"choice":"adjust","front":1,"back":0.97,"note":"","time":"2026-10-21 00:03"},"soldier4":{"choice":"adjust","front":1,"back":0.92,"note":"","time":"2026-10-21 00:04"},"soldier5":{"choice":"adjust","front":0.97,"back":0.94,"note":"","time":"2026-10-21 00:23"},"tongpao":{"choice":"adjust","front":1,"back":0.93,"note":"","time":"2026-10-21 00:21"},"tongpao2":{"choice":"adjust","front":1,"back":0.95,"note":"","time":"2026-10-21 00:22"},"tongpao3":{"choice":"adjust","front":1,"back":1,"note":"","time":"2026-10-21 00:23"},"tongpao4":{"choice":"adjust","front":1,"back":0.96,"note":"","time":"2026-10-21 00:05"},"tongpao5":{"choice":"adjust","front":1,"back":0.94,"note":"","time":"2026-10-21 00:04"},"weixu12":{"choice":"adjust","front":0.948,"back":0.943,"note":"","time":"2026-10-21 00:24"},"weixu15":{"choice":"adjust","front":1,"back":0.93,"note":"","time":"2026-10-21 00:04"},"weixu18":{"choice":"adjust","front":0.952,"back":0.952,"note":"","time":"2026-10-21 00:24"},"weixu18a":{"choice":"adjust","front":0.943,"back":0.939,"note":"","time":"2026-10-21 00:24"},"weixu27":{"choice":"adjust","front":1,"back":0.97,"note":"","time":"2026-10-20 23:37"},"weixu45":{"choice":"adjust","front":1,"back":0.96,"note":"","time":"2026-10-21 00:22"},"weixu55":{"choice":"adjust","front":1,"back":0.92,"note":"","time":"2026-10-21 00:04"},"weixu62":{"choice":"adjust","front":0.96,"back":0.96,"note":"","time":"2026-10-21 00:23"},"weixu7c":{"choice":"adjust","front":1,"back":0.94,"note":"","time":"2026-10-21 00:24"},"weixubp":{"choice":"adjust","front":0.917,"back":0.96,"note":"","time":"2026-10-20 23:36"},"weixudad":{"choice":"adjust","front":0.957,"back":0.943,"note":"","time":"2026-10-21 00:24"},"weixumom":{"choice":"adjust","front":0.966,"back":0.95,"note":"","time":"2026-10-20 23:36"},"xiang":{"choice":"adjust","front":1,"back":0.93,"note":"","time":"2026-10-21 00:04"},"xiang17":{"choice":"adjust","front":1,"back":0.95,"note":"","time":"2026-10-21 00:05"},"xiang9":{"choice":"adjust","front":0.943,"back":0.957,"note":"","time":"2026-10-21 00:24"},"xiliang":{"choice":"adjust","front":0.95,"back":0.943,"note":"","time":"2026-10-21 00:23"},"xiliang2":{"choice":"adjust","front":0.966,"back":1,"note":"","time":"2026-10-21 00:24"},"yanelder":{"choice":"adjust","front":0.926,"back":0.948,"note":"","time":"2026-10-21 00:24"},"yanelder2":{"choice":"adjust","front":0.943,"back":0.935,"note":"","time":"2026-10-21 00:24"},"yanelder3":{"choice":"adjust","front":1,"back":0.952,"note":"","time":"2026-10-21 00:24"},"yanelder4":{"choice":"adjust","front":1,"back":0.97,"note":"","time":"2026-10-21 00:23"}},"boxes":{"bigkid1":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"bigkid2":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"bigkid3":{"front":{"cx":71.0,"bottom":191},"back":{"cx":71.5,"bottom":191}},"lubu19":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"lisu":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.0,"bottom":191}},"diaochanpl":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.0,"bottom":191}},"neighbor3":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"weixumom":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"weixubp":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"oldman3":{"front":{"cx":71.0,"bottom":191},"back":{"cx":71.5,"bottom":191}},"oldman":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"weixu27":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"neighbor2":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"quan20":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"quan10":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.0,"bottom":191}},"caobing":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"soldier3":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"soldier4":{"front":{"cx":71.0,"bottom":191},"back":{"cx":71.5,"bottom":191}},"weixu55":{"front":{"cx":71.0,"bottom":191},"back":{"cx":71.5,"bottom":191}},"xiang":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"tongpao5":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"tongpao4":{"front":{"cx":71.0,"bottom":191},"back":{"cx":71.5,"bottom":191}},"weixu15":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.0,"bottom":191}},"xiang17":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"caobing2":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"junhou":{"front":{"cx":71.0,"bottom":191},"back":{"cx":71.0,"bottom":191}},"lubu10":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.0,"bottom":191}},"soldier":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"tongpao":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.0,"bottom":191}},"tongpao2":{"front":{"cx":71.0,"bottom":191},"back":{"cx":71.5,"bottom":191}},"weixu45":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"diaochan":{"front":{"cx":71.0,"bottom":191},"back":{"cx":71.5,"bottom":191}},"haomeng2":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"lubupl":{"front":{"cx":72.0,"bottom":191},"back":{"cx":71.5,"bottom":191}},"soldier5":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"tongpao3":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"yanelder4":{"front":{"cx":71.0,"bottom":191},"back":{"cx":71.5,"bottom":191}},"oldman2":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"xiliang":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.0,"bottom":191}},"quan5":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"weixu62":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"yanelder":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"dingyuan":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"weixu7c":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"kid9":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"yanelder2":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"weixu18a":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"lubu16":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"neighbor":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.0,"bottom":191}},"weixu12":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"weixudad":{"front":{"cx":71.0,"bottom":191},"back":{"cx":71.5,"bottom":191}},"xiang9":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"chengsu":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"haomeng":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"neighbor4":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"huqi":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.0,"bottom":191}},"weixu18":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.0,"bottom":191}},"yanelder3":{"front":{"cx":71.0,"bottom":191},"back":{"cx":71.5,"bottom":191}},"soldier2":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.0,"bottom":191}},"xiliang2":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.5,"bottom":191}},"lubu25":{"front":{"cx":71.5,"bottom":191},"back":{"cx":71.0,"bottom":191}},"lubu30":{"front":{"cx":71.0,"bottom":191},"back":{"cx":71.0,"bottom":191}}}};
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const CHOICE = { adjust: '用調整後的', orig: '維持原本', redo: '要重畫', ok: '可以' };
+const data = DATA, picks = DATA.picks || {}, boxes = DATA.boxes || {};
+let filter = 'all';
+const imgs = {}, scales = {};      // 每張圖：小圖集、目前（我選的）站姿比例
+const SEQ = [0, 1, 2, 1];
+const NEWNOTE = '<p class="status">這三個是第零幕的大孩子：我問「另外大孩子怎麼沒有幫我重生 3 個不一樣的大孩子？我看起來還是同一個，都是續？？？？」以後新產的（git 提交 35b1f9dc）。</p>';
+
+function img(id) {
+  if (!imgs[id]) { const im = new Image(); im.src = `walk/${id}.webp`; imgs[id] = im; }
+  return imgs[id];
+}
+function draw(cv, id, r, f, s) {   // 站姿那一格縮小時，腳底貼回原本的底線、左右置中（外框是事先從圖量好的）
+  const im = imgs[id]; if (!im || !im.complete || !im.naturalWidth) return;
+  const [cw, ch] = data.cell, g = cv.getContext('2d'); g.clearRect(0, 0, cv.width, cv.height);
+  const k = cv.width / cw, b = boxes[id] && boxes[id][r === 0 ? 'front' : 'back'];
+  if (f === 1 && s < 1 && b) g.drawImage(im, f * cw, r * ch, cw, ch, (b.cx - b.cx * s) * k, (b.bottom - b.bottom * s) * k, cw * s * k, ch * s * k);
+  else g.drawImage(im, f * cw, r * ch, cw, ch, 0, 0, cv.width, cv.height);
+}
+function render() {
+  const items = data.items.filter(it => filter === 'all' || (filter === 'todo') === !picks[it.id]);
+  const n = data.items.length, d = data.items.filter(it => picks[it.id]).length;
+  const old = data.items.filter(it => !it.new), moved = old.filter(it => isMoved(it)).length;
+  $('#count').textContent = `已決定 ${d}／${n}；舊的 ${old.length} 張裡，${moved} 張我拖過滑桿`;
+  const groups = [['新產的角色', items.filter(it => it.new), NEWNOTE], ['站著比走路大的走路圖', items.filter(it => !it.new), '']];
+  $('#list').innerHTML = groups.filter(([, g]) => g.length).map(([t, g, note]) => `<h2>${t}</h2>${note}<div class="cards">${g.map(card).join('')}</div>`).join('') || '<p class="status">這個篩選下沒有。</p>';
+  bind();
+}
+// 舊的走路圖：存的比例跟建議值不同＝拖過滑桿（建議值跟當時一樣：有 19 張存的就是建議值，連小數第三位都對得上）。
+// 新產的三個大孩子不標：圖在按完以後才進 git，存的值跟建議值對不上的原因查不到。
+function isMoved(it, r) {
+  const p = picks[it.id]; if (!p || it.new) return false;
+  return (r ? [r] : ['front', 'back']).some(k => Math.abs(p[k] - it.rows[k].suggest) > 1e-6);
+}
+function card(it) {
+  const p = picks[it.id], ch = p ? `<span class="chip ${p.choice === 'ok' ? 'adjust' : esc(p.choice)}">${esc(CHOICE[p.choice] || p.choice)}</span>` : '<span class="chip">還沒決定</span>';
+  const rows = ['front', 'back'].map(r => {
+    const sg = it.rows[r] ? it.rows[r].suggest : 1, v = p && p[r] != null ? p[r] : sg, mv = isMoved(it, r);
+    scales[it.id + r] = v;
+    return `<div class="row"><span class="lbl">${r === 'front' ? '正面' : '背面'}</span>
+      <div class="cv"><canvas width="144" height="192" data-a="${esc(it.id)}" data-r="${r === 'front' ? 0 : 3}" data-s="orig"></canvas><small>原本</small></div>
+      <div class="cv"><canvas width="144" height="192" data-a="${esc(it.id)}" data-r="${r === 'front' ? 0 : 3}" data-s="${r}"></canvas><small>調整後</small></div>
+      <div class="ctrl"><label class="v" for="s-${esc(it.id)}-${r}">站姿縮成 <b>${Math.round(v * 100)}%</b>（建議 ${Math.round(sg * 100)}%）${mv ? '<span class="moved">我拖過</span>' : ''}</label>
+        <input type="range" id="s-${esc(it.id)}-${r}" min="0.7" max="1" step="0.01" value="${v}" disabled></div></div>`;
+  }).join('');
+  const sides = it.new ? `<div class="sides"><span class="lbl">側面</span>
+      <div class="cv"><canvas width="144" height="192" data-a="${esc(it.id)}" data-r="1" data-s="orig"></canvas><small>朝左</small></div>
+      <div class="cv"><canvas width="144" height="192" data-a="${esc(it.id)}" data-r="2" data-s="orig"></canvas><small>朝右</small></div></div>` : '';
+  const btn = (v, label, primary) => `<button class="btn${primary ? ' primary' : ''}" disabled aria-pressed="${!!p && p.choice === v}">${label}</button>`;
+  const acts = it.new
+    ? btn('ok', '可以，用這個（站姿照滑桿）', true) + btn('redo', '要重產')
+    : btn('adjust', '用調整後的', true) + btn('orig', '維持原本') + btn('redo', '要重畫');
+  const when = p ? `<span class="when">我按的時間：${esc(p.time || '')}</span>` : '<span class="when">沒有存到選擇</span>';
+  const note = p && p.note ? `<span class="saved-note">留話：${esc(p.note)}</span>` : '';
+  return `<article class="card${p ? ' done-' + esc(p.choice) : ''}"><div class="top"><span><span class="nm">${esc(it.name)}</span> <span class="id">${esc(it.id)}</span></span>${ch}</div>
+    ${it.recheck ? `<div class="recheck">${esc(it.recheck)}</div>` : ''}${rows}${sides}<div class="acts">${acts}${when}${note}</div></article>`;
+}
+function bind() { document.querySelectorAll('canvas[data-a]').forEach(cv => { img(cv.dataset.a); vis.observe(cv); }); }
+// 只動畫看得見的：0-1-2-1，每格 160 毫秒
+const live = new Set();
+const vis = new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? live.add(e.target) : live.delete(e.target)));
+let fi = 0;
+setInterval(() => {
+  fi = (fi + 1) % SEQ.length; const f = SEQ[fi];
+  live.forEach(cv => { if (!cv.isConnected) { live.delete(cv); return; } const s = cv.dataset.s === 'orig' ? 1 : (scales[cv.dataset.a + cv.dataset.s] ?? 1); draw(cv, cv.dataset.a, Number(cv.dataset.r), f, s); });
+}, matchMedia('(prefers-reduced-motion: reduce)').matches ? 600 : 160);
+document.querySelectorAll('[data-f]').forEach(b => b.addEventListener('click', () => { filter = b.dataset.f; document.querySelectorAll('[data-f]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); render(); }));
+render();
+</script>
+</body>
+</html>

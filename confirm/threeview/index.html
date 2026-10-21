@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>續 待你確認：新角色的三視圖（確認頁存檔）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&display=swap">
+<style>
+/* 版面：上方說明，下面一張三視圖一張卡 */
+:root {
+  --bg: #ecebe6;
+  --surface: #fbfaf7;
+  --ink: #23201b;
+  --muted: #6b655b;
+  --line: #d8d3c8;
+  --accent: #8a5a1c;          /* 舊銅色 */
+  --accent-ink: #fff8ee;
+  --stage: #4b463e;           /* 圖的底色：接近地圖的土色 */
+  --ok: #2f7d4a;
+  --warn: #a76a12;
+  --bad: #b23a2a;
+  --display: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  --body: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #16140f; --surface: #1f1c16; --ink: #ece6da; --muted: #a39b8c; --line: #343026; --accent: #d39b52; --accent-ink: #1a1306; --stage: #3a362f; --ok: #6cc28c; --warn: #e2a64a; --bad: #ef7a63; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #16140f; --surface: #1f1c16; --ink: #ece6da; --muted: #a39b8c; --line: #343026; --accent: #d39b52; --accent-ink: #1a1306; --stage: #3a362f; --ok: #6cc28c; --warn: #e2a64a; --bad: #ef7a63; color-scheme: dark; }
+* { box-sizing: border-box; }
+img { max-width: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.6; margin: 0; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 26px 70px; display: grid; gap: 22px; }
+header h1 { font-family: var(--display); font-size: 30px; margin: 0; letter-spacing: .04em; }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 70ch; }
+.bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 6px 12px; font: inherit; font-size: 14px; }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn:disabled { cursor: default; opacity: .5; }
+.btn[aria-pressed="true"] { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); opacity: 1; }
+.count { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+h2 { font-family: var(--display); font-size: 22px; margin: 8px 0 0; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(520px, 100%), 1fr)); gap: 16px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: grid; gap: 10px; min-width: 0; }
+.card.done-ok { border-color: var(--ok); }
+.card.done-redo { border-color: var(--bad); }
+.top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.top .nm { font-weight: 700; font-size: 16px; }
+.top .id { font-family: var(--mono); color: var(--muted); font-size: 12px; }
+.chip { font-size: 12px; border-radius: 999px; padding: 0 9px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.chip.adjust { color: var(--ok); border-color: var(--ok); }
+.chip.redo { color: var(--bad); border-color: var(--bad); }
+.acts { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.saved-note { flex: 1 1 200px; min-width: 0; border: 1px solid var(--line); background: var(--bg); color: var(--muted); border-radius: 8px; padding: 6px 10px; font-size: 14px; }
+.status { color: var(--muted); font-size: 14px; }
+/* 存檔說明 */
+.archive { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 10px; padding: 12px 14px; display: grid; gap: 8px; }
+.archive p { margin: 0; max-width: 78ch; }
+.archive .kicker { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: .04em; }
+.archive .links { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 14px; }
+.archive .how { color: var(--muted); font-size: 13px; }
+a { color: var(--accent); }
+.split { margin: 0; border: 1px dashed var(--accent); border-radius: 10px; padding: 8px 12px; background: var(--surface); font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside class="archive" aria-label="存檔說明">
+    <p class="kicker">確認頁存檔．原頁面 2026-10-21</p>
+    <p>2026-10-21 清晨，五原城裡要多出雞、狗、牛、豬、三種車和四種新身分的路人，AI 先各產一張三視圖（正面、朝左、背面），放在走路圖確認頁最上面，等我按「可以」才做走路的跨步。三視圖是我們做走路圖的定錨：先定好這一張，再照它畫跨步，朝右用朝左鏡射。這十一張我還沒按，頁面資料庫裡沒有紀錄。之後這一天先做牆、屋內和整座城的畫風，城裡的人暫用現有的走路圖，車暫用馬。</p>
+    <p class="links"><a href="../../confirm.html">回確認頁一覽</a><span>相關的章：<a href="../../sprites.html">角色與走路圖</a></span></p>
+    <p class="how">存檔版的按鈕都停用了；每張卡右上角寫著當時的狀態。原頁面的文字是 AI 寫給我的，裡面的「你」是我。</p>
+  </aside>
+  <header>
+    <h1>續 待你確認</h1>
+    <p>最上面是五原城裡新的動物、車和路人的三視圖（2026-10-21），先看樣子，按「可以」我再做走路圖。下面是走路圖：每張圖的正面、背面各兩個動畫，左邊是原本，右邊是把「站著那一格」縮小以後。拖滑桿縮到右邊走起來不再一大一小，按「用調整後的」。滑桿一開始放的是量出來的建議值。</p>
+  </header>
+  <p class="split">原頁面在三視圖下面接著是走路圖的站姿縮小，那一段存在另一頁：<a href="../walk/index.html">走路圖確認（站姿縮小）</a>。</p>
+  <div class="bar"><span class="count" id="count"></span></div>
+  <div id="list"></div>
+</div>
+
+<script>
+const DATA = {"sheets":[{"id":"chicken","name":"雞","desc":"院子、巷子裡啄地"},{"id":"dog","name":"狗","desc":"趴在院門口、巷子裡晃"},{"id":"ox","name":"牛","desc":"田邊吃草、拉車"},{"id":"pig","name":"豬","desc":"豬圈裡"},{"id":"oxcart","name":"牛車","desc":"牽牛的人走在牛頭邊"},{"id":"horsecart","name":"馬車","desc":"有篷的輕車，車夫坐在前面"},{"id":"mulecart","name":"騾車","desc":"載柴，趕車的走在騾子旁邊"},{"id":"vendor","name":"挑擔叫賣的","desc":"扁擔兩頭各一個籃子"},{"id":"fortune","name":"算命的","desc":"拿著籤筒的老人"},{"id":"beggar","name":"要飯的","desc":"赤腳、拿破碗"},{"id":"officer","name":"巡查的軍官","desc":"劍在左腰，右手空著"}],"picks":{}};
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const CHOICE = { adjust: '用調整後的', orig: '維持原本', redo: '要重畫', ok: '可以' };
+const sheets = DATA.sheets || [], picks = DATA.picks || {};
+function sheetCard(s) {   // 三視圖：一張圖、可以／要重產、備註（原頁面存成 picks/sheet-<id>）
+  const id = 'sheet-' + s.id, p = picks[id], ch = p ? `<span class="chip ${p.choice === 'ok' ? 'adjust' : esc(p.choice)}">${esc(CHOICE[p.choice] || p.choice)}</span>` : '<span class="chip">還沒決定</span>';
+  return `<article class="card${p ? ' done-' + esc(p.choice) : ''}"><div class="top"><span><span class="nm">${esc(s.name)}</span> <span class="id">${esc(s.id)}</span></span>${ch}</div>
+    <img src="sheets/${esc(s.id)}.webp" alt="${esc(s.name)}的三視圖" loading="lazy" style="width:100%;height:auto;border-radius:8px;background:var(--stage)">
+    ${s.desc ? `<p class="status" style="margin:0">${esc(s.desc)}</p>` : ''}
+    <div class="acts"><button class="btn primary" disabled aria-pressed="${!!p && p.choice === 'ok'}">可以，照這個做走路圖</button><button class="btn" disabled aria-pressed="${!!p && p.choice === 'redo'}">要重產</button><span class="saved-note">${p && p.note ? esc(p.note) : '（沒有留話）'}</span></div></article>`;
+}
+const done = sheets.filter(s => picks['sheet-' + s.id]).length;
+$('#count').textContent = `這一節已決定 ${done}／${sheets.length}`;
+$('#list').innerHTML = `<h2>新角色的三視圖</h2><p class="status">五原城裡會動的新角色，先看樣子（左起正面、朝左、背面）。可以的話照這個做走路圖，朝右用朝左鏡射。</p><div class="cards">${sheets.map(sheetCard).join('')}</div>`;
+</script>
+</body>
+</html>

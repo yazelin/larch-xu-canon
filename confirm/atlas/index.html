@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>續 地圖總覽</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&display=swap">
+<style>
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { margin: 0; padding: 0; }
+img { max-width: 100%; }
+[hidden]:not([hidden=until-found i]) { display: none !important; }
+:root { color-scheme: light; }
+/* 版面：左邊章節索引＋右邊工作區；總覽是每章一區縮圖卡，點進去是單張地圖：地面、一個一個疊上去的物件、角色、互動點、出口、牆；
+   編輯模式可以拖人與物件、標物件要重產或刪掉、畫牆、加出入口、插問題釘、塗色畫重產示意，全部存進頁面資料庫給 Claude 讀 */
+:root {
+  --bg: #e9edea;
+  --surface: #f8faf8;
+  --ink: #1c2725;
+  --muted: #5a6a66;
+  --line: #cdd6d2;
+  --accent: #23735f;          /* 青銅鏽的綠 */
+  --accent-ink: #f3fbf8;
+  --char: #b9862b;            /* 角色名牌 */
+  --mark: #2f8a72;            /* 互動點 */
+  --exit: #3d6fa8;            /* 出口 */
+  --note: #c2412f;            /* 問題釘、要重產 */
+  --wall: rgba(196, 64, 52, 0.38);
+  --wall-add: rgba(214, 48, 40, 0.62);
+  --wall-del: rgba(60, 170, 110, 0.55);
+  --chip-bg: rgba(18, 22, 21, 0.8);
+  --chip-ink: #f6f3ea;
+  --ok: #2f7d4a;
+  --warn: #a76a12;
+  --display: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  --body: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111614; --surface: #19201e; --ink: #e2eae6; --muted: #91a29c; --line: #2a3532;
+    --accent: #59bfa4; --accent-ink: #0d1412; --char: #e0b25a; --mark: #5cc0a6; --exit: #7aa8de; --note: #ef7a63;
+    --ok: #6cc28c; --warn: #e2a64a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111614; --surface: #19201e; --ink: #e2eae6; --muted: #91a29c; --line: #2a3532;
+  --accent: #59bfa4; --accent-ink: #0d1412; --char: #e0b25a; --mark: #5cc0a6; --exit: #7aa8de; --note: #ef7a63;
+  --ok: #6cc28c; --warn: #e2a64a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.6; }
+.wrap { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 28px; max-width: 1500px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 22px 60px; }
+nav.idx { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); align-self: start; max-height: calc(100vh - 32px); overflow: auto; }
+nav.idx h1 { font-family: var(--display); font-size: 22px; margin: 0 0 4px; letter-spacing: .04em; }
+nav.idx p { margin: 0 0 14px; color: var(--muted); font-size: 13px; }
+nav.idx a { display: flex; justify-content: space-between; gap: 8px; padding: 5px 8px; border-radius: 6px; color: var(--ink); text-decoration: none; font-size: 14px; }
+nav.idx a:hover, nav.idx a:focus-visible { background: var(--surface); outline: none; }
+nav.idx a.on { background: var(--accent); color: var(--accent-ink); }
+nav.idx a span { color: inherit; opacity: .7; font-variant-numeric: tabular-nums; }
+.search { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); font: inherit; margin-bottom: 12px; }
+.search:focus-visible, .inp:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+main { min-width: 0; }
+.chap { margin-bottom: 34px; }
+.chap h2 { font-family: var(--display); font-size: 24px; margin: 0 0 12px; display: flex; align-items: baseline; gap: 10px; }
+.chap h2 small { font-family: var(--body); font-size: 13px; color: var(--muted); font-weight: 400; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+.card { position: relative; display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; color: var(--ink); text-decoration: none; }
+.card:hover, .card:focus-visible { border-color: var(--accent); outline: none; }
+.card .th { aspect-ratio: 4 / 3; background: var(--line); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.card .th img { width: 100%; height: 100%; object-fit: contain; background: #0e1211; }
+.card .meta { padding: 9px 11px 11px; display: grid; gap: 2px; }
+.card .t { font-weight: 600; text-wrap: balance; }
+.card .n { color: var(--muted); font-size: 13px; }
+.card .c { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.badge { position: absolute; top: 8px; right: 8px; background: var(--note); color: #fff; font-size: 12px; border-radius: 999px; padding: 1px 8px; }
+.detail[hidden] { display: none; }
+.dhead { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 10px 20px; margin-bottom: 12px; }
+.dhead .eyebrow { color: var(--accent); font-size: 13px; letter-spacing: .08em; }
+.dhead h2 { font-family: var(--display); font-size: 28px; margin: 2px 0 0; text-wrap: balance; }
+.dhead .sub { color: var(--muted); font-size: 14px; }
+.nav2 { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 6px 12px; font: inherit; font-size: 14px; cursor: pointer; text-decoration: none; }
+.btn:hover, .btn:focus-visible { border-color: var(--accent); outline: none; }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.danger { color: var(--note); border-color: var(--note); }
+.bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0 12px; }
+.tg { border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 4px 12px; font: inherit; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.tg i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.tg[aria-pressed="true"] { color: var(--ink); border-color: var(--ink); }
+.tg:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.sep { width: 1px; height: 22px; background: var(--line); margin: 0 4px; }
+.panel { display: none; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 12px; margin-bottom: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.panel.on { display: flex; }
+.tools { border-style: dashed; border-color: var(--accent); }
+.tools .tool { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 8px; padding: 5px 12px; font: inherit; font-size: 14px; cursor: pointer; }
+.tools .tool[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.hint { color: var(--muted); font-size: 13px; flex-basis: 100%; }
+.inp { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 8px; padding: 6px 10px; font: inherit; font-size: 14px; min-width: 0; }
+textarea.inp { flex: 1 1 260px; min-height: 38px; resize: vertical; }
+select.inp { max-width: 100%; }
+.quick { display: flex; flex-wrap: wrap; gap: 6px; }
+.quick button { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 999px; padding: 2px 10px; font: inherit; font-size: 13px; cursor: pointer; }
+.quick button[aria-pressed="true"] { border-color: var(--note); color: var(--note); }
+.pal { display: flex; flex-wrap: wrap; gap: 6px; }
+.pal button { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 999px; padding: 2px 10px 2px 4px; font: inherit; font-size: 13px; cursor: pointer; }
+.pal button i { width: 16px; height: 16px; border-radius: 50%; display: inline-block; border: 1px solid rgba(0,0,0,.25); }
+.pal button[aria-pressed="true"] { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+.grp { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.lbl { color: var(--muted); font-size: 13px; }
+input[type="color"] { width: 34px; height: 30px; padding: 0; border: 1px solid var(--line); border-radius: 6px; background: none; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 13px; color: var(--muted); flex-basis: 100%; }
+.legend i { width: 12px; height: 12px; display: inline-block; border-radius: 3px; margin-right: 4px; vertical-align: -1px; }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 22px; align-items: start; }
+.stage { position: relative; border-radius: 8px; overflow: hidden; background: #0e1211; line-height: 0; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.stage img { width: 100%; height: auto; display: block; }
+.stage canvas { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
+.editing .stage { outline: 2px dashed var(--accent); outline-offset: 3px; touch-action: none; }
+.editing.t-wall .stage, .editing.t-exit .stage, .editing.t-note .stage, .editing.t-sketch .stage { cursor: crosshair; }
+.editing.t-move .stage { cursor: grab; }
+.t-sketch .stage { aspect-ratio: var(--sk-ar); }
+.t-sketch .stage img, .t-sketch .stage #ocv { position: absolute; left: 0; top: 0; width: var(--sk-w); height: var(--sk-h); opacity: var(--sk-op); }
+.lab { position: absolute; transform: translate(-50%, -100%); white-space: nowrap; font-size: 11px; line-height: 1.3; padding: 1px 6px; border-radius: 4px;
+  background: var(--chip-bg); color: var(--chip-ink); pointer-events: auto; cursor: default; border-left: 3px solid var(--char); z-index: 2; }
+.lab.m { border-left-color: var(--mark); transform: translate(-50%, -50%); }
+.lab.x { border-left-color: var(--exit); transform: translate(-50%, -50%); }
+.lab.pin { border-left-color: var(--note); transform: translate(-50%, -50%); }
+.lab.newx { border-left-color: var(--exit); border-style: dashed; transform: translate(-50%, -50%); }
+.lab.oflag { border-left-color: var(--note); transform: translate(-50%, -100%); }
+.lab.moved { outline: 1px dashed var(--chip-ink); }
+.lab.done { opacity: .55; }
+.lab.hot { outline: 2px solid #fff; z-index: 3; }
+.editing.t-move .lab.c, .editing.t-move .lab.m, .editing.t-move .lab.x { cursor: grab; }
+.editing:not(.t-move) .lab { pointer-events: none; }
+.t-sketch .stage .lab, .t-sketch .stage .ghost { display: none; }
+.ghost { position: absolute; border: 2px dashed var(--chip-ink); border-radius: 3px; pointer-events: none; z-index: 1; }
+.cellbox { position: absolute; border: 2px solid #fff; box-shadow: 0 0 0 2px rgba(0,0,0,.5); pointer-events: none; z-index: 4; display: none; }
+.stage.no-c .lab.c, .stage.no-m .lab.m, .stage.no-x .lab.x { display: none; }
+.lists { display: grid; gap: 18px; min-width: 0; }
+.lists section h3 { font-size: 15px; margin: 0 0 6px; display: flex; gap: 8px; align-items: baseline; }
+.lists section h3 small { color: var(--muted); font-weight: 400; }
+.lists ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.lists li { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; font-size: 13px; min-width: 0; }
+.lists li:hover { border-color: var(--accent); }
+.lists .row { display: flex; gap: 8px; align-items: center; justify-content: space-between; }
+.lists .nm { font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+.lists .xy { font-family: var(--mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.lists .w { color: var(--muted); font-size: 12px; margin-top: 2px; overflow-wrap: anywhere; }
+.st { font-size: 12px; border-radius: 999px; padding: 0 8px; white-space: nowrap; }
+.st.open { color: var(--warn); border: 1px solid var(--warn); }
+.st.done { color: var(--ok); border: 1px solid var(--ok); }
+.del { border: none; background: none; color: var(--muted); cursor: pointer; font: inherit; font-size: 13px; padding: 0 4px; white-space: nowrap; }
+.del:hover, .del:focus-visible { color: var(--note); outline: none; text-decoration: underline; }
+.spr { width: 34px; height: 40px; flex: none; background-repeat: no-repeat; }
+.lists a { color: var(--exit); }
+.empty { color: var(--muted); font-size: 13px; margin: 0; }
+.status { color: var(--muted); }
+.toast { position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 18px); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 16px; border-radius: 8px; font-size: 14px; z-index: 20; display: none; }
+@media (max-width: 1100px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 760px) {
+  .wrap { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  nav.idx { position: static; max-height: none; }
+  nav.idx .chs { display: flex; flex-wrap: wrap; gap: 4px; }
+  .cards { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+}
+@media (prefers-reduced-motion: no-preference) { .card, .btn, .tg { transition: border-color .15s; } }
+/* 存檔版 */
+.arcwrap { max-width: 1500px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-top: 22px; }
+.arc { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 10px; padding: 14px 16px; display: grid; gap: 8px; }
+.arc .tag { font-size: 12px; color: var(--muted); letter-spacing: .08em; }
+.arc p { margin: 0; max-width: 76ch; }
+.arc nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; }
+.arc a { color: var(--accent); }
+.lists li.hot { border-color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="arcwrap">
+  <section class="arc" aria-label="存檔說明">
+    <span class="tag">確認頁存檔</span>
+    <p>這一頁是 2026-10-20 晚上的地圖總覽：當時《續》的 111 張地圖卡，每張點開看得到地面、疊上去的物件、站在哪裡的角色、互動點和出口。我要的是不用進遊戲，就看得到每張地圖上有哪些物件和角色；後來又加了編輯工具，讓我直接在圖上拖人、標物件重產、畫牆、插問題釘，存進頁面資料庫。資料庫裡沒有存到修改，接著我決定地圖整個重做，從<a href="../places/index.html">地點表</a>排起。存檔版拿掉了編輯工具，物件直接畫在地圖圖片上，圖也縮到原本的一半左右。</p>
+    <nav><a href="../../confirm.html">回確認頁一覽</a><a href="../../city.html">建城工法：拼出來的城</a></nav>
+  </section>
+</div>
+<div class="wrap">
+  <nav class="idx" aria-label="章節">
+    <h1>續 地圖總覽</h1>
+    <p id="sum">讀取中</p>
+    <label for="q" hidden>找地圖</label>
+    <input id="q" class="search" type="search" placeholder="找地圖：名字或卡片 id">
+    <div class="chs" id="chs"></div>
+  </nav>
+  <main>
+    <div id="grid"><p class="status">讀取地圖資料中</p></div>
+    <article class="detail" id="detail" hidden>
+      <div class="dhead">
+        <div>
+          <div class="eyebrow" id="d-ch"></div>
+          <h2 id="d-title"></h2>
+          <div class="sub" id="d-sub"></div>
+        </div>
+        <div class="nav2">
+          <a class="btn" href="#" id="d-back">回總覽</a>
+          <a class="btn" id="d-prev">上一張</a>
+          <a class="btn" id="d-next">下一張</a>
+        </div>
+      </div>
+      <div class="bar" role="group" aria-label="圖上顯示">
+        <button class="tg" id="tg-c" aria-pressed="true"><i style="background:var(--char)"></i>角色</button>
+        <button class="tg" id="tg-m" aria-pressed="true"><i style="background:var(--mark)"></i>互動點</button>
+        <button class="tg" id="tg-x" aria-pressed="true"><i style="background:var(--exit)"></i>出口</button>
+        <button class="tg" id="tg-w" aria-pressed="false"><i style="background:var(--wall)"></i>不能走的格子</button>
+        <span class="sep"></span>
+        <span class="status">存檔版：物件已經畫在地圖圖片上</span>
+      </div>
+      <div class="grid2">
+        <div class="stage" id="stage"><img id="d-img" alt="" draggable="false"><canvas id="cv"></canvas></div>
+        <div class="lists" id="lists"></div>
+      </div>
+    </article>
+  </main>
+</div>
+<script src="data.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+// 存檔版：唯讀。地圖資料在 data.js（物件已畫進 maps/*.webp），角色圖在 sprites.webp
+const D = window.ATLAS_DATA, byId = {};
+const S = D ? D.S : 24;              // 畫布一格 24 px，跟原本一樣；地圖圖片縮小過，用 CSS 鋪滿
+let sprites = new Image(), cur = null, hlObj = -1;
+const show = { c: true, m: true, x: true, w: false };
+const ORDER = ['第零幕', '第一章', '第二章', '第三章', '第四章', '第五章', '第六章', '第七章', '第八章', '第九章', '其他'];
+const KIND = { talk: '說話', quest: '任務', exit: '出口', item: '物品' };
+const whenTxt = w => (w && w.length ? w.join('；') : '一直都在');
+const pct = (v, n) => (100 * v / n).toFixed(3) + '%';
+
+function chapters(list) {
+  const g = {};
+  list.forEach(m => (g[m.chapter] = g[m.chapter] || []).push(m));
+  return ORDER.filter(k => g[k]).map(k => [k, g[k]]);
+}
+
+function renderGrid() {
+  const q = $('#q').value.trim().toLowerCase();
+  const list = D.maps.filter(m => !q || (m.title + m.name + m.id).toLowerCase().includes(q));
+  $('#grid').innerHTML = chapters(list).map(([ch, ms]) => `<section class="chap" id="ch-${esc(ch)}"><h2>${esc(ch)}<small>${ms.length} 張</small></h2><div class="cards">` +
+    ms.map(m => `<a class="card" href="#${m.id}"><div class="th"><img loading="lazy" src="${m.img}" alt="${esc(m.name)}"></div>
+      <div class="meta"><span class="t">${esc(m.title.replace(/^第.章　|^第零幕　/, '') || m.name)}</span><span class="n">${esc(m.name)}</span>
+      <span class="c">${m.w}×${m.h} 格 · 角色 ${m.chars.filter(c => !c.player).length} · 物件 ${m.objs.length} · 出口 ${m.exits.length}</span></div></a>`).join('') + '</div></section>').join('') || '<p class="empty">沒有符合的地圖。</p>';
+  $('#chs').innerHTML = chapters(list).map(([ch, ms]) => `<a href="#ch-${esc(ch)}" data-ch="${esc(ch)}">${esc(ch)}<span>${ms.length}</span></a>`).join('');
+}
+
+// ── 這張地圖上的角色、互動點、出口 ──
+function items(m) {
+  const out = [];
+  m.chars.forEach(c => out.push({ key: 'c:' + c.id, t: 'c', id: c.id, name: c.name, x: c.x, y: c.y, ref: c }));
+  m.marks.forEach(k => out.push({ key: `m:${k.id}:${k.label}`, t: 'm', id: k.id, name: k.label, x: k.x, y: k.y, ref: k }));
+  m.exits.forEach(e => out.push({ key: `x:${e.id}:${e.to}`, t: 'x', id: e.id, name: '→ ' + e.toName, x: e.x, y: e.y, ref: e }));
+  return out;
+}
+// 不能走的格子：每列一串十六進位，一個字＝四格
+function wallSet(m) {
+  const s = new Set();
+  m.walls.forEach((row, y) => { for (let i = 0; i < row.length; i++) { const v = parseInt(row[i], 16); for (let b = 0; b < 4; b++) { const x = i * 4 + b; if (x < m.w && (v >> (3 - b)) & 1) s.add(x + ',' + y); } } });
+  return s;
+}
+
+function drawCanvas(m) {
+  const cv = $('#cv'), W = m.w * S, H = m.h * S;
+  cv.width = W; cv.height = H;
+  const g = cv.getContext('2d'); g.clearRect(0, 0, W, H);
+  const css = getComputedStyle(document.documentElement);
+  if (show.w) {
+    g.fillStyle = css.getPropertyValue('--wall');
+    m._ws.forEach(k => { const [x, y] = k.split(',').map(Number); g.fillRect(x * S, y * S, S, S); });
+  }
+  if (show.c && sprites.complete && sprites.naturalWidth) for (const it of items(m)) if (it.t === 'c') {
+    const [sx, sy, sw, sh] = it.ref.looks[0].slot;
+    g.drawImage(sprites, sx, sy, sw, sh, (it.x + 0.5) * S - sw / 2, (it.y + 1) * S - sh, sw, sh);
+  }
+  const o = m.objs[hlObj];
+  if (o) { g.strokeStyle = '#ffd34d'; g.lineWidth = 3; g.strokeRect(o.x * S + 1.5, o.y * S + 1.5, o.w * S - 3, o.h * S - 3); }
+}
+
+function renderStage(m) {
+  const st = $('#stage');
+  st.querySelectorAll('.lab').forEach(e => e.remove());
+  const labs = [];
+  for (const it of items(m)) {
+    const top = it.t === 'c' ? it.y + 1 - it.ref.looks[0].slot[3] / S : it.y + 0.5;
+    const tip = it.t === 'c' ? `${it.name}（${it.x},${it.y}）` : `${it.name}（${it.x},${it.y}）${whenTxt(it.ref.when)}`;
+    labs.push(`<span class="lab ${it.t}" data-k="${esc(it.key)}" style="left:${pct(it.x + 0.5, m.w)};top:${pct(top, m.h)}" title="${esc(tip)}">${esc(it.name)}</span>`);
+  }
+  st.insertAdjacentHTML('beforeend', labs.join(''));
+  st.classList.toggle('no-c', !show.c); st.classList.toggle('no-m', !show.m); st.classList.toggle('no-x', !show.x);
+  drawCanvas(m);
+}
+
+function renderLists(m) {
+  const its = items(m);
+  const sprStyle = sl => { const atlasW = sprites.naturalWidth || 2048, k = Math.min(34 / sl[2], 40 / sl[3]); return `background-image:url(sprites.webp);background-size:${atlasW * k}px auto;background-position:${-sl[0] * k + (34 - sl[2] * k) / 2}px ${-sl[1] * k + (40 - sl[3] * k)}px`; };
+  const sec = (title, n, body) => `<section><h3>${title}<small>${n}</small></h3>${n ? '<ul>' + body + '</ul>' : '<p class="empty">沒有。</p>'}</section>`;
+  const byT = t => its.filter(i => i.t === t);
+  const chars = byT('c').map(it => `<li data-k="${esc(it.key)}"><div class="row"><div class="spr" style="${sprStyle(it.ref.looks[0].slot)}"></div><span class="nm" style="flex:1">${esc(it.name)}</span><span class="xy">${it.x},${it.y}</span></div>` +
+    it.ref.looks.map(l => `<div class="w">${esc(whenTxt(l.when))}</div>`).join('') + '</li>').join('');
+  const marks = byT('m').map(it => `<li data-k="${esc(it.key)}"><div class="row"><span class="nm">${esc(it.name)}</span><span class="xy">${KIND[it.ref.kind] || esc(it.ref.kind)} · ${it.x},${it.y}</span></div><div class="w">${esc(whenTxt(it.ref.when))}</div></li>`).join('');
+  const exits = byT('x').map(it => `<li data-k="${esc(it.key)}"><div class="row"><a href="#${it.ref.to}">→ ${esc(it.ref.toName)}</a><span class="xy">${it.x},${it.y}${it.ref.cells > 1 ? ' 等 ' + it.ref.cells + ' 格' : ''}</span></div><div class="w">${esc(whenTxt(it.ref.when))}</div></li>`).join('');
+  const objs = m.objs.map((o, i) => `<li data-o="${i}"><div class="row"><span class="nm">${esc(o.name)}</span><span class="xy">${+o.x.toFixed(2)},${+o.y.toFixed(2)} · ${+o.w.toFixed(2)}×${+o.h.toFixed(2)}</span></div>${o.when.length ? `<div class="w">${esc(whenTxt(o.when))}</div>` : ''}</li>`).join('');
+  $('#lists').innerHTML = sec('角色', byT('c').length, chars) + sec('互動點', byT('m').length, marks) + sec('出口', byT('x').length, exits) + sec('物件', m.objs.length, objs);
+  const st = $('#stage');
+  $('#lists').querySelectorAll('li[data-k]').forEach(li => {
+    const lab = [...st.querySelectorAll('.lab[data-k]')].find(l => l.dataset.k === li.dataset.k);
+    li.addEventListener('mouseenter', () => lab && lab.classList.add('hot'));
+    li.addEventListener('mouseleave', () => lab && lab.classList.remove('hot'));
+  });
+  $('#lists').querySelectorAll('li[data-o]').forEach(li => {
+    li.addEventListener('mouseenter', () => { hlObj = Number(li.dataset.o); drawCanvas(m); });
+    li.addEventListener('mouseleave', () => { hlObj = -1; drawCanvas(m); });
+    li.addEventListener('click', () => { hlObj = hlObj === Number(li.dataset.o) ? -1 : Number(li.dataset.o); drawCanvas(m); });
+  });
+}
+
+function renderDetail(id) {
+  const m = byId[id]; if (!m) return;
+  if (cur !== m) hlObj = -1;
+  cur = m; m._ws = m._ws || wallSet(m);
+  $('#grid').hidden = true; $('#detail').hidden = false;
+  const sib = D.maps.filter(x => x.chapter === m.chapter), i = sib.indexOf(m);
+  $('#d-ch').textContent = `${m.chapter} · 第 ${i + 1} 張，共 ${sib.length} 張`;
+  $('#d-title').textContent = m.title || m.name;
+  const env = [m.weather && m.weather !== 'clear' ? ({ snow: '下雪', rain: '下雨', fog: '起霧' }[m.weather] || m.weather) : '', m.darkness >= 0.4 ? '夜裡' : ''].filter(Boolean).join('、');
+  $('#d-sub').textContent = `${m.name} · 卡片 ${m.id} · ${m.w}×${m.h} 格${env ? ' · ' + env : ''}`;
+  const prev = sib[i - 1], next = sib[i + 1];
+  $('#d-prev').href = prev ? '#' + prev.id : '#'; $('#d-prev').hidden = !prev;
+  $('#d-next').href = next ? '#' + next.id : '#'; $('#d-next').hidden = !next;
+  const img = $('#d-img');
+  if (img.dataset.id !== m.id) { img.width = m.w * 10; img.height = m.h * 10; img.src = m.img; img.alt = m.name; img.dataset.id = m.id; }
+  applyShow(); renderStage(m); renderLists(m);
+  document.querySelectorAll('nav.idx a').forEach(a => a.classList.toggle('on', a.dataset.ch === m.chapter));
+}
+
+function applyShow() { for (const k of 'cmxw') $('#tg-' + k).setAttribute('aria-pressed', String(show[k])); }
+
+function route() {
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (h && byId[h]) { renderDetail(h); window.scrollTo(0, 0); return; }
+  cur = null; $('#detail').hidden = true; $('#grid').hidden = false; renderGrid();
+  if (h.startsWith('ch-')) { const el = document.getElementById(h); if (el) el.scrollIntoView(); }
+}
+
+for (const k of 'cmxw') $('#tg-' + k).addEventListener('click', () => { show[k] = !show[k]; try { localStorage.setItem('atlas-show', JSON.stringify(show)); } catch (e) {} applyShow(); if (cur) renderStage(cur); });
+$('#q').addEventListener('input', () => { if (cur) location.hash = ''; else renderGrid(); });
+window.addEventListener('hashchange', route);
+try { const v = JSON.parse(localStorage.getItem('atlas-show') || '{}'); for (const k of 'cmxw') if (typeof v[k] === 'boolean') show[k] = v[k]; } catch (e) {}
+
+if (!D) { $('#grid').innerHTML = '<p class="empty">地圖資料讀不到（data.js）。重新整理一次。</p>'; }
+else {
+  D.maps.forEach(m => byId[m.id] = m);
+  const n = D.maps.length, c = D.maps.reduce((a, m) => a + m.chars.filter(x => !x.player).length, 0), o = D.maps.reduce((a, m) => a + m.objs.length, 0);
+  $('#sum').textContent = `${n} 張地圖 · ${c} 個角色位置 · ${o} 個物件`;
+  sprites.onload = () => { if (cur) { renderStage(cur); renderLists(cur); } };
+  sprites.src = 'sprites.webp';
+  route();
+}
+</script>
+</body>
+</html>

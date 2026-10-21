@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>城邊積木（確認頁存檔）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&display=swap">
+<style>
+/* 版面：左邊是一整塊 64×64 格的地圖（上下左右多留幾格灰色，是地圖外、遊戲裡看不到的地方），右邊是積木盒與說明；手機上下排 */
+:root {
+  --bg: #e9ebe6; --surface: #f7f8f5; --ink: #1f2522; --muted: #5f6763; --line: #d0d6cf;
+  --tile: #3d566a; --earth: #a8692b; --out: rgba(40, 44, 48, .55); --sel: #e0a030;
+  --display: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  --body: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #141917; --surface: #1b211f; --ink: #e2e7e2; --muted: #9ca59f; --line: #2f3734; --tile: #8fb0c6; --earth: #d9a25e; --out: rgba(0, 0, 0, .6); color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #141917; --surface: #1b211f; --ink: #e2e7e2; --muted: #9ca59f; --line: #2f3734; --tile: #8fb0c6; --earth: #d9a25e; --out: rgba(0, 0, 0, .6); color-scheme: dark; }
+* { box-sizing: border-box; }
+img { max-width: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.6; margin: 0; }
+.wrap { max-width: 1400px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 60px; display: grid; gap: 14px; }
+h1 { font-family: var(--display); font-size: 28px; margin: 0; letter-spacing: .05em; }
+.lead { color: var(--muted); margin: 4px 0 0; max-width: 80ch; }
+.main { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 16px; align-items: start; }
+@media (max-width: 900px) { .main { grid-template-columns: minmax(0, 1fr); } }
+.bar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 5px 11px; font: inherit; font-size: 14px; cursor: pointer; }
+.btn:hover, .btn:focus-visible { border-color: var(--tile); outline: none; }
+.btn[aria-pressed="true"] { background: var(--tile); color: var(--surface); border-color: var(--tile); }
+.btn.warn { color: #b23a2a; }
+.btn:disabled { cursor: not-allowed; opacity: .45; }
+.status { color: var(--muted); font-size: 13px; font-family: var(--mono); }
+.stage { overflow: auto; border: 1px solid var(--line); border-radius: 8px; background: #2b2f2c; }
+.board { position: relative; transform-origin: 0 0; }
+.board .bg { position: absolute; image-rendering: auto; pointer-events: none; max-width: none; }
+.board .outside { position: absolute; background: var(--out); pointer-events: none; }
+.board .grid { position: absolute; pointer-events: none; opacity: .35; }
+.pc { position: absolute; background-repeat: no-repeat; cursor: pointer; outline: 1px dashed transparent; }
+.pc:hover { outline-color: rgba(255, 255, 255, .5); }
+.pc.sel { outline: 2px solid var(--sel); z-index: 9999 !important; }
+.side { display: grid; gap: 12px; }
+.box { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; display: grid; gap: 8px; min-width: 0; }
+.box h2 { font-family: var(--display); font-size: 17px; margin: 0; }
+.palette { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.palette button { display: grid; gap: 2px; justify-items: center; border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 8px; padding: 6px 4px; font: inherit; font-size: 12px; cursor: not-allowed; }
+.palette img { max-width: 100%; height: 44px; object-fit: contain; }
+.sel-info { font-family: var(--mono); font-size: 13px; color: var(--muted); min-height: 1.5em; }
+.saved-note { border: 1px solid var(--line); background: var(--bg); color: var(--muted); border-radius: 8px; padding: 6px 10px; font-size: 14px; min-height: 2.4em; white-space: pre-wrap; }
+ul.help { margin: 0; padding-left: 1.2em; font-size: 13px; color: var(--muted); }
+/* 存檔說明與當時的選擇 */
+.archive { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--earth); border-radius: 10px; padding: 12px 14px; display: grid; gap: 8px; }
+.archive p { margin: 0; max-width: 78ch; }
+.archive .kicker { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: .04em; }
+.archive .links { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 14px; }
+.archive .how { color: var(--muted); font-size: 13px; }
+a { color: var(--tile); }
+code { font-family: var(--mono); font-size: .9em; overflow-wrap: anywhere; }
+.picked { border: 1px dashed var(--earth); }
+.picked dl { margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 10px; font-size: 13px; }
+.picked dt { font-family: var(--mono); color: var(--muted); }
+.picked dd { margin: 0; }
+.said { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; font-size: 14px; }
+.said .t { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-right: 6px; }
+.timeline { background: var(--surface); border: 1px dashed var(--earth); border-radius: 10px; padding: 10px 14px; display: grid; gap: 8px; }
+.timeline h2 { font-family: var(--display); font-size: 17px; margin: 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside class="archive" aria-label="存檔說明">
+    <p class="kicker">確認頁存檔．原頁面 2026-10-21</p>
+    <p>2026-10-21 上午，我問 AI「你要不要製作一個簡單積木塊，我來排排看城內的上下左右應該長怎樣？？」，又提議比照院牆，把城牆連四座城門、四個角樓產成一整圈；城門和角樓我自己修好，牆段從另外產的長段挑一截，做成這一頁的積木。我在這裡把城內六塊的城牆、城門、角樓排好，11:04 到 11:07 存進頁面資料庫，六塊都沒有留話。一開始拖不動：頁面讀回資料庫的資料是唯讀的，我點了二十幾次都存回原樣，AI 改成先複製一份再用才修好。AI 把我排的存成 <code>xu/game/art/wuyuan/cityring_layout.json</code>，遊戲裡的城牆照這份畫，城外六塊從城內平移過去（git 提交 9cdc0899）。</p>
+    <p class="links"><a href="../../confirm.html">回確認頁一覽</a><span>相關的章：<a href="../../city.html">建城工法：拼出來的城</a></span></p>
+    <p class="how">存檔版只能看：可以換塊、放大縮小、開關格線、點積木看位置；拖曳、新增、存檔都停用了，畫面上擺的是我存下的擺法。原頁面的文字是 AI 寫給我的，裡面的「你」是我。</p>
+  </aside>
+  <header>
+    <h1>城邊積木</h1>
+    <p class="lead">城內六塊，每塊一張 64×64 格的地圖。城樓是你修好的那八塊、牆段從長段挑的（2026-10-21）。一開始擺的是現在的樣子；灰色是地圖外，遊戲裡看不到，放進灰色的部分會被切掉。拖積木移動，選起來以後拉右下角的黃點改長短（城牆）或大小（其他），擺好會自動存。想說的寫在右邊。</p>
+  </header>
+  <div class="bar" role="group" aria-label="選哪一塊">
+    <span class="status">塊：</span>
+    <button class="btn" data-b="A1">A1 西北</button><button class="btn" data-b="A2">A2 北門</button><button class="btn" data-b="A3">A3 東北</button>
+    <button class="btn" data-b="B1">B1 西南</button><button class="btn" data-b="B2">B2 南門</button><button class="btn" data-b="B3">B3 東南</button>
+    <span class="status" id="save">　</span>
+  </div>
+  <div class="main">
+    <div>
+      <div class="bar" style="margin-bottom:6px">
+        <button class="btn" id="zin">放大</button><button class="btn" id="zout">縮小</button><button class="btn" id="zfit">整塊</button>
+        <button class="btn" id="g" aria-pressed="true">格線</button>
+        <button class="btn" disabled title="存檔版停用">複製</button><button class="btn" disabled title="存檔版停用">移到前面</button><button class="btn" disabled title="存檔版停用">移到後面</button>
+        <button class="btn warn" disabled title="存檔版停用">刪掉</button><button class="btn" disabled title="存檔版停用">回到現在的樣子</button>
+      </div>
+      <div class="stage" id="stage"><div class="board" id="board"></div></div>
+      <p class="sel-info" id="info">沒有選積木</p>
+    </div>
+    <div class="side">
+      <div class="box picked"><h2>我存下的擺法</h2>
+        <dl id="times"></dl>
+      </div>
+      <div class="box"><h2>想說的</h2><span class="status">這一塊（例如：北牆往下幾格、角樓要怎樣）</span><div class="saved-note" id="note"></div></div>
+      <div class="box"><h2>積木盒</h2><p class="status" style="margin:0">按一下放到畫面中間（存檔版停用）</p><div class="palette" id="pal"></div></div>
+      <div class="box"><h2>怎麼用</h2><ul class="help">
+        <li>城牆是可以拉長的一條（照直段重複），選起來以後左上、右下兩個黃點都能拉；城門、角樓是一張圖，右下黃點改大小。</li>
+        <li>方向鍵每次移一格，按住 Shift 移半格；Delete 刪掉。</li>
+        <li>擺法存在這一頁的資料庫，我讀得到；換一塊不會丟。</li>
+        <li>人和三開間是拿來比大小的。</li>
+      </ul></div>
+    </div>
+  </div>
+  <section class="timeline" aria-labelledby="h-tl">
+    <h2 id="h-tl">那天上午這一頁怎麼改到最後</h2>
+    <p class="status" style="margin:0">引號裡是我在對話裡打的字（只補了標點、改了錯字），沒有引號的是我做的事；冒號後面是 AI 照著改的。時間是 git 提交的時間。</p>
+    <ul class="said">
+      <li><span class="t">09:22</span>「你要不要製作一個簡單積木塊，我來排排看城內的上下左右應該長怎樣？？」「是不是城門和城牆也應該比照屋外牆一樣，直接請繪圖產一整圈？然後你再切出來？？」，下面還打了「角 牆 北門 牆 角」這樣一圈的排法：城牆連四個角樓、四座城門一起產一整圈再切，做了這一頁（e415bd56）。</li>
+      <li><span class="t">09:43</span>「西牆你好像重疊畫的時候不正確？？邊緣有被切」「黑色瓦的部份，被另一個不乾淨的牆的黃疊到了」「另外這個北城門開的地方，應該要是透明的吧？這樣才看得到下面的地板，人走過才能行」：積木照這幾點修（21f47934）。</li>
+      <li><span class="t">10:04</span>「我幫你修圖，修 4 個門和 4 角樓」：我在那一圈裡把城門、角樓以外的牆都去背掉，城樓留在原位；積木換上我修好的八塊，牆改成整條連續鋪（6da5d7c2）。</li>
+      <li><span class="t">10:05</span>「你現在城門打開變成看到城牆？你沒有分成左邊右邊嗎？」：北牆、南牆在城門那裡分成左右兩段（72b5f4b6）。</li>
+      <li><span class="t">10:15</span>「我沒辦法移動那？？西北牆也突到左上角了」，我也說東北、西南、東南的牆一樣凸出去：橫牆改從西牆外緣畫到東牆外緣，城牆兩頭都能拉（ac595fc8）。</li>
+      <li><span class="t">10:37</span>我又回報牆還是拉不動：AI 寫的頁面直接改資料庫讀回來的唯讀資料，改成先複製一份。「西北城牆要從 5 開始，不能從 2 開始，從 2 開始疊到西城牆上了，要向右縮起始點」：橫牆改從西牆正中鋪到東牆正中（d9a5128c）。</li>
+      <li><span class="t">11:07</span>「好了，我 6 張地圖都調整過了」：六塊的擺法在 11:04 到 11:07 存進頁面資料庫。</li>
+      <li><span class="t">11:36</span>遊戲裡的城牆照我排的畫，南牆照我拉到第 55 列。我要 AI 看城外那幾塊的城門、角樓有沒有跟城內一一對應，AI 查出城北城外兩個角樓原本放反，城外六塊改成從城內平移（9cdc0899）。</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+const DATA = {"pieces":{"tl":{"name":"西北角樓","kind":"sprite","w":8.66,"h":10.46},"tr":{"name":"東北角樓","kind":"sprite","w":8.7,"h":10.5},"bl":{"name":"西南角樓","kind":"sprite","w":8.82,"h":11.34},"br":{"name":"東南角樓","kind":"sprite","w":8.7,"h":11.3},"gate-n":{"name":"北門","kind":"sprite","w":11.93,"h":10.42},"gate-s":{"name":"南門","kind":"sprite","w":12.14,"h":11.3},"gate-w":{"name":"西門","kind":"sprite","w":8.24,"h":10.38},"gate-e":{"name":"東門","kind":"sprite","w":8.19,"h":10.34},"wall-n":{"name":"北牆","kind":"run-h","w":7.15,"h":7.17,"tile":7.15},"wall-s":{"name":"南牆","kind":"run-h","w":7.9,"h":7.79,"tile":7.9},"wall-w":{"name":"西牆","kind":"run-v","w":6.0,"h":8.44,"tile":8.44},"wall-e":{"name":"東牆","kind":"run-v","w":6.0,"h":8.4,"tile":8.4},"house3-1":{"name":"三開間（比大小）","kind":"sprite","w":18,"h":13.15},"person":{"name":"人（比大小）","kind":"sprite","w":3.5,"h":4.67}},"layouts":{"A1":{"items":[{"h":61,"id":"A1-0","type":"wall-w","w":6,"x":2,"y":3},{"h":7.16,"id":"A1-1","type":"wall-n","w":55,"x":9,"y":3},{"h":10.46,"id":"A1-2","type":"tl","w":8.66,"x":1.2,"y":0.35},{"h":10.38,"id":"A1-3","type":"gate-w","w":8.24,"x":1.03,"y":48.81}],"note":"","time":"2026-10-21 11:04"},"A2":{"items":[{"h":7.16,"id":"A2-0","type":"wall-n","w":27,"x":0,"y":3},{"h":7.16,"id":"A2-1","type":"wall-n","w":27,"x":37,"y":3},{"h":10.42,"id":"A2-2","type":"gate-n","w":11.93,"x":26.04,"y":0.35}],"note":"","time":"2026-10-21 11:04"},"A3":{"items":[{"h":61,"id":"A3-0","type":"wall-e","w":6,"x":56,"y":3},{"h":7.16,"id":"A3-1","type":"wall-n","w":55,"x":0,"y":3},{"h":10.5,"id":"A3-2","type":"tr","w":8.7,"x":54.22,"y":0.35},{"h":10.34,"id":"A3-3","type":"gate-e","w":8.19,"x":54.73,"y":48.83}],"note":"","time":"2026-10-21 11:04"},"B1":{"items":[{"h":56,"id":"B1-0","type":"wall-w","w":6,"x":2,"y":0},{"h":7.79,"id":"B1-1","type":"wall-s","w":59,"x":5,"y":55},{"h":11.34,"id":"B1-2","type":"bl","w":8.82,"x":0.95,"y":52.44}],"note":"","time":"2026-10-21 11:07"},"B2":{"items":[{"h":7.79,"id":"B2-0","type":"wall-s","w":27,"x":0,"y":55},{"h":7.79,"id":"B2-1","type":"wall-s","w":27,"x":37,"y":55},{"h":11.3,"id":"B2-2","type":"gate-s","w":12.14,"x":25.93,"y":52.89}],"note":"","time":"2026-10-21 11:06"},"B3":{"items":[{"h":57,"id":"B3-0","type":"wall-e","w":6,"x":56,"y":0},{"h":7.79,"id":"B3-1","type":"wall-s","w":59,"x":0,"y":55},{"h":11.3,"id":"B3-2","type":"br","w":8.7,"x":54.35,"y":52.48}],"note":"","time":"2026-10-21 11:06"}}};
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const N = 64, PAD = { t: 14, b: 4, l: 4, r: 4 };   // 地圖外多畫幾格（上面多，城門樓的屋頂會超出去）
+const pieces = DATA.pieces, saved = DATA.layouts;
+let cur = 'A2', sel = null, cell = 12, showGrid = true;
+
+function items() { return (saved[cur] && saved[cur].items) || []; }
+function render() {
+  const b = $('#board'); const W = (N + PAD.l + PAD.r) * cell, H = (N + PAD.t + PAD.b) * cell;
+  b.style.width = W + 'px'; b.style.height = H + 'px';
+  const ox = PAD.l * cell, oy = PAD.t * cell;
+  let html = `<img class="bg" src="bg/${cur}.webp" alt="${cur} 的地面" style="left:${ox}px;top:${oy}px;width:${N * cell}px;height:${N * cell}px">`;
+  if (showGrid) html += `<svg class="grid" width="${W}" height="${H}" style="left:0;top:0">${gridLines(W, H)}</svg>`;
+  items().forEach((it, i) => {
+    const p = pieces[it.type]; if (!p) return;
+    const st = [`left:${ox + it.x * cell}px`, `top:${oy + it.y * cell}px`, `width:${it.w * cell}px`, `height:${it.h * cell}px`, `z-index:${it.z ?? i + 1}`, `background-image:url(pieces/${it.type}.webp)`];
+    if (p.kind === 'run-h') st.push(`background-size:${(p.tile || 1) * cell}px ${it.h * cell}px`, 'background-repeat:repeat-x');
+    else if (p.kind === 'run-v') st.push(`background-size:${it.w * cell}px ${(p.tile || 1) * cell}px`, 'background-repeat:repeat-y');
+    else st.push('background-size:100% 100%');
+    html += `<div class="pc${sel === it.id ? ' sel' : ''}" data-id="${esc(it.id)}" style="${st.join(';')}" title="${esc(p.name)}"></div>`;
+  });
+  // 地圖外塗灰（蓋在積木上，看得出哪裡會被切）
+  html += `<div class="outside" style="left:0;top:0;width:${W}px;height:${oy}px;z-index:10000"></div><div class="outside" style="left:0;top:${oy + N * cell}px;width:${W}px;height:${PAD.b * cell}px;z-index:10000"></div>`;
+  html += `<div class="outside" style="left:0;top:${oy}px;width:${ox}px;height:${N * cell}px;z-index:10000"></div><div class="outside" style="left:${ox + N * cell}px;top:${oy}px;width:${PAD.r * cell}px;height:${N * cell}px;z-index:10000"></div>`;
+  b.innerHTML = html;
+  document.querySelectorAll('[data-b]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.b === cur)));
+  info();
+  const s = saved[cur] || {};
+  $('#note').textContent = s.note || '（這一塊沒有留話）';
+  $('#save').textContent = s.time ? `我存檔：${s.time}` : '　';
+}
+function gridLines(W, H) {
+  let s = ''; const ox = PAD.l * cell, oy = PAD.t * cell;
+  for (let i = 0; i <= N; i += 2) { const c = i % 8 ? '#fff' : '#ffd36b', w = i % 8 ? .5 : 1; s += `<line x1="${ox + i * cell}" y1="0" x2="${ox + i * cell}" y2="${H}" stroke="${c}" stroke-width="${w}"/><line x1="0" y1="${oy + i * cell}" x2="${W}" y2="${oy + i * cell}" stroke="${c}" stroke-width="${w}"/>`; }
+  return s;
+}
+const fmt = v => (Math.round(v * 10) / 10).toString();
+function info() {
+  const it = items().find(x => x.id === sel);
+  $('#info').textContent = it ? `${pieces[it.type].name}　左上 (${fmt(it.x)}, ${fmt(it.y)})　寬 ${fmt(it.w)} 格　高 ${fmt(it.h)} 格　底在第 ${fmt(it.y + it.h)} 列` : '沒有選積木（點一塊積木看它的位置）';
+}
+$('#stage').addEventListener('click', e => { const pc = e.target.closest('.pc'); sel = pc ? pc.dataset.id : null; render(); });
+$('#zin').onclick = () => { cell = Math.min(32, cell + 2); render(); };
+$('#zout').onclick = () => { cell = Math.max(4, cell - 2); render(); };
+$('#zfit').onclick = () => { cell = Math.max(4, Math.floor($('#stage').clientWidth / (N + PAD.l + PAD.r))); render(); };
+$('#g').onclick = () => { showGrid = !showGrid; $('#g').setAttribute('aria-pressed', String(showGrid)); render(); };
+document.querySelectorAll('[data-b]').forEach(b => b.onclick = () => { cur = b.dataset.b; sel = null; render(); });
+$('#pal').innerHTML = Object.entries(pieces).map(([k, p]) => `<button disabled title="存檔版停用"><img src="pieces/${esc(k)}.webp" alt="">${esc(p.name)}</button>`).join('');
+$('#times').innerHTML = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3'].map(k => `<dt>${k}</dt><dd>${saved[k] && saved[k].time ? esc(saved[k].time) : '沒有存'}${saved[k] && saved[k].note ? '：' + esc(saved[k].note) : ''}</dd>`).join('');
+cell = Math.max(4, Math.min(14, Math.floor(($('#stage').clientWidth || 900) / (N + PAD.l + PAD.r))));
+render();
+</script>
+</body>
+</html>

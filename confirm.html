@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>給我按的確認頁 · 仙泉．香布纏．續 製作手記</title><meta name="description" content="做地圖和角色的時候，要我決定的事，AI 會做成一頁網頁（claude.ai 上的私人頁面）。我在頁面上直接按選項、寫意見，選擇存在頁面自己的資料庫，AI 下一輪讀回來照做。我習慣這樣回：要我拍板的就讓我直接按，只給我看需要我確認的圖，比在對話裡一句一句打字快，也不會漏掉。"><meta name="theme-color" content="#100c0a">
+<meta property="og:title" content="給我按的確認頁 · 仙泉．香布纏．續 製作手記"><meta property="og:description" content="做地圖和角色的時候，要我決定的事，AI 會做成一頁網頁（claude.ai 上的私人頁面）。我在頁面上直接按選項、寫意見，選擇存在頁面自己的資料庫，AI 下一輪讀回來照做。我習慣這樣回：要我拍板的就讓我直接按，只給我看需要我確認的圖，比在對話裡一句一句打字快，也不會漏掉。"><meta property="og:image" content="https://yazelin.github.io/larch-xu-canon/img/walkin-four.webp">
+<style>:root{color-scheme:dark;--bg:#100c0a;--card:rgba(20,14,11,.9);--line:rgba(226,184,102,.26);--gold:#e2b866;--gold2:#f0d08f;--red:#c8502e;--fg:#f1e8dd;--dim:#b7a693}
+*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.9 "Noto Serif TC","Noto Serif CJK TC","Songti TC",serif}
+a{color:var(--gold2)}
+.bg{position:fixed;inset:0;z-index:0;background:#000}.bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.9}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,6,5,.6),rgba(8,6,5,.15) 30%,rgba(8,6,5,.15) 70%,rgba(8,6,5,.6)),linear-gradient(180deg,rgba(8,6,5,.35),rgba(8,6,5,.05) 40%,rgba(8,6,5,.65))}
+main{position:relative;z-index:2;max-width:900px;margin:40vh auto 110px;padding:34px 34px 44px;background:var(--card);border:1px solid var(--line);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+h1{color:var(--gold2);font-size:clamp(28px,4.4vw,40px);letter-spacing:.06em;margin:0 0 18px;text-shadow:0 2px 12px #000}
+h1::after{content:"";display:block;width:72px;height:3px;background:var(--red);margin-top:10px}
+h2{color:var(--gold2);font-size:24px;margin-top:60px;padding-left:12px;border-left:3px solid var(--red)}h3{color:var(--fg);margin-top:36px}
+table{border-collapse:collapse;width:100%;font-size:15px;display:block;overflow-x:auto}
+td,th{border:1px solid var(--line);padding:7px 11px;vertical-align:top}th{background:rgba(40,28,20,.9);color:var(--gold2);font-weight:500}tr:nth-child(even) td{background:rgba(40,28,20,.35)}
+blockquote{margin:16px 0;padding:6px 16px;border-left:2px solid var(--gold);color:#dccfc0;background:rgba(40,28,20,.5)}strong{color:var(--gold2);font-weight:600}
+code{font:14px/1.6 ui-monospace,"Noto Sans Mono CJK TC",monospace;background:rgba(0,0,0,.35);padding:1px 5px;border-radius:4px}
+pre{background:rgba(0,0,0,.45);border:1px solid var(--line);padding:14px 16px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}pre code{background:none;padding:0;font-size:13.5px}
+figure{margin:26px 0}figure img{display:block;width:100%;height:auto;border:1px solid var(--line);box-shadow:0 10px 36px rgba(0,0,0,.55)}
+figcaption{color:var(--dim);font-size:14.5px;margin-top:8px;line-height:1.7}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:22px 0}
+.cards a{display:block;text-decoration:none;background:rgba(40,28,20,.55);border:1px solid var(--line);color:var(--fg)}.cards a:hover{border-color:var(--gold)}
+.cards img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}.cards b{display:block;color:var(--gold2);padding:10px 12px 0;font-size:18px}.cards span{display:block;padding:2px 12px 12px;color:var(--dim);font-size:14.5px;line-height:1.6}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:60px}.pager a{padding:6px 16px;border:1px solid var(--line);border-radius:16px;text-decoration:none;background:rgba(10,7,6,.55)}
+.top{position:fixed;left:0;right:0;top:0;z-index:5;display:flex;align-items:center;gap:14px;padding:12px 24px 22px;
+  background:linear-gradient(180deg,rgba(6,4,3,.9),rgba(6,4,3,.6) 60%,rgba(6,4,3,0));text-shadow:0 1px 3px #000,0 0 12px rgba(0,0,0,.9)}
+.top .brand{color:var(--gold);font-size:21px;line-height:1.25;letter-spacing:.12em;font-weight:600;text-decoration:none;white-space:nowrap}
+.top .brand small{display:block;font-size:12.5px;font-weight:400;letter-spacing:.2em;color:#cfa760}
+.top nav{margin-left:auto;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none}.top nav::-webkit-scrollbar{display:none}
+.top nav a{padding:3px 11px;border:1px solid rgba(226,184,102,.3);border-radius:14px;background:rgba(10,7,6,.55);color:var(--gold);text-decoration:none;font-size:14.5px;line-height:1.7;white-space:nowrap}
+.top nav a.on{background:var(--red);border-color:var(--red);color:#fff}
+footer.foot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;
+  padding:20px 16px calc(10px + env(safe-area-inset-bottom));font-size:13px;color:#d4c6b5;text-shadow:0 1px 3px #000,0 0 10px #000;
+  background:linear-gradient(0deg,rgba(6,4,3,.92),rgba(6,4,3,.7) 60%,rgba(6,4,3,0))}footer.foot a{color:var(--gold);text-decoration:none}
+@media (max-width:760px){body{font-size:16px}main{margin-top:46vh;padding:24px 16px 34px}.top{flex-direction:column;align-items:flex-start;gap:6px;padding:10px 12px 16px}
+  .top .brand{font-size:18px}.top nav{margin-left:0;max-width:100%}.top nav a{padding:2px 8px;font-size:13px}footer.foot{gap:10px;font-size:12px}}</style></head><body>
+<header class="top"><a class="brand" href="index.html"><small>仙泉．香布纏．續</small>給我按的確認頁</a><nav><a href="how.html">做法</a><a href="script.html">劇本</a><a href="sprites.html">角色</a><a href="cg.html">CG</a><a href="city.html">建城</a><a href="walkin.html">原畫</a><a href="confirm.html" class="on">確認頁</a><a href="sound.html">聲光</a><a href="engine.html">引擎</a></nav></header>
+<div class="bg" aria-hidden="true"><img src="img/walkin-four.webp" alt=""></div>
+<main><h1>給我按的確認頁</h1>
+<!-- bg: img/walkin-four.webp -->
+
+<p>做地圖和角色的時候，要我決定的事，AI 會做成一頁網頁（claude.ai 上的私人頁面）。我在頁面上直接按選項、寫意見，選擇存在頁面自己的資料庫，AI 下一輪讀回來照做。我習慣這樣回：要我拍板的就讓我直接按，只給我看需要我確認的圖，比在對話裡一句一句打字快，也不會漏掉。</p>
+<p>下面是那些頁面的存檔。按鈕和輸入框都停用了，我當時按的、寫的直接顯示在頁面上；沒按、在對話裡回的，貼上對話裡的原話。頁面原本的文字是當時 AI 寫給我看的，裡面的「你」指的是我。</p>
+<div class="cards">
+<a href="confirm/places/index.html"><img src="img/confirm-places.webp" alt=""><b>地點表</b><span>2026-10-20 夜。大地圖、城或村、屋內三層，每個地點要做多大。17 則回覆都同意，14 則寫了意見：先畫連結圖、長安要大、嚴家村要好幾戶和野地、第九章往北是最大的自由時間</span></a>
+<a href="confirm/links/index.html"><img src="img/confirm-links.webp" alt=""><b>連結圖</b><span>2026-10-21 凌晨。大地圖九個點的位置與四面入口、五原各塊怎麼接。23 則都同意，7 則寫了意見，例如軍侯的帳子進去要能跟軍侯說話、濮陽不用進</span></a>
+<a href="confirm/atlas/index.html"><img src="img/confirm-atlas.webp" alt=""><b>地圖總覽</b><span>全部 111 張地圖卡一張一張看，人物、互動點、出口、不能走的格子可以開關</span></a>
+<a href="confirm/maptable/index.html"><img src="img/confirm-maptable.webp" alt=""><b>地圖總表</b><span>全部地圖一張表：每章用到哪幾張、重複用的物件</span></a>
+<a href="confirm/plan/index.html"><img src="img/confirm-plan.webp" alt=""><b>五原配置</b><span>2026-10-20。整座城 13 塊的色塊配置、鏡頭、地面。這頁我沒留言，決定記在地圖重做與建城工法的文件裡</span></a>
+<a href="confirm/method/index.html"><img src="img/confirm-method.webp" alt=""><b>建城工法</b><span>2026-10-21。第一套做法整理成的工法頁，後來改寫成〈建城工法〉那一章</span></a>
+<a href="confirm/blocks/index.html"><img src="img/confirm-blocks.webp" alt=""><b>城邊積木</b><span>2026-10-21。城內六塊的城牆、城門、角樓、馬道，我自己拖積木排的，每一塊都照這份</span></a>
+<a href="confirm/walls/index.html"><img src="img/confirm-walls.webp" alt=""><b>五原的牆與門</b><span>2026-10-21。院牆、營柵、營門、市門、射箭場與馬廄、上城頭的路。院牆分兩種：一般人家素夯土，有錢人家和公家夯土瓦頂</span></a>
+<a href="confirm/rooms/index.html"><img src="img/confirm-rooms.webp" alt=""><b>五原的屋內</b><span>2026-10-21。藥鋪的屋內配置，我按了可以，之後照我問的「診榻在比較外面，櫃台在比較裡面？」重排</span></a>
+<a href="confirm/threeview/index.html"><img src="img/confirm-threeview.webp" alt=""><b>新角色三視圖</b><span>2026-10-21。雞、狗、牛、豬、三種車、叫賣的、算命的、要飯的、巡查軍官，十一張三視圖，我還沒按</span></a>
+<a href="confirm/walk/index.html"><img src="img/confirm-walk.webp" alt=""><b>走路圖站姿</b><span>2026-10-20 夜到 10-21。59 張走路圖站姿縮多少，我一張一張拉滑桿；背面建議縮到 85% 的 23 張，我全部拉回 90% 到 97%</span></a>
+<a href="confirm/crowd/index.html"><img src="img/confirm-crowd.webp" alt=""><b>路人與角色動作</b><span>2026-10-15。全部路人與角色的走路動作，這頁只有動畫，沒有按鈕</span></a>
+<a href="confirm/style/index.html"><img src="img/confirm-style.webp" alt=""><b>五原畫風試做</b><span>2026-10-21。走進原畫那一天的七版畫風、遊戲裡的試走截圖。按鈕沒按，選擇都在對話裡</span></a>
+</div>
+
+<p>這些頁面怎麼用在做法裡，看<a href="how.html">一個人跟 AI 怎麼做完一部 RPG</a>；地圖那幾頁後來怎麼做出來，看<a href="city.html">建城工法</a>和<a href="walkin.html">走進原畫</a>。</p><div class="pager"><a href="walkin.html">← 上一章</a><a href="sound.html">下一章 →</a></div></main>
+<footer class="foot"><span>仙泉．香布纏．續 · 製作手記 · 作者 亞澤 · 內容授權 CC BY-NC 4.0</span>
+<a href="https://github.com/yazelin/larch-xu-canon" target="_blank" rel="noopener">GitHub</a><a href="https://www.facebook.com/yaze.lin.gm" target="_blank" rel="noopener">Facebook</a>
+<a href="https://buymeacoffee.com/yazelin" target="_blank" rel="noopener">請我喝咖啡</a><a href="https://yazelin.github.io/" target="_blank" rel="noopener">亞澤的部落格</a></footer>
+<script>
+/* yz-promo-footer (trimmed) | 三件套+BMC 注意力效果 | https://github.com/yazelin/promo-footer-skill
+   對 footer 既有的 Buy Me a Coffee 連結加 bobbing + 講話氣泡（不重新注入連結）。 */
+(function(){"use strict";
+if(window.__yzPromoInit)return;window.__yzPromoInit=1;
+try{if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return}catch(e){}
+var LINES=["嘿，這裡這裡，我是咖啡按鈕","我是一顆很努力的按鈕，求被點一下","噓，亞澤不知道我在偷偷拉贊助","你看我跳得這麼賣力，不請一杯嗎？","不請也沒關係，你來玩我就很開心","一杯咖啡，是下一個作品的燃料","你的咖啡會變成下一個作品，真的","咖啡因進入亞澤體內，程式碼就會自己寫完","用愛發電中，咖啡因可提升發電效率","覺得好玩嗎？抖內一下下","這個網站沒有廣告，只有我這顆按鈕"];
+var CSS="@keyframes yzIdle{0%,55%,100%{transform:translateY(0)}62%{transform:translateY(-4px)}70%{transform:translateY(0)}78%{transform:translateY(-2px)}84%{transform:translateY(0)}}.yz-idle{animation:yzIdle 2.6s ease-in-out infinite}@keyframes yzHop{0%,100%{transform:translateY(0)}20%{transform:translateY(-6px) scale(1.04)}40%{transform:translateY(0) scale(1)}55%{transform:translateY(-3px)}70%{transform:translateY(0)}}.yz-hop{animation:yzHop .9s cubic-bezier(.36,.07,.19,.97)}.yz-bubble{position:fixed;z-index:2147483000;max-width:200px;padding:6px 11px;border-radius:14px;background:#fffdf7;color:#4a3f35;border:1px solid rgba(0,0,0,.1);box-shadow:0 4px 14px rgba(0,0,0,.18);font:13px/1.5 system-ui,-apple-system,'Noto Sans TC',sans-serif;pointer-events:none;opacity:0;transform:translateY(5px);transition:opacity .25s ease,transform .25s ease}.yz-bubble.yz-on{opacity:1;transform:translateY(0)}.yz-bubble::after{content:'';position:absolute;left:var(--yz-tail,50%);margin-left:-6px;border:6px solid transparent}.yz-bubble.yz-above::after{bottom:-6px;border-bottom:0;border-top:6px solid #fffdf7}.yz-bubble.yz-below::after{top:-6px;border-top:0;border-bottom:6px solid #fffdf7}";
+var bubble,anchor;
+function addCss(){if(document.getElementById("yz-promo-css"))return;var s=document.createElement("style");s.id="yz-promo-css";s.textContent=CSS;document.head.appendChild(s)}
+function findAnchor(){var as=document.querySelectorAll('a[href*="buymeacoffee.com/yazelin"]');if(!as.length)return null;var vis=[],i,r;for(i=0;i<as.length;i++){r=as[i].getBoundingClientRect();if(r.width||r.height)vis.push(as[i])}var pool=vis.length?vis:[].slice.call(as);return pool[pool.length-1]}
+function hop(){anchor.classList.remove("yz-hop");void anchor.offsetWidth;anchor.classList.add("yz-hop")}
+var shown=0,MAX_SHOWS=3;
+function say(){if(document.hidden)return;var r=anchor.getBoundingClientRect();if(!r.width&&!r.height)return;if(r.bottom<0||r.top>innerHeight)return;if(shown>=MAX_SHOWS)return;shown++;bubble.textContent=LINES[Math.floor(Math.random()*LINES.length)];bubble.classList.remove("yz-on","yz-above","yz-below");bubble.style.left="0px";bubble.style.top="0px";var bw=bubble.offsetWidth,bh=bubble.offsetHeight,cx=r.left+r.width/2;var left=Math.max(8,Math.min(cx-bw/2,innerWidth-bw-8));var above=r.top-bh-12>=8;bubble.style.left=left+"px";bubble.style.top=(above?r.top-bh-12:r.bottom+12)+"px";bubble.classList.add(above?"yz-above":"yz-below");bubble.style.setProperty("--yz-tail",Math.max(12,Math.min(cx-left,bw-12))+"px");hop();requestAnimationFrame(function(){bubble.classList.add("yz-on")});setTimeout(function(){bubble.classList.remove("yz-on")},4200)}
+function start(){addCss();anchor=findAnchor();if(!anchor)return false;try{if(getComputedStyle(anchor).display==="inline")anchor.style.display="inline-block"}catch(e){}anchor.classList.add("yz-idle");anchor.addEventListener("animationend",function(e){if(e.animationName==="yzHop")anchor.classList.remove("yz-hop")});bubble=document.createElement("div");bubble.className="yz-bubble";bubble.setAttribute("aria-hidden","true");document.body.appendChild(bubble);window.__yzPromo=say;(function loop(first){if(shown>=MAX_SHOWS)return;setTimeout(function(){say();loop(false)},first?18e3+Math.random()*12e3:9e4+Math.random()*9e4)})(true);return true}
+function boot(){var tries=0;(function t(){if(start())return;if(++tries<20)setTimeout(t,1500)})()}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+})();
+</script></body></html>

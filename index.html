@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>仙泉．香布纏．續 · 製作手記</title><meta name="description" content="《仙泉．香布纏．續》是一部 Larch RPG：《仙泉．香布纏》的同一段故事，換成魏續的眼睛，從五原（西元 173 年）走到谷口那碗水（223 年），最後玩家替他選喝或不喝。"><meta name="theme-color" content="#100c0a">
+<meta property="og:title" content="仙泉．香布纏．續 · 製作手記"><meta property="og:description" content="《仙泉．香布纏．續》是一部 Larch RPG：《仙泉．香布纏》的同一段故事，換成魏續的眼睛，從五原（西元 173 年）走到谷口那碗水（223 年），最後玩家替他選喝或不喝。"><meta property="og:image" content="https://yazelin.github.io/larch-xu-canon/img/walkin-four.webp">
+<style>:root{color-scheme:dark;--bg:#100c0a;--card:rgba(20,14,11,.9);--line:rgba(226,184,102,.26);--gold:#e2b866;--gold2:#f0d08f;--red:#c8502e;--fg:#f1e8dd;--dim:#b7a693}
+*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.9 "Noto Serif TC","Noto Serif CJK TC","Songti TC",serif}
+a{color:var(--gold2)}
+.bg{position:fixed;inset:0;z-index:0;background:#000}.bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.9}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,6,5,.6),rgba(8,6,5,.15) 30%,rgba(8,6,5,.15) 70%,rgba(8,6,5,.6)),linear-gradient(180deg,rgba(8,6,5,.35),rgba(8,6,5,.05) 40%,rgba(8,6,5,.65))}
+main{position:relative;z-index:2;max-width:900px;margin:40vh auto 110px;padding:34px 34px 44px;background:var(--card);border:1px solid var(--line);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+h1{color:var(--gold2);font-size:clamp(28px,4.4vw,40px);letter-spacing:.06em;margin:0 0 18px;text-shadow:0 2px 12px #000}
+h1::after{content:"";display:block;width:72px;height:3px;background:var(--red);margin-top:10px}
+h2{color:var(--gold2);font-size:24px;margin-top:60px;padding-left:12px;border-left:3px solid var(--red)}h3{color:var(--fg);margin-top:36px}
+table{border-collapse:collapse;width:100%;font-size:15px;display:block;overflow-x:auto}
+td,th{border:1px solid var(--line);padding:7px 11px;vertical-align:top}th{background:rgba(40,28,20,.9);color:var(--gold2);font-weight:500}tr:nth-child(even) td{background:rgba(40,28,20,.35)}
+blockquote{margin:16px 0;padding:6px 16px;border-left:2px solid var(--gold);color:#dccfc0;background:rgba(40,28,20,.5)}strong{color:var(--gold2);font-weight:600}
+code{font:14px/1.6 ui-monospace,"Noto Sans Mono CJK TC",monospace;background:rgba(0,0,0,.35);padding:1px 5px;border-radius:4px}
+pre{background:rgba(0,0,0,.45);border:1px solid var(--line);padding:14px 16px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}pre code{background:none;padding:0;font-size:13.5px}
+figure{margin:26px 0}figure img{display:block;width:100%;height:auto;border:1px solid var(--line);box-shadow:0 10px 36px rgba(0,0,0,.55)}
+figcaption{color:var(--dim);font-size:14.5px;margin-top:8px;line-height:1.7}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:22px 0}
+.cards a{display:block;text-decoration:none;background:rgba(40,28,20,.55);border:1px solid var(--line);color:var(--fg)}.cards a:hover{border-color:var(--gold)}
+.cards img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}.cards b{display:block;color:var(--gold2);padding:10px 12px 0;font-size:18px}.cards span{display:block;padding:2px 12px 12px;color:var(--dim);font-size:14.5px;line-height:1.6}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:60px}.pager a{padding:6px 16px;border:1px solid var(--line);border-radius:16px;text-decoration:none;background:rgba(10,7,6,.55)}
+.top{position:fixed;left:0;right:0;top:0;z-index:5;display:flex;align-items:center;gap:14px;padding:12px 24px 22px;
+  background:linear-gradient(180deg,rgba(6,4,3,.9),rgba(6,4,3,.6) 60%,rgba(6,4,3,0));text-shadow:0 1px 3px #000,0 0 12px rgba(0,0,0,.9)}
+.top .brand{color:var(--gold);font-size:21px;line-height:1.25;letter-spacing:.12em;font-weight:600;text-decoration:none;white-space:nowrap}
+.top .brand small{display:block;font-size:12.5px;font-weight:400;letter-spacing:.2em;color:#cfa760}
+.top nav{margin-left:auto;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none}.top nav::-webkit-scrollbar{display:none}
+.top nav a{padding:3px 11px;border:1px solid rgba(226,184,102,.3);border-radius:14px;background:rgba(10,7,6,.55);color:var(--gold);text-decoration:none;font-size:14.5px;line-height:1.7;white-space:nowrap}
+.top nav a.on{background:var(--red);border-color:var(--red);color:#fff}
+footer.foot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;
+  padding:20px 16px calc(10px + env(safe-area-inset-bottom));font-size:13px;color:#d4c6b5;text-shadow:0 1px 3px #000,0 0 10px #000;
+  background:linear-gradient(0deg,rgba(6,4,3,.92),rgba(6,4,3,.7) 60%,rgba(6,4,3,0))}footer.foot a{color:var(--gold);text-decoration:none}
+@media (max-width:760px){body{font-size:16px}main{margin-top:46vh;padding:24px 16px 34px}.top{flex-direction:column;align-items:flex-start;gap:6px;padding:10px 12px 16px}
+  .top .brand{font-size:18px}.top nav{margin-left:0;max-width:100%}.top nav a{padding:2px 8px;font-size:13px}footer.foot{gap:10px;font-size:12px}}</style></head><body>
+<header class="top"><a class="brand" href="index.html"><small>仙泉．香布纏．續</small>製作手記</a><nav><a href="how.html">做法</a><a href="script.html">劇本</a><a href="sprites.html">角色</a><a href="cg.html">CG</a><a href="city.html">建城</a><a href="walkin.html">原畫</a><a href="confirm.html">確認頁</a><a href="sound.html">聲光</a><a href="engine.html">引擎</a></nav></header>
+<div class="bg" aria-hidden="true"><img src="img/walkin-four.webp" alt=""></div>
+<main><h1>仙泉．香布纏．續　製作手記</h1>
+<p>《仙泉．香布纏．續》是一部 Larch RPG：《仙泉．香布纏》的同一段故事，換成魏續的眼睛，從五原（西元 173 年）走到谷口那碗水（223 年），最後玩家替他選喝或不喝。</p>
+<p>這個站記的是它怎麼做出來的。2026-10-05 寫下第一份設計草稿，到 10-21 為止，<code>xu/</code> 底下有 429 個提交，分在 15 天裡。點子、方向、每一個要不要做、每一條驗收標準是我定的；程式、產圖、量測、測試都是 AI 做的。每一章寫用了哪些技巧、試過哪些技術、哪些留下、哪些丟掉、為什麼，產圖的提示詞和指令照原樣放上來，照著可以重做一遍。</p>
+<p>想用 AI 做 RPG、畫地圖、做角色走路圖的人，可以從感興趣的那章開始看。史料考證、原作的劇本與 CG、原聲帶在原作《仙泉．香布纏》的站：<a href="https://yazelin.github.io/larch-buchan-canon/" target="_blank" rel="noopener">https://yazelin.github.io/larch-buchan-canon/</a></p>
+<div class="cards">
+<a href="how.html"><img src="img/how-autoplayer.webp" alt=""><b>一個人跟 AI 怎麼做完一部 RPG</b><span>整部交給 AI 做到可玩、怎麼驗收、自動玩家、試玩回饋怎麼處理</span></a>
+<a href="script.html"><img src="img/script-unsaid.webp" alt=""><b>劇本與心聲</b><span>審稿閘門、準則每一條怎麼來的、心聲語氣、被退回的寫法</span></a>
+<a href="sprites.html"><img src="img/sprites-threeview.webp" alt=""><b>角色與走路圖</b><span>三視圖定錨、走路圖產線、換腳換手怎麼修</span></a>
+<a href="cg.html"><img src="img/cg-campgate.webp" alt=""><b>CG</b><span>在場角色定錨、手的左右、多人臉跑掉、給我看之前的清單</span></a>
+<a href="city.html"><img src="img/city-whole.webp" alt=""><b>建城工法：拼出來的城</b><span>地點表、連結圖、配置、九宮格牆、城牆一圈、影子，一件一件拼的第一套</span></a>
+<a href="walkin.html"><img src="img/walkin-four.webp" alt=""><b>走進原畫</b><span>整張畫當地圖、AI 綠底剪遮擋層、試過七版畫法，現在用的做法</span></a>
+<a href="confirm.html"><img src="img/confirm-blocks.webp" alt=""><b>給我按的確認頁</b><span>地點表、連結圖、五原配置、城邊積木、牆與門、畫風試做的存檔</span></a>
+<a href="sound.html"><img src="img/sound-snow.webp" alt=""><b>配樂、音效與天氣光影</b><span>配樂、下雪、會動的火、光影</span></a>
+<a href="engine.html"><img src="img/engine-camera.webp" alt=""><b>Larch RPG 引擎實測</b><span>地圖大小、一格一個事件、路過的人、換圖，實測到的限制與繞法</span></a>
+</div>
+
+<p>《續》還在做。地圖正在整個重做，<a href="walkin.html">走進原畫</a>那一章是現在進行中的部分。</p></main>
+<footer class="foot"><span>仙泉．香布纏．續 · 製作手記 · 作者 亞澤 · 內容授權 CC BY-NC 4.0</span>
+<a href="https://github.com/yazelin/larch-xu-canon" target="_blank" rel="noopener">GitHub</a><a href="https://www.facebook.com/yaze.lin.gm" target="_blank" rel="noopener">Facebook</a>
+<a href="https://buymeacoffee.com/yazelin" target="_blank" rel="noopener">請我喝咖啡</a><a href="https://yazelin.github.io/" target="_blank" rel="noopener">亞澤的部落格</a></footer>
+<script>
+/* yz-promo-footer (trimmed) | 三件套+BMC 注意力效果 | https://github.com/yazelin/promo-footer-skill
+   對 footer 既有的 Buy Me a Coffee 連結加 bobbing + 講話氣泡（不重新注入連結）。 */
+(function(){"use strict";
+if(window.__yzPromoInit)return;window.__yzPromoInit=1;
+try{if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return}catch(e){}
+var LINES=["嘿，這裡這裡，我是咖啡按鈕","我是一顆很努力的按鈕，求被點一下","噓，亞澤不知道我在偷偷拉贊助","你看我跳得這麼賣力，不請一杯嗎？","不請也沒關係，你來玩我就很開心","一杯咖啡，是下一個作品的燃料","你的咖啡會變成下一個作品，真的","咖啡因進入亞澤體內，程式碼就會自己寫完","用愛發電中，咖啡因可提升發電效率","覺得好玩嗎？抖內一下下","這個網站沒有廣告，只有我這顆按鈕"];
+var CSS="@keyframes yzIdle{0%,55%,100%{transform:translateY(0)}62%{transform:translateY(-4px)}70%{transform:translateY(0)}78%{transform:translateY(-2px)}84%{transform:translateY(0)}}.yz-idle{animation:yzIdle 2.6s ease-in-out infinite}@keyframes yzHop{0%,100%{transform:translateY(0)}20%{transform:translateY(-6px) scale(1.04)}40%{transform:translateY(0) scale(1)}55%{transform:translateY(-3px)}70%{transform:translateY(0)}}.yz-hop{animation:yzHop .9s cubic-bezier(.36,.07,.19,.97)}.yz-bubble{position:fixed;z-index:2147483000;max-width:200px;padding:6px 11px;border-radius:14px;background:#fffdf7;color:#4a3f35;border:1px solid rgba(0,0,0,.1);box-shadow:0 4px 14px rgba(0,0,0,.18);font:13px/1.5 system-ui,-apple-system,'Noto Sans TC',sans-serif;pointer-events:none;opacity:0;transform:translateY(5px);transition:opacity .25s ease,transform .25s ease}.yz-bubble.yz-on{opacity:1;transform:translateY(0)}.yz-bubble::after{content:'';position:absolute;left:var(--yz-tail,50%);margin-left:-6px;border:6px solid transparent}.yz-bubble.yz-above::after{bottom:-6px;border-bottom:0;border-top:6px solid #fffdf7}.yz-bubble.yz-below::after{top:-6px;border-top:0;border-bottom:6px solid #fffdf7}";
+var bubble,anchor;
+function addCss(){if(document.getElementById("yz-promo-css"))return;var s=document.createElement("style");s.id="yz-promo-css";s.textContent=CSS;document.head.appendChild(s)}
+function findAnchor(){var as=document.querySelectorAll('a[href*="buymeacoffee.com/yazelin"]');if(!as.length)return null;var vis=[],i,r;for(i=0;i<as.length;i++){r=as[i].getBoundingClientRect();if(r.width||r.height)vis.push(as[i])}var pool=vis.length?vis:[].slice.call(as);return pool[pool.length-1]}
+function hop(){anchor.classList.remove("yz-hop");void anchor.offsetWidth;anchor.classList.add("yz-hop")}
+var shown=0,MAX_SHOWS=3;
+function say(){if(document.hidden)return;var r=anchor.getBoundingClientRect();if(!r.width&&!r.height)return;if(r.bottom<0||r.top>innerHeight)return;if(shown>=MAX_SHOWS)return;shown++;bubble.textContent=LINES[Math.floor(Math.random()*LINES.length)];bubble.classList.remove("yz-on","yz-above","yz-below");bubble.style.left="0px";bubble.style.top="0px";var bw=bubble.offsetWidth,bh=bubble.offsetHeight,cx=r.left+r.width/2;var left=Math.max(8,Math.min(cx-bw/2,innerWidth-bw-8));var above=r.top-bh-12>=8;bubble.style.left=left+"px";bubble.style.top=(above?r.top-bh-12:r.bottom+12)+"px";bubble.classList.add(above?"yz-above":"yz-below");bubble.style.setProperty("--yz-tail",Math.max(12,Math.min(cx-left,bw-12))+"px");hop();requestAnimationFrame(function(){bubble.classList.add("yz-on")});setTimeout(function(){bubble.classList.remove("yz-on")},4200)}
+function start(){addCss();anchor=findAnchor();if(!anchor)return false;try{if(getComputedStyle(anchor).display==="inline")anchor.style.display="inline-block"}catch(e){}anchor.classList.add("yz-idle");anchor.addEventListener("animationend",function(e){if(e.animationName==="yzHop")anchor.classList.remove("yz-hop")});bubble=document.createElement("div");bubble.className="yz-bubble";bubble.setAttribute("aria-hidden","true");document.body.appendChild(bubble);window.__yzPromo=say;(function loop(first){if(shown>=MAX_SHOWS)return;setTimeout(function(){say();loop(false)},first?18e3+Math.random()*12e3:9e4+Math.random()*9e4)})(true);return true}
+function boot(){var tries=0;(function t(){if(start())return;if(++tries<20)setTimeout(t,1500)})()}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+})();
+</script></body></html>

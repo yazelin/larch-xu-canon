@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>五原的屋內（確認頁存檔）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&display=swap">
+<style>
+/* 版面：一間屋一節，色塊設計圖在左、擺了什麼在右（手機上下排），下面按鈕和想說的；顏色、字型跟牆與門確認頁同一套 */
+:root {
+  --bg: #e9ebe6; --surface: #f7f8f5; --ink: #1f2522; --muted: #5f6763; --line: #d0d6cf;
+  --tile: #3d566a; --earth: #a8692b;
+  --display: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  --body: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #141917; --surface: #1b211f; --ink: #e2e7e2; --muted: #9ca59f; --line: #2f3734; --tile: #8fb0c6; --earth: #d9a25e; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #141917; --surface: #1b211f; --ink: #e2e7e2; --muted: #9ca59f; --line: #2f3734; --tile: #8fb0c6; --earth: #d9a25e; color-scheme: dark; }
+* { box-sizing: border-box; }
+img { max-width: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.6; margin: 0; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 22px 64px; display: grid; gap: 28px; }
+h1 { font-family: var(--display); font-size: 28px; margin: 0; letter-spacing: .05em; text-wrap: balance; }
+h2 { font-family: var(--display); font-size: 20px; margin: 0; letter-spacing: .04em; text-wrap: balance; }
+.lead, .note { color: var(--muted); margin: 0; max-width: 72ch; }
+section { display: grid; gap: 12px; border-top: 1px solid var(--line); padding-top: 18px; }
+.room { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .room { grid-template-columns: minmax(0, 1fr); } }
+.room img { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--line); image-rendering: auto; }
+dl { margin: 0; display: grid; gap: 8px; }
+dt { font-family: var(--display); font-size: 15px; }
+dd { margin: 0 0 4px; color: var(--muted); font-size: 14px; }
+.bar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 6px 12px; font: inherit; font-size: 14px; }
+.btn:disabled { cursor: default; opacity: .5; }
+.btn[aria-pressed="true"] { background: var(--tile); color: var(--surface); border-color: var(--tile); opacity: 1; }
+.lbl { font-size: 13px; color: var(--muted); }
+.saved-note { border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 8px; padding: 6px 10px; font-size: 14px; white-space: pre-wrap; }
+.todo { color: var(--muted); font-size: 14px; }
+/* 存檔說明與當時的選擇 */
+.archive { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--earth); border-radius: 10px; padding: 12px 14px; display: grid; gap: 8px; }
+.archive p { margin: 0; max-width: 78ch; }
+.archive .kicker { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: .04em; }
+.archive .links { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 14px; }
+.archive .how { color: var(--muted); font-size: 13px; }
+a { color: var(--tile); }
+.picked { border: 1px dashed var(--earth); border-radius: 10px; padding: 10px 14px; display: grid; gap: 8px; background: var(--surface); }
+.picked p { margin: 0; max-width: 78ch; font-size: 14px; }
+.picked .plabel { font-family: var(--mono); font-size: 12px; color: var(--earth); letter-spacing: .04em; }
+.said { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; font-size: 14px; max-width: 86ch; }
+.said .t { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-right: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside class="archive" aria-label="存檔說明">
+    <p class="kicker">確認頁存檔．原頁面 2026-10-21</p>
+    <p>2026-10-21 下午，我定了屋內的順序：藥鋪 R4、軍侯的帳子 R3、魏家 R1／R2，AI 先畫藥鋪的色塊設計圖給我看，我說可以才產圖。我按了「可以，照這樣產圖」（14:04），也問了「診榻在比較外面，櫃台在比較裡面？？」，AI 就把櫃檯移到靠門、診榻放進東北角的屏風後面，這一頁留下的是改過的那張。我又問城裡這間房子多大，後來城裡的藥鋪改成三開間，屋內 24×18 格。之後先做整座城的畫風，藥鋪屋內停在色塊設計、還沒產圖，R3、R1／R2 也還沒開始。</p>
+    <p class="links"><a href="../../confirm.html">回確認頁一覽</a><span>相關的章：<a href="../../city.html">建城工法：拼出來的城</a></span></p>
+    <p class="how">存檔版的按鈕都停用了；我按的那個按鈕亮著，下面的框寫了按的時間和我在對話裡說的話：引號裡是我打的字（只補了標點、改了錯字），冒號後面是 AI 照著改的，時間是 git 提交的時間。原頁面的文字是 AI 寫給我的，裡面的「你」是我。</p>
+  </aside>
+  <header style="display:grid;gap:6px">
+    <h1>五原的屋內</h1>
+    <p class="lead">照你定的順序做：藥鋪 R4、軍侯的帳子 R3、魏家 R1／R2。每一間先給你看色塊設計圖（哪裡擺什麼、佔幾格），你說可以才產圖。按了就存，想說的寫在每一節下面。</p>
+  </header>
+
+  <section aria-labelledby="h-r4">
+    <h2 id="h-r4">R4 藥鋪（第二章〈藥錢倒數〉抓藥）</h2>
+    <p class="note">從 B2 藥鋪門口進來。24×18 格（一格半公尺，從屋頂拿掉往下看），鏡頭比城裡近一點。現在遊戲裡藥鋪沒有屋內，只有一個藥鋪掌櫃站在街上；做好以後掌櫃站在櫃檯後面，抓藥時站在櫃檯前的蓆子上面朝上按。照你說的改過：櫃檯靠門、看病的在裡面。</p>
+    <div class="room">
+      <img src="r4-plan.webp" alt="藥鋪的色塊設計圖：靠門是櫃檯和長凳，櫃檯後面是藥架、曬藥架、臼杵、藥爐，東北角屏風後面是診榻，南牆正中是門" width="1440" height="1080">
+      <dl>
+        <dt>前面（靠門）：櫃檯、長凳</dt><dd>一進門就是長木櫃檯（漢代的案，高到人腰），上面一具銅天平與砝碼、幾卷竹簡藥方、幾包包好的藥；掌櫃站在後面。櫃檯前一張舊草蓆，抓藥的人站在這裡；門邊東側一張長凳給等藥的人坐。</dd>
+        <dt>櫃檯後面：掌櫃的地方</dt><dd>北牆前三座藥架（陶罐口用布紮著、竹筐裝的根莖、布袋、捆好的乾草藥）；架子前面是曬藥的竹匾架、搗藥的石臼木杵、煎藥的小土爐（陶罐冒熱氣，爐火會發光）。不放百子櫃：一格一格抽屜的藥櫃是明清才有的。</dd>
+        <dt>裡面（東北角）：看病</dt><dd>一道木框屏風（漢代就有）隔開，屏風後面一張看病把脈的矮榻，榻邊小几、脈枕。從櫃檯東邊的走道進去。</dd>
+        <dt>其他</dt><dd>夯土地面；南牆正中是門。漢代就有賣藥的鋪子：韓康「採藥名山，賣於長安市」（《後漢書．逸民傳》）。</dd>
+      </dl>
+    </div>
+    <div class="bar" id="r4"></div>
+    <span class="lbl">想說的（例如哪樣東西挪到哪、少了什麼）</span><div class="saved-note" id="note-r4"></div>
+    <div class="picked">
+      <p class="plabel">我按的</p>
+      <p id="pick-r4"></p>
+      <p>按的時候頁面上還是第一版：櫃檯在屋子中間，診榻和長凳在南半邊。14:06 照我的問題重排成上面這張，重排後我沒有再按按鈕。</p>
+      <p class="plabel">我在對話裡說的</p>
+      <ul class="said">
+        <li><span class="t">14:02</span>「照藥鋪 R4、軍侯的帳子 R3、魏家 R1／R2 的順序開始」：做了這一頁，先放藥鋪的色塊設計圖（20a65e98）。</li>
+        <li><span class="t">14:06</span>「診榻在比較外面，櫃台在比較裡面？？」：櫃檯靠門，櫃檯後面是掌櫃抓藥、搗藥、煎藥的地方，診榻放到東北角屏風後面（ae3c3f4c）。</li>
+        <li><span class="t">14:43</span>重排以後我回「可以吧，在城裡這個房子多大？也是 24 x 18 嗎？」：B2 街上的藥鋪改成三開間（7b4dbfec）。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-r3">
+    <h2 id="h-r3">R3 軍侯的帳子</h2>
+    <p class="todo">藥鋪定了就接著做。</p>
+  </section>
+
+  <section aria-labelledby="h-r1">
+    <h2 id="h-r1">R1／R2 魏家屋裡（老屋、修好）</h2>
+    <p class="todo">最後做，劇情用得最多。</p>
+  </section>
+</div>
+
+<script>
+const DATA = {"picks":{"r4":{"choice":"ok","note":"","time":"2026-10-21 14:04"}}};
+const $ = s => document.querySelector(s);
+const ROOMS = { r4: [{ v: 'ok', label: '可以，照這樣產圖' }, { v: 'change', label: '要改（寫在下面）' }] };
+const picks = DATA.picks || {};
+for (const [k, cs] of Object.entries(ROOMS)) {
+  const p = picks[k] || {};
+  document.getElementById(k).innerHTML = cs.map(c => `<button class="btn" disabled aria-pressed="${p.choice === c.v}">${c.label}</button>`).join('');
+  document.getElementById('note-' + k).textContent = p.note || '（沒有留話）';
+  const c = cs.find(x => x.v === p.choice);
+  $('#pick-' + k).textContent = c ? `「${c.label}」${p.time ? `（${p.time}）` : ''}。` : '這一節沒有存到選擇。';
+}
+</script>
+</body>
+</html>

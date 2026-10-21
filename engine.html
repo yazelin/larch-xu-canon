@@ -1,0 +1,244 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Larch RPG 引擎實測 · 仙泉．香布纏．續 製作手記</title><meta name="description" content="《續》現在是 111 張地圖、609 張卡。做的過程踩到 Larch RPG 引擎很多條上限，最常見的樣子是整張地圖只剩一行「這張地圖的資料無法讀取」。這一章一條一條記：哪一天踩到、怎麼發現的、怎麼繞過、現在用哪個檢查擋住。大部分是 AI 讀本機預覽器附的引擎原始碼、在本機預覽實測出來的，幾條是我試"><meta name="theme-color" content="#100c0a">
+<meta property="og:title" content="Larch RPG 引擎實測 · 仙泉．香布纏．續 製作手記"><meta property="og:description" content="《續》現在是 111 張地圖、609 張卡。做的過程踩到 Larch RPG 引擎很多條上限，最常見的樣子是整張地圖只剩一行「這張地圖的資料無法讀取」。這一章一條一條記：哪一天踩到、怎麼發現的、怎麼繞過、現在用哪個檢查擋住。大部分是 AI 讀本機預覽器附的引擎原始碼、在本機預覽實測出來的，幾條是我試"><meta property="og:image" content="https://yazelin.github.io/larch-xu-canon/img/engine-error.webp">
+<style>:root{color-scheme:dark;--bg:#100c0a;--card:rgba(20,14,11,.9);--line:rgba(226,184,102,.26);--gold:#e2b866;--gold2:#f0d08f;--red:#c8502e;--fg:#f1e8dd;--dim:#b7a693}
+*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.9 "Noto Serif TC","Noto Serif CJK TC","Songti TC",serif}
+a{color:var(--gold2)}
+.bg{position:fixed;inset:0;z-index:0;background:#000}.bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.9}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,6,5,.6),rgba(8,6,5,.15) 30%,rgba(8,6,5,.15) 70%,rgba(8,6,5,.6)),linear-gradient(180deg,rgba(8,6,5,.35),rgba(8,6,5,.05) 40%,rgba(8,6,5,.65))}
+main{position:relative;z-index:2;max-width:900px;margin:40vh auto 110px;padding:34px 34px 44px;background:var(--card);border:1px solid var(--line);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+h1{color:var(--gold2);font-size:clamp(28px,4.4vw,40px);letter-spacing:.06em;margin:0 0 18px;text-shadow:0 2px 12px #000}
+h1::after{content:"";display:block;width:72px;height:3px;background:var(--red);margin-top:10px}
+h2{color:var(--gold2);font-size:24px;margin-top:60px;padding-left:12px;border-left:3px solid var(--red)}h3{color:var(--fg);margin-top:36px}
+table{border-collapse:collapse;width:100%;font-size:15px;display:block;overflow-x:auto}
+td,th{border:1px solid var(--line);padding:7px 11px;vertical-align:top}th{background:rgba(40,28,20,.9);color:var(--gold2);font-weight:500}tr:nth-child(even) td{background:rgba(40,28,20,.35)}
+blockquote{margin:16px 0;padding:6px 16px;border-left:2px solid var(--gold);color:#dccfc0;background:rgba(40,28,20,.5)}strong{color:var(--gold2);font-weight:600}
+code{font:14px/1.6 ui-monospace,"Noto Sans Mono CJK TC",monospace;background:rgba(0,0,0,.35);padding:1px 5px;border-radius:4px}
+pre{background:rgba(0,0,0,.45);border:1px solid var(--line);padding:14px 16px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}pre code{background:none;padding:0;font-size:13.5px}
+figure{margin:26px 0}figure img{display:block;width:100%;height:auto;border:1px solid var(--line);box-shadow:0 10px 36px rgba(0,0,0,.55)}
+figcaption{color:var(--dim);font-size:14.5px;margin-top:8px;line-height:1.7}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:22px 0}
+.cards a{display:block;text-decoration:none;background:rgba(40,28,20,.55);border:1px solid var(--line);color:var(--fg)}.cards a:hover{border-color:var(--gold)}
+.cards img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}.cards b{display:block;color:var(--gold2);padding:10px 12px 0;font-size:18px}.cards span{display:block;padding:2px 12px 12px;color:var(--dim);font-size:14.5px;line-height:1.6}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:60px}.pager a{padding:6px 16px;border:1px solid var(--line);border-radius:16px;text-decoration:none;background:rgba(10,7,6,.55)}
+.top{position:fixed;left:0;right:0;top:0;z-index:5;display:flex;align-items:center;gap:14px;padding:12px 24px 22px;
+  background:linear-gradient(180deg,rgba(6,4,3,.9),rgba(6,4,3,.6) 60%,rgba(6,4,3,0));text-shadow:0 1px 3px #000,0 0 12px rgba(0,0,0,.9)}
+.top .brand{color:var(--gold);font-size:21px;line-height:1.25;letter-spacing:.12em;font-weight:600;text-decoration:none;white-space:nowrap}
+.top .brand small{display:block;font-size:12.5px;font-weight:400;letter-spacing:.2em;color:#cfa760}
+.top nav{margin-left:auto;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none}.top nav::-webkit-scrollbar{display:none}
+.top nav a{padding:3px 11px;border:1px solid rgba(226,184,102,.3);border-radius:14px;background:rgba(10,7,6,.55);color:var(--gold);text-decoration:none;font-size:14.5px;line-height:1.7;white-space:nowrap}
+.top nav a.on{background:var(--red);border-color:var(--red);color:#fff}
+footer.foot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;
+  padding:20px 16px calc(10px + env(safe-area-inset-bottom));font-size:13px;color:#d4c6b5;text-shadow:0 1px 3px #000,0 0 10px #000;
+  background:linear-gradient(0deg,rgba(6,4,3,.92),rgba(6,4,3,.7) 60%,rgba(6,4,3,0))}footer.foot a{color:var(--gold);text-decoration:none}
+@media (max-width:760px){body{font-size:16px}main{margin-top:46vh;padding:24px 16px 34px}.top{flex-direction:column;align-items:flex-start;gap:6px;padding:10px 12px 16px}
+  .top .brand{font-size:18px}.top nav{margin-left:0;max-width:100%}.top nav a{padding:2px 8px;font-size:13px}footer.foot{gap:10px;font-size:12px}}</style></head><body>
+<header class="top"><a class="brand" href="index.html"><small>仙泉．香布纏．續</small>Larch RPG 引擎實測</a><nav><a href="how.html">做法</a><a href="script.html">劇本</a><a href="sprites.html">角色</a><a href="cg.html">CG</a><a href="city.html">建城</a><a href="walkin.html">原畫</a><a href="confirm.html">確認頁</a><a href="sound.html">聲光</a><a href="engine.html" class="on">引擎</a></nav></header>
+<div class="bg" aria-hidden="true"><img src="img/engine-error.webp" alt=""></div>
+<main><h1>Larch RPG 引擎實測</h1>
+<p>《續》現在是 111 張地圖、609 張卡。做的過程踩到 Larch RPG 引擎很多條上限，最常見的樣子是整張地圖只剩一行「這張地圖的資料無法讀取」。這一章一條一條記：哪一天踩到、怎麼發現的、怎麼繞過、現在用哪個檢查擋住。大部分是 AI 讀本機預覽器附的引擎原始碼、在本機預覽實測出來的，幾條是我試玩時看到的。想用 Larch 做 RPG 的人，動手前可以把這一章當清單看一遍。</p>
+<h2>整張地圖讀不出來</h2>
+<figure><a href="img/engine-error.webp" target="_blank" rel="noopener"><img src="img/engine-error.webp" alt="地圖讀不出來時，畫面上只有這一行" loading="lazy"></a><figcaption>地圖讀不出來時，畫面上只有這一行</figcaption></figure>
+<p>畫面上只看得到這一行。2026-10-21 寫這一章時，AI 在本機預覽把下表大部分重跑了一次：故意弄壞一張測試用的地圖，原因要從頁面的文字裡讀，例如「RPG Error: 角色動畫格式不正確」。下表的「引擎報的原因」除了任務提示那一條，都是這次重跑抄下來的。</p>
+<table>
+<thead>
+<tr>
+<th>日期</th>
+<th>踩到什麼</th>
+<th>引擎報的原因</th>
+<th>現在的做法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-10-07 起</td>
+<td>同一格放了兩個事件</td>
+<td>事件需在地圖內，每格一個事件</td>
+<td>見下面〈一格只放得下一個事件〉</td>
+</tr>
+<tr>
+<td>2026-10-15</td>
+<td>隨機挑一句的動作超過 10 個分支（想念的句子一組太多句）</td>
+<td>隨機數值需要最小到最大（-9999–9999）與 1–10 個分支，每個分支的數字由小到大</td>
+<td>分組；<code>tests/check_crowd.py</code> 擋</td>
+</tr>
+<tr>
+<td>2026-10-16</td>
+<td>同一張地圖兩個事件 id 撞名（推車和商車都叫 <code>f3d-cart</code>）</td>
+<td>ID 必須唯一，且只能包含英數、底線、連字號</td>
+<td>改名；短測開頭先查</td>
+</tr>
+<tr>
+<td>2026-10-17</td>
+<td>事件 id 有中文</td>
+<td>同上</td>
+<td>id 一律英數，例如 <code>decor-&lt;序號&gt;</code></td>
+</tr>
+<tr>
+<td>2026-10-19</td>
+<td>第五章趕工那張的任務提示 18 筆</td>
+<td>遊戲任務格式不正確</td>
+<td>Larch 當天取消上限，18 筆還原</td>
+</tr>
+<tr>
+<td>2026-10-20</td>
+<td>自製下雪一格畫面 256×960、24 格；傷兵道具圖 384×677</td>
+<td>角色動畫格式不正確</td>
+<td>每格寬高最多 512 像素、最多 16 格；<code>check_static</code> 9n</td>
+</tr>
+<tr>
+<td>2026-10-21</td>
+<td>地圖 65×65</td>
+<td>地圖寬高需為 2–64，格子尺寸需為 8–96</td>
+<td>一張最大 64×64，大的地方好幾張接</td>
+</tr>
+<tr>
+<td>2026-10-21</td>
+<td><code>hop</code> 沒寫 <code>times</code></td>
+<td>跳躍需選擇主角或這個角色、1–10 次，目標要在地圖內</td>
+<td>一定寫 <code>times</code></td>
+</tr>
+</tbody>
+</table>
+<p>任務提示那一條的經過：2026-10-19 AI 在做瀏覽器測試加速，跑到第五章發現趕工那張地圖進不去。任務提示（左上角那個「遊戲任務」）有 18 筆，當時引擎上限 16。AI 先拆成 16 筆、在 <code>check_static</code> 加了筆數檢查；我去問 Larch 能不能放寬。Larch 回覆這是他們自己設的上限，先放寬到 64，同一天就取消了，18 筆還原。當晚任務提示的字數、條件數上限也取消了。</p>
+<h2>整個畫面壞掉的那幾種</h2>
+<p>比讀不出一張地圖更嚴重的，是整個畫面、整個播放器壞掉。踩過的：</p>
+<ul>
+<li>2026-10-07：表情泡泡用了 <code>ellipsis</code>、粒子用了 <code>leaves</code>、一個選項只有一個答案。現在照白名單擋：泡泡只有 heart、exclamation、question、happy、sad、anger、sweat、sleep、music、idea、rice、apple 這十二種；粒子只有 none、motes、petals、fireflies、embers、sparkles；選項至少兩個。</li>
+<li>2026-10-09：畫面特效（閃、震、暗場）的時間設成 90 毫秒，要 100 到 5000。</li>
+<li>2026-10-09：一盞光的半徑設成 14，要 0.5 到 12，而且在地圖裡。</li>
+<li>2026-10-09：角色倍率超過 8。一團灶火的事件格離火太遠，動畫圖被撐寬到 8 格以上。</li>
+</ul>
+<p>劇本裡只有一個答案的地方（第二章井邊、第九章最後那句「我愛妳。」），就直接演出、記進「思念」，不跳選項。</p>
+<h2>一張地圖最大 64×64</h2>
+<p>《續》現有的地圖裡，最大的兩張是嚴家 48×54 格、五原 56×40 格。2026-10-21 決定地圖整個重做，要畫整座城，AI 先實測，65×65 引擎就報「地圖寬高需為 2–64」。所以一張最大 64×64，一格半公尺，大的地方用好幾張接起來。</p>
+<p>地圖重做分三層，是我定的：大地圖（64×64，一格約 18 公里）、城或村（好幾張 64×64 的塊相連）、屋內（從門進去的小地圖）。五原的色塊預覽是 13 張 64×64 接起來的，怎麼接寫在下面〈走過邊界換圖〉。</p>
+<h2>鏡頭只有三種倍率</h2>
+<p>AI 實測的算法：鏡頭至少看 24×18 格，再乘一個倍率，close 1.35、normal 1、wide 0.75；不設鏡頭，就是整張地圖蓋滿畫面。換算到 16:9 的畫面，wide 約 32×18 格，normal 約 24×13.5 格，close 約 18×10 格。玩家沒辦法自己縮放。</p>
+<figure><a href="img/engine-camera.webp" target="_blank" rel="noopener"><img src="img/engine-camera.webp" alt="同一個位置、四種鏡頭（燒過的五原，56×40 格）" loading="lazy"></a><figcaption>同一個位置、四種鏡頭（燒過的五原，56×40 格）</figcaption></figure>
+<p>這件事 2026-10-07 就碰過。那天我說「希望效果細緻一點」，AI 把原本的一格切成 2×2 的細格。normal 至少看 24×18 格，切細以後畫面上的人和物件會變兩倍大，所以《續》的地圖都不設鏡頭，讓整張圖蓋滿畫面；人物倍率從 1.6 改成 3.2，資料庫裡角色的走路速度加倍，看起來跟切細以前一樣大、走起來一樣快。</p>
+<p>重做地圖的鏡頭是我定的：城裡每一塊用 wide，屋內用 normal，大地圖不設鏡頭、人物縮一半。</p>
+<h2>一格只放得下一個事件</h2>
+<p>一格只能有一個事件，連只負責顯示一張圖的「自由圖片」事件也算在內。違反就是上表第一列那一行錯誤。寫這一章截圖時又碰到一次：AI 把主角的起點挪到魏家門口最下面那一排，那一排是出巷子的觸碰事件，整張讀不出來。</p>
+<p>繞法：</p>
+<ul>
+<li>物件的自由圖片事件，放在人走不到的格子。舊地圖放在地圖最外一圈（<code>xu/game/src/layout.py</code> 的 <code>hold_cells</code>），新地圖放在牆裡、屋裡。</li>
+<li>同一格要演好幾種開場，就併成一個事件、分好幾頁（<code>ch3_maps.one_cell</code>）。</li>
+<li>第五章巡兵的視線，兩個停靠點重疊的格子併成一個事件，每個停靠點一頁。</li>
+<li>火的事件格被別的事件佔了，就把事件放旁邊一格、圖往回偏（設計檔的 <code>cell_x</code>）。</li>
+<li>下雪的事件附近都被佔了，那一塊就少一片雪，<code>check_static</code> 會數出來。</li>
+</ul>
+<p>互動點的名牌也繞過一次（2026-10-18）。新介面的名牌是不透明的，疊在補畫的物件上會把物件蓋掉，所以把名牌拆出來，放到圖框頂端那一格，另外放一個沒有步驟的事件。這個事件不能用平行觸發：實測沒有步驟的平行事件不顯示名牌。</p>
+<h2>圖照下緣排前後</h2>
+<p>AI 讀引擎原始碼查到的規則（2026-10-08）：人和事件一起排前後。自由圖片的排序值是圖框的 <code>y + h − 1</code>，人用自己站的那一列，小的先畫；一樣大的話圖先畫，人在上面。</p>
+<p>所以每個物件的圖框下緣，就對齊它佔地最下一列的下緣。站在南邊的人畫在物件前面，站在圖框裡北邊的人被蓋住。</p>
+<figure><a href="img/engine-sort.webp" target="_blank" rel="noopener"><img src="img/engine-sort.webp" alt="魏家門口的老樹。左：站在第 13 列，樹畫在他上面。右：站在第 14 列，跟樹同一列，他畫在樹上面" loading="lazy"></a><figcaption>魏家門口的老樹。左：站在第 13 列，樹畫在他上面。右：站在第 14 列，跟樹同一列，他畫在樹上面</figcaption></figure>
+<p>跟著來的幾條：</p>
+<ul>
+<li>長的物件整塊只有一個排序值，走在旁邊的人會排錯。地圖邊的樹、草垛、直的柵欄切成一列一條；南北向的長牆每 5 列切一張（<a href="city.html">建城工法：拼出來的城</a>）。</li>
+<li>平鋪在地上、人走得上去的（竹蓆、地上的小路），不能當自由圖片，人走進它的範圍會被它蓋住。2026-10-20 我試玩第八章看到竹蓆蓋住人，改成合成進地面圖（<code>art/bake_flat.py</code>）。第九章第六天才出現的小路，直接畫進地面，前五天用原地面同一塊當物件蓋住。</li>
+<li>圖框還有一個 <code>free.block</code>，可以把圖框下面幾列設成牆。《續》不用：圖框下緣含陰影和雪，不準，碰撞另外寫。</li>
+<li>揮刀的武器圖，引擎固定畫在角色腳下那一格（轉軸在格子 y+0.62，武器寬 0.95 格）。《續》的人物有三格多高，刀會在腳邊揮。2026-10-08 我定了武器圖一律透明，揮刀聲、命中閃光、傷害數字、擊退都留著，代價是背包裡環首刀的圖示也是透明的。</li>
+<li>自由圖片沒有角色圖那個 512 像素的上限。整座房子、整排牆都是自由圖片，要動的（火、雪、會走的人）才用角色圖。</li>
+</ul>
+<h2>擋路格和看不見的牆</h2>
+<p>碰撞是一層看不見的圖層，要擋的格子塗一格圖塊（<code>mapkit.collision_layer</code>）。最早那幾張整張俯視畫的地圖，每一格擋不擋寫在各地圖的 <code>cell()</code> 裡，改了就重產疊圖，一格一格看：綠的能走、紅的擋、藍點是事件（<code>python3 art/overlay.py &lt;圖&gt;</code>）。</p>
+<figure><a href="img/engine-collision.webp" target="_blank" rel="noopener"><img src="img/engine-collision.webp" alt="嚴家的碰撞疊圖：綠色能走、紅色擋路、藍點是事件" loading="lazy"></a><figcaption>嚴家的碰撞疊圖：綠色能走、紅色擋路、藍點是事件</figcaption></figure>
+<p>2026-10-09 我說棚子旁邊走不過去，地圖不要有看不見的牆。AI 的做法：產圖以後量每個佔地格，物件圖在那一格畫到的不到四成，就自動放開（<code>layout.thin_cells</code>）；一格一根的直柵欄、設計檔寫 <code>solid: true</code> 的例外。<code>check_static</code> 列出還擋著、圖上又沒畫的格子，負控制是不放開時，燒過的五原那個棚子的 (18,24) 要抓得到。</p>
+<p>另外幾條：</p>
+<ul>
+<li>互動事件的 <code>solid</code>，在事件不是角色（<code>actor: none</code>）時沒有作用。嚴家的水缸只放一個事件擋不住人，要把水缸那兩格寫進牆（2026-10-18）。</li>
+<li>觸碰事件要「踩進去」才算。第五章倒完最後一筐土，人還站在後門門洞裡，把那一格換成「回城南宅」不會觸發，回家改放在門外那一排。</li>
+<li>用觸碰事件把人頂回去一格（<code>move</code> 主角一格），在動作戰鬥的地圖上沒有作用。第七章南門改成站著的兵擋路。</li>
+</ul>
+<h2>走過邊界換圖、路過的人</h2>
+<p>這兩個做法是 2026-10-21 做五原色塊預覽時實測出來的。</p>
+<figure><a href="img/engine-edge.webp" target="_blank" rel="noopener"><img src="img/engine-edge.webp" alt="左：走過邊界換圖。右：路過的人用兩頁組出來" loading="lazy"></a><figcaption>左：走過邊界換圖。右：路過的人用兩頁組出來</figcaption></figure>
+<p>走過邊界：兩塊相接的那條邊上，每一格各放一個觸碰事件，跳到隔壁那一張同一個位置、往裡一格，落點不能是對面的換圖格；角落那一格兩邊都接時，只接一邊。<code>node tests/city_walk.mjs</code> 確認北門兩邊走得過去，<code>python3 art/wuyuan/plan.py</code> 擋相鄰兩塊的邊對不上（一邊能走、一邊是牆）。</p>
+<p>路過：我要城裡有人從街的一頭走到另一頭，消失，再從起點出現。引擎沒有這種走法，用兩頁組：看得見的那一頁在背景走到終點，把自己的變數設成真；看不見的那一頁在背景用 <code>hop</code> 跳回起點、停一下，再把變數設回假。<code>hop</code> 一定要寫 <code>times</code>，漏了整張地圖讀不出來。2026-10-21 AI 在本機做了正反兩個測試：寫了 <code>times: 1</code> 的地圖正常，沒寫的就是上表那一行錯誤。</p>
+<p>其他會動的人：</p>
+<ul>
+<li>叫賣的：背景事件 <code>wait</code> → <code>balloon</code>（泡泡指著自己）→ <code>loop</code>。</li>
+<li>校場跑步繞圈：一個 <code>move</code> 最多 8 段、每段最多 20 步，切成幾個 <code>move</code> 再 <code>loop</code>。</li>
+<li>隨機走動：引擎的隨機走法固定 0.65 秒一步。2026-10-15 我說隨機移動的頻率不要一樣、不要那麼快。AI 把每個人改成「站著」「走動」兩頁，配一個節拍器：每組隨機等 2.5 到 11 秒才走 1 到 3 步（<code>src/wander.py</code>）。</li>
+<li>來回走：我定的是只有巡邏的兵來回走，其他人來回走很怪。</li>
+<li>事件不能跟著人走。第五章巡兵的視線，是用「停靠點加每一點一張光」做出來的，寫在<a href="sound.html">配樂、音效與天氣光影</a>。</li>
+</ul>
+<h2>HUD 最多 8 個</h2>
+<p>《續》自己做了一個外掛 <code>xu-voice</code>，裡面 8 個 HUD：說不出口、蓋板、地窖的米、準備出路、年份與刻痕、乾糧、右上的時鐘、心境面板。</p>
+<p>2026-10-18 加到第 9 個時，所有 HUD 一起不見，地圖和事件照跑，沒有任何錯誤訊息。所以心境面板和升階的小提示合成一個 HUD。2026-10-20 我問「應該都不限制了吧」，前一天 Larch 才取消了任務提示的上限。AI 用當天 13:17 更新的 Larch 程式重測：8 個全部載入，10 個、16 個一個都沒有。2026-10-21 寫這一章時，8 個和 10 個又各跑了一次，結果一樣。這個 8 是實測值，原始碼裡沒找到寫明的那一行。</p>
+<figure><a href="img/engine-hud.webp" target="_blank" rel="noopener"><img src="img/engine-hud.webp" alt="上：原本 8 個 HUD，右上角的年份時鐘在（截圖時時鐘把 223 年算成黃初三年，寫這一章時才發現，已經改成黃初四年）。下：加到 10 個，一個都沒載入" loading="lazy"></a><figcaption>上：原本 8 個 HUD，右上角的年份時鐘在（截圖時時鐘把 223 年算成黃初三年，寫這一章時才發現，已經改成黃初四年）。下：加到 10 個，一個都沒載入</figcaption></figure>
+<p>原始碼裡查得到的是另外幾條：</p>
+<ul>
+<li>HUD 的寬高被夾在 32 到 640 像素，只能貼四個角。「說不出口」因此是偏左上的一個大方塊，沒辦法放正中間；下雪也因此沒辦法用 HUD 做。</li>
+<li>HUD 要有 <code>visibleVariable</code> 才會載入。永遠開著的 HUD，用一個永遠為真的變數 <code>hud_on</code>。</li>
+<li>HUD 只能讀變數，不能點了去觸發事件。心境面板沒有手動打開的按鈕，升階和存檔點時自己跳出來約五秒。</li>
+<li>左上角的地名、血量那一列，引擎沒有一張地圖一張地圖關掉的開關，對話時會自己淡出。</li>
+</ul>
+<h2>主角的樣子跟著資料庫走</h2>
+<p>引擎畫主角，用的是資料庫裡「目前的主角」，地圖上主角事件給的圖、綁的角色都蓋不過。換造型要用 <code>hero</code> 步驟換主角，實測換的時候位置不變：</p>
+<ul>
+<li>坐在門檻上：引擎沒有坐下的動作，換成坐姿的走路圖（<code>*sit</code>），起身再換回來。</li>
+<li>第九章那幾張「整張就是一張 CG」的場景圖：一進場先換成整張透明的 <code>nobody9</code>，回到谷口門檻再換回六十二歲。</li>
+</ul>
+<p>這個「目前的主角」會跨地圖沿用。2026-10-20 我試玩第七章，划完船進屋、進曹營都還在划船。現在離開地圖前一定換回走路的樣子，<code>check_static</code> 9l 擋，負控制是故意不換要抓得到。</p>
+<h2>事件分頁和自動觸發</h2>
+<ul>
+<li>事件分頁：引擎從最後一頁往前找，第一個條件成立的那一頁算數。第八章每一年不一樣的內容都寫成分頁，條件是那一年。</li>
+<li>會自動演的頁，跟可以按的頁，不能放在同一個事件上。引擎記著這個事件這次進圖跑過沒有，跑過了，自動觸發就不再啟動；玩家按動作鍵跟它說話也算跑過。2026-10-20 給第一章的娘加了街上的對話，邏輯模擬器馬上卡住：先跟娘說話，她就永遠不會把人拖走。修法是「被拖走」那一頁改成條件觸發。</li>
+<li>平行事件的條件，不要依賴它自己會改的變數。第七章七輪弩箭由三個平行事件接力，靠接力變數 <code>c7_blk</code> 交棒。</li>
+<li>動作戰鬥的地圖上：互動鍵是 J 或空白鍵，Enter 不算；戰鬥中跳出地圖對話，整張地圖停住，計時器也停；撞上來的敵人會把地圖對話打斷，所以戰鬥中的心聲改成直接寫進 HUD。</li>
+<li>步數上限：原本記的是一段動作最多 32 步，2026-10-20 再查已經是一段 999 步、一個事件連同分支 9999 步、條件 16 個、分支三層，本機實測 54 步的事件整段播完。當時為 32 步拆開的事件（例如四十軍棍拆成兩個事件）照舊能用。</li>
+</ul>
+<h2>存檔點</h2>
+<p>2026-10-10 我試玩完說：「存檔好像不方便 是不是有需要提醒玩家存檔之類的 至少戰鬥前」。</p>
+<p>引擎有一個 <code>save</code> 步驟，會叫出播放器的存檔視窗，關掉才往下（專案沒開存檔功能時，等 1.5 秒就往下，不會卡）。AI 寫的 <code>src/savepoints.py</code> 放在兩種地方：</p>
+<ul>
+<li>每一場戰鬥開打前：旁白一句「要打一場了。想存檔的話，現在可以存。」，接存檔視窗。這一步放在開打事件的最後：那時劇情進度已經設好、敵人已經在場，讀檔回來就是開打前那一刻。放在中間的話，讀檔會停在進度還沒設好、自動事件又已經跑過的地方，卡死。</li>
+<li>每一章第一張地圖：主角起點附近 3 到 8 格、四周沒有別的事件的一格，放一個「存檔」點，第一次按先說一句怎麼用。2026-10-15 我要地圖上看得出哪裡能存檔，所以那裡立一塊小石碑（<code>art/savestone.py</code>）。</li>
+</ul>
+<p><code>node tests/save_probe.mjs</code> 驗：存進第一格、重新整理、按「繼續遊戲」，回到同一張地圖。還有一件要我在一般瀏覽器確認：存檔視窗按 Esc 關不掉，要按右上角的叉；無頭瀏覽器關掉視窗以後，鍵盤焦點回不到地圖，測試另外補了一下。</p>
+<h2>年份標記</h2>
+<p>2026-10-10 那一輪試玩，我留了三則同一類的回饋：「劇情是要指又過一年還是怎樣」「這裡也是做一次任務過1年對嗎」「玩家可能體感不到幾秒 但是要描寫出有幾個月」。</p>
+<p>AI 寫的 <code>src/timemarks.py</code> 是這樣做的：劇本文字不動，每次跳年、跳季，畫面先暗一下（強度 0.85、1.2 秒），旁白報一句「年號（西元），季節。」，例如「熹平三年（174），春。」；任務提示前面加同一個時間，對話卡加在第一句。右上角另有一個常駐的時鐘 HUD，跳年那一下跟著換；沒有旁白報時間的地圖，一進場也會更新時鐘。<code>check_static</code> 用 <code>is_mark()</code> 擋年號對不上西元的句子。</p>
+<figure><a href="img/engine-timemark.webp" target="_blank" rel="noopener"><img src="img/engine-timemark.webp" alt="第零幕第一張地圖一進場：旁白報「建寧二年（169），秋。」，右上是時鐘，主角右邊那塊小石碑是存檔點" loading="lazy"></a><figcaption>第零幕第一張地圖一進場：旁白報「建寧二年（169），秋。」，右上是時鐘，主角右邊那塊小石碑是存檔點</figcaption></figure>
+<h2>測試時摸到的</h2>
+<p>2026-10-19 為了讓瀏覽器測試跑快一點，AI 又摸到引擎幾個行為：</p>
+<ul>
+<li>地圖每一幀的時間差最多算 50 毫秒。只把時鐘加速的話，3 倍以上走路就追不上，所以每個真的幀拆成最多 6 個小幀。</li>
+<li>引擎有「點地圖自動走路」：點一格，它自己找路走過去，路會避開觸碰事件。</li>
+<li>主角還在走路動畫、或者事件和對話開著的時候，引擎不收方向鍵。</li>
+</ul>
+<p>日常驗內容不開瀏覽器：<code>xu/game/tools/sim/</code> 照引擎的事件語意（分頁、自動、條件、平行、各種條件判斷）用 Node 重做一遍，整部遊戲不到一秒走完。它模擬不到的是走路和碰撞、名牌遮擋、介面外觀、計時細節、音訊和存檔視窗，這幾樣靠短測和截圖。截圖要等畫面上的「NOW LOADING」消失，一次只跑一個瀏覽器測試。</p>
+<h2>不讓同一個坑再踩一次</h2>
+<p>上面這些，大部分踩到以後都變成一項檢查，多半配一個負控制，故意弄壞，要抓得到。事件 id 的字元、<code>hop</code> 的 <code>times</code>、地圖大小這三條，目前靠產地圖的程式照規矩寫，<code>check_static</code> 沒有另外檢查。平常跑的幾道：</p>
+<pre><code class="language-bash">cd xu/game
+python3 src/build.py            # 產 dist/project.json
+python3 tests/check_static.py   # 白名單、上限、每格一個事件、角色圖上限、配樂……
+python3 tests/check_crowd.py    # 路人：撞臉、站在牆裡、走不到、隨機動作的上限
+node tools/sim/lint.mjs         # 跳轉、任務提示、變數、劇情進度打錯字
+</code></pre>
+<p>地圖正在照這些上限整個重做：五原拆成好幾張 64×64，城裡用 wide 鏡頭，每一塊的邊一格一格接起來。整張畫當地圖、人走到屋後被擋住的做法在<a href="walkin.html">走進原畫</a>，一件一件拼的第一套在<a href="city.html">建城工法：拼出來的城</a>。</p><div class="pager"><a href="sound.html">← 上一章</a><a href="index.html">回目錄</a></div></main>
+<footer class="foot"><span>仙泉．香布纏．續 · 製作手記 · 作者 亞澤 · 內容授權 CC BY-NC 4.0</span>
+<a href="https://github.com/yazelin/larch-xu-canon" target="_blank" rel="noopener">GitHub</a><a href="https://www.facebook.com/yaze.lin.gm" target="_blank" rel="noopener">Facebook</a>
+<a href="https://buymeacoffee.com/yazelin" target="_blank" rel="noopener">請我喝咖啡</a><a href="https://yazelin.github.io/" target="_blank" rel="noopener">亞澤的部落格</a></footer>
+<script>
+/* yz-promo-footer (trimmed) | 三件套+BMC 注意力效果 | https://github.com/yazelin/promo-footer-skill
+   對 footer 既有的 Buy Me a Coffee 連結加 bobbing + 講話氣泡（不重新注入連結）。 */
+(function(){"use strict";
+if(window.__yzPromoInit)return;window.__yzPromoInit=1;
+try{if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return}catch(e){}
+var LINES=["嘿，這裡這裡，我是咖啡按鈕","我是一顆很努力的按鈕，求被點一下","噓，亞澤不知道我在偷偷拉贊助","你看我跳得這麼賣力，不請一杯嗎？","不請也沒關係，你來玩我就很開心","一杯咖啡，是下一個作品的燃料","你的咖啡會變成下一個作品，真的","咖啡因進入亞澤體內，程式碼就會自己寫完","用愛發電中，咖啡因可提升發電效率","覺得好玩嗎？抖內一下下","這個網站沒有廣告，只有我這顆按鈕"];
+var CSS="@keyframes yzIdle{0%,55%,100%{transform:translateY(0)}62%{transform:translateY(-4px)}70%{transform:translateY(0)}78%{transform:translateY(-2px)}84%{transform:translateY(0)}}.yz-idle{animation:yzIdle 2.6s ease-in-out infinite}@keyframes yzHop{0%,100%{transform:translateY(0)}20%{transform:translateY(-6px) scale(1.04)}40%{transform:translateY(0) scale(1)}55%{transform:translateY(-3px)}70%{transform:translateY(0)}}.yz-hop{animation:yzHop .9s cubic-bezier(.36,.07,.19,.97)}.yz-bubble{position:fixed;z-index:2147483000;max-width:200px;padding:6px 11px;border-radius:14px;background:#fffdf7;color:#4a3f35;border:1px solid rgba(0,0,0,.1);box-shadow:0 4px 14px rgba(0,0,0,.18);font:13px/1.5 system-ui,-apple-system,'Noto Sans TC',sans-serif;pointer-events:none;opacity:0;transform:translateY(5px);transition:opacity .25s ease,transform .25s ease}.yz-bubble.yz-on{opacity:1;transform:translateY(0)}.yz-bubble::after{content:'';position:absolute;left:var(--yz-tail,50%);margin-left:-6px;border:6px solid transparent}.yz-bubble.yz-above::after{bottom:-6px;border-bottom:0;border-top:6px solid #fffdf7}.yz-bubble.yz-below::after{top:-6px;border-top:0;border-bottom:6px solid #fffdf7}";
+var bubble,anchor;
+function addCss(){if(document.getElementById("yz-promo-css"))return;var s=document.createElement("style");s.id="yz-promo-css";s.textContent=CSS;document.head.appendChild(s)}
+function findAnchor(){var as=document.querySelectorAll('a[href*="buymeacoffee.com/yazelin"]');if(!as.length)return null;var vis=[],i,r;for(i=0;i<as.length;i++){r=as[i].getBoundingClientRect();if(r.width||r.height)vis.push(as[i])}var pool=vis.length?vis:[].slice.call(as);return pool[pool.length-1]}
+function hop(){anchor.classList.remove("yz-hop");void anchor.offsetWidth;anchor.classList.add("yz-hop")}
+var shown=0,MAX_SHOWS=3;
+function say(){if(document.hidden)return;var r=anchor.getBoundingClientRect();if(!r.width&&!r.height)return;if(r.bottom<0||r.top>innerHeight)return;if(shown>=MAX_SHOWS)return;shown++;bubble.textContent=LINES[Math.floor(Math.random()*LINES.length)];bubble.classList.remove("yz-on","yz-above","yz-below");bubble.style.left="0px";bubble.style.top="0px";var bw=bubble.offsetWidth,bh=bubble.offsetHeight,cx=r.left+r.width/2;var left=Math.max(8,Math.min(cx-bw/2,innerWidth-bw-8));var above=r.top-bh-12>=8;bubble.style.left=left+"px";bubble.style.top=(above?r.top-bh-12:r.bottom+12)+"px";bubble.classList.add(above?"yz-above":"yz-below");bubble.style.setProperty("--yz-tail",Math.max(12,Math.min(cx-left,bw-12))+"px");hop();requestAnimationFrame(function(){bubble.classList.add("yz-on")});setTimeout(function(){bubble.classList.remove("yz-on")},4200)}
+function start(){addCss();anchor=findAnchor();if(!anchor)return false;try{if(getComputedStyle(anchor).display==="inline")anchor.style.display="inline-block"}catch(e){}anchor.classList.add("yz-idle");anchor.addEventListener("animationend",function(e){if(e.animationName==="yzHop")anchor.classList.remove("yz-hop")});bubble=document.createElement("div");bubble.className="yz-bubble";bubble.setAttribute("aria-hidden","true");document.body.appendChild(bubble);window.__yzPromo=say;(function loop(first){if(shown>=MAX_SHOWS)return;setTimeout(function(){say();loop(false)},first?18e3+Math.random()*12e3:9e4+Math.random()*9e4)})(true);return true}
+function boot(){var tries=0;(function t(){if(start())return;if(++tries<20)setTimeout(t,1500)})()}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+})();
+</script></body></html>

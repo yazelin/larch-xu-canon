@@ -1,0 +1,403 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>建城工法：拼出來的城 · 仙泉．香布纏．續 製作手記</title><meta name="description" content="五原是《續》地圖重做的第一座城。第一套做法是把一座城拆成零件，一件一件產，再照一份配置拼回去：地面用無縫貼圖拼，屋子在綠幕上一棟一棟產，牆整圈產再切成九格，城牆連城門、角樓一起產。這一章記下每一步的做法、指令和數字，我定過的規矩，還有試過就丟掉的做法。"><meta name="theme-color" content="#100c0a">
+<meta property="og:title" content="建城工法：拼出來的城 · 仙泉．香布纏．續 製作手記"><meta property="og:description" content="五原是《續》地圖重做的第一座城。第一套做法是把一座城拆成零件，一件一件產，再照一份配置拼回去：地面用無縫貼圖拼，屋子在綠幕上一棟一棟產，牆整圈產再切成九格，城牆連城門、角樓一起產。這一章記下每一步的做法、指令和數字，我定過的規矩，還有試過就丟掉的做法。"><meta property="og:image" content="https://yazelin.github.io/larch-xu-canon/img/city-whole.webp">
+<style>:root{color-scheme:dark;--bg:#100c0a;--card:rgba(20,14,11,.9);--line:rgba(226,184,102,.26);--gold:#e2b866;--gold2:#f0d08f;--red:#c8502e;--fg:#f1e8dd;--dim:#b7a693}
+*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.9 "Noto Serif TC","Noto Serif CJK TC","Songti TC",serif}
+a{color:var(--gold2)}
+.bg{position:fixed;inset:0;z-index:0;background:#000}.bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.9}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,6,5,.6),rgba(8,6,5,.15) 30%,rgba(8,6,5,.15) 70%,rgba(8,6,5,.6)),linear-gradient(180deg,rgba(8,6,5,.35),rgba(8,6,5,.05) 40%,rgba(8,6,5,.65))}
+main{position:relative;z-index:2;max-width:900px;margin:40vh auto 110px;padding:34px 34px 44px;background:var(--card);border:1px solid var(--line);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+h1{color:var(--gold2);font-size:clamp(28px,4.4vw,40px);letter-spacing:.06em;margin:0 0 18px;text-shadow:0 2px 12px #000}
+h1::after{content:"";display:block;width:72px;height:3px;background:var(--red);margin-top:10px}
+h2{color:var(--gold2);font-size:24px;margin-top:60px;padding-left:12px;border-left:3px solid var(--red)}h3{color:var(--fg);margin-top:36px}
+table{border-collapse:collapse;width:100%;font-size:15px;display:block;overflow-x:auto}
+td,th{border:1px solid var(--line);padding:7px 11px;vertical-align:top}th{background:rgba(40,28,20,.9);color:var(--gold2);font-weight:500}tr:nth-child(even) td{background:rgba(40,28,20,.35)}
+blockquote{margin:16px 0;padding:6px 16px;border-left:2px solid var(--gold);color:#dccfc0;background:rgba(40,28,20,.5)}strong{color:var(--gold2);font-weight:600}
+code{font:14px/1.6 ui-monospace,"Noto Sans Mono CJK TC",monospace;background:rgba(0,0,0,.35);padding:1px 5px;border-radius:4px}
+pre{background:rgba(0,0,0,.45);border:1px solid var(--line);padding:14px 16px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}pre code{background:none;padding:0;font-size:13.5px}
+figure{margin:26px 0}figure img{display:block;width:100%;height:auto;border:1px solid var(--line);box-shadow:0 10px 36px rgba(0,0,0,.55)}
+figcaption{color:var(--dim);font-size:14.5px;margin-top:8px;line-height:1.7}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:22px 0}
+.cards a{display:block;text-decoration:none;background:rgba(40,28,20,.55);border:1px solid var(--line);color:var(--fg)}.cards a:hover{border-color:var(--gold)}
+.cards img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}.cards b{display:block;color:var(--gold2);padding:10px 12px 0;font-size:18px}.cards span{display:block;padding:2px 12px 12px;color:var(--dim);font-size:14.5px;line-height:1.6}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:60px}.pager a{padding:6px 16px;border:1px solid var(--line);border-radius:16px;text-decoration:none;background:rgba(10,7,6,.55)}
+.top{position:fixed;left:0;right:0;top:0;z-index:5;display:flex;align-items:center;gap:14px;padding:12px 24px 22px;
+  background:linear-gradient(180deg,rgba(6,4,3,.9),rgba(6,4,3,.6) 60%,rgba(6,4,3,0));text-shadow:0 1px 3px #000,0 0 12px rgba(0,0,0,.9)}
+.top .brand{color:var(--gold);font-size:21px;line-height:1.25;letter-spacing:.12em;font-weight:600;text-decoration:none;white-space:nowrap}
+.top .brand small{display:block;font-size:12.5px;font-weight:400;letter-spacing:.2em;color:#cfa760}
+.top nav{margin-left:auto;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none}.top nav::-webkit-scrollbar{display:none}
+.top nav a{padding:3px 11px;border:1px solid rgba(226,184,102,.3);border-radius:14px;background:rgba(10,7,6,.55);color:var(--gold);text-decoration:none;font-size:14.5px;line-height:1.7;white-space:nowrap}
+.top nav a.on{background:var(--red);border-color:var(--red);color:#fff}
+footer.foot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;
+  padding:20px 16px calc(10px + env(safe-area-inset-bottom));font-size:13px;color:#d4c6b5;text-shadow:0 1px 3px #000,0 0 10px #000;
+  background:linear-gradient(0deg,rgba(6,4,3,.92),rgba(6,4,3,.7) 60%,rgba(6,4,3,0))}footer.foot a{color:var(--gold);text-decoration:none}
+@media (max-width:760px){body{font-size:16px}main{margin-top:46vh;padding:24px 16px 34px}.top{flex-direction:column;align-items:flex-start;gap:6px;padding:10px 12px 16px}
+  .top .brand{font-size:18px}.top nav{margin-left:0;max-width:100%}.top nav a{padding:2px 8px;font-size:13px}footer.foot{gap:10px;font-size:12px}}</style></head><body>
+<header class="top"><a class="brand" href="index.html"><small>仙泉．香布纏．續</small>建城工法：拼出來的城</a><nav><a href="how.html">做法</a><a href="script.html">劇本</a><a href="sprites.html">角色</a><a href="cg.html">CG</a><a href="city.html" class="on">建城</a><a href="walkin.html">原畫</a><a href="confirm.html">確認頁</a><a href="sound.html">聲光</a><a href="engine.html">引擎</a></nav></header>
+<div class="bg" aria-hidden="true"><img src="img/city-whole.webp" alt=""></div>
+<main><h1>建城工法：拼出來的城</h1>
+<p>五原是《續》地圖重做的第一座城。第一套做法是把一座城拆成零件，一件一件產，再照一份配置拼回去：地面用無縫貼圖拼，屋子在綠幕上一棟一棟產，牆整圈產再切成九格，城牆連城門、角樓一起產。這一章記下每一步的做法、指令和數字，我定過的規矩，還有試過就丟掉的做法。</p>
+<p>底稿是 <code>xu/建城工法.md</code>，給我看的網頁版存檔在<a href="confirm/method/index.html">建城工法</a>。我離開前交代 AI 把素材和工法做完，整理成之後建城、建村的依據，不用每座城再試一次。這套後來大半被<a href="walkin.html">走進原畫</a>取代，但配置、城牆、牆段、路人和擋路到現在還在用，最後一節講哪些留了下來。</p>
+<figure><a href="img/city-whole.webp" target="_blank" rel="noopener"><img src="img/city-whole.webp" alt="拼好的五原：中間 3×2 是城內，北邊是山腳、北門外的路和城北軍營，再往北是邊牆；東、西兩邊是田，南門外是大路和茶棚。照遊戲的地圖資料離線算出來的整張（2026-10-21 上午）" loading="lazy"></a><figcaption>拼好的五原：中間 3×2 是城內，北邊是山腳、北門外的路和城北軍營，再往北是邊牆；東、西兩邊是田，南門外是大路和茶棚。照遊戲的地圖資料離線算出來的整張（2026-10-21 上午）</figcaption></figure>
+<h2>一張地圖最大 64 格，城要拆成好幾塊</h2>
+<p>舊版《續》最大的一張五原是 56×40 格。一格半公尺，實際只有 28×20 公尺，看起來像只有幾戶的小村。漢代縣城一面城牆常有幾百公尺到一公里，照實際比例畫，一面牆就要上千格。</p>
+<p>Larch 一張地圖最大 64×64 格。AI 實測過，開 65×65 引擎會報「地圖寬高需為 2–64」；編輯器的說明也寫「再大手機就跑不動，想要更大的世界，把它分成幾張地圖，用傳送連起來」。</p>
+<p>2026-10-21 我決定不交 Larch 第三屆挑戰，地圖整個重做，分三層：</p>
+<ul>
+<li>大地圖：64×64 格，一格約 18 公里。</li>
+<li>城或村：好幾張 64×64 的塊接起來，走過邊界就換到隔壁那一張的同一個位置。</li>
+<li>屋內：從門走進去的小地圖。</li>
+</ul>
+<p>鏡頭也一起定。引擎不讓玩家自己縮放，每張地圖各設一個值，AI 量出來的倍率是 close 1.35、normal 1、wide 0.75。我定城裡每一塊用 wide（16:9 一個畫面約 32×18 格），屋內用 normal（約 24×13.5 格），大地圖不設鏡頭、人物縮一半。</p>
+<h2>先排整座城，一張圖都還沒產</h2>
+<h3>地點表和連結圖</h3>
+<p>重做從兩張 AI 做的網頁開始。<a href="confirm/places/index.html">地點表</a>（<code>xu/game/tools/places.html</code>）列出整部用到的地點、劇情在那裡做什麼、建議拆成幾張。每一列底下我直接寫意見，存在頁面的資料庫，AI 讀得到，像是長安、下邳、許都要大、互動多，軍侯的帳子要能走進去跟他說話。</p>
+<p><a href="confirm/links/index.html">連結圖</a>（<code>tools/links.html</code>）定每張地圖的相對位置和出入口。五原分 13 塊：城內 3×2 六塊，城外七塊（四座城門外各一塊，加上校場、墳地、邊牆外的荒原），另外有 4 間屋內。城四面都能進，每一面通到不同的地方；城外先到城外的塊，只有四座城門通城內。</p>
+<p>大地圖我要 AI 照史實位置重排，四周留空畫自然地表。河、海岸、山脈用 Natural Earth 的公開地理資料換算（<code>tools/world_terrain.py</code>），黃河滎陽以東照東漢的河道，淮河下游照漢代直接入海。</p>
+<h3>整座城寫成一份 plan.yaml</h3>
+<p>兩張都點頭以後，AI 把整座城寫成一份配置 <code>xu/game/art/wuyuan/plan.yaml</code>。每一塊 64×64 格，座標用那一塊自己的格子，矩形寫成 <code>[x, y, 寬, 高]</code>。一塊裡寫這幾樣：</p>
+<ul>
+<li><code>ground</code>：地面種類（街、廣場、院子、田、校場……）。</li>
+<li><code>wall</code>：城牆簡寫。<code>n_in</code> 是北牆從城裡看，<code>s_out</code> 是南牆從城外看，<code>plan.py</code> 展開成一格一格。</li>
+<li><code>gates</code>、<code>walkway</code>：城門洞，城頭上得去的那幾段。</li>
+<li><code>courts</code>：院落，下面再講。</li>
+<li><code>objects</code>：物件。<code>foot</code> 是佔地（擋路），<code>up</code> 是往上長幾格（人走到後面會被蓋住），<code>repeat</code> 是同一張圖排成一排。</li>
+<li><code>events</code>：劇情點。<code>people</code>：路人。</li>
+<li>最後的 <code>periods</code> 是五個時期：完整、城破、燒過、修好、空了。同一套配置，只換地面、物件和路人。</li>
+</ul>
+<p>B1（西南巷子）的一段：</p>
+<pre><code class="language-yaml">  B1:
+    c: 1
+    r: 2
+    kind: in
+    name: 西南巷子・鄰居與井
+    wall: [w_in, s_in]
+    ground:
+      - {kind: street, name: 西街, rect: [20, 24, 44, 8]}
+      - {kind: yard, name: 井邊的空地, rect: [18, 32, 24, 16]}
+    courts:
+      - {name: 北一, rect: [8, 5, 13, 17], gate: [s, 12, 3], pen: sw}
+      - {name: 東南, rect: [42, 33, 21, 20], gate: [w, 44, 3], side: e, pen: sw}
+    objects:
+      - {name: 井, kind: prop, foot: [28, 38, 3, 3], up: 3, desc: 挑水的井}
+      - {name: 晾衣竿, kind: prop, foot: [20, 34, 6, 1], up: 3}
+    events:
+      - {name: 井, at: [29, 41], desc: 第二章 挑水；鄰居叫住他}
+    people:
+      - {who: 洗衣的婦人, at: [26, 41], move: still, act: wash}
+      - {who: 玩耍的孩子, at: [24, 45], move: random}
+      - {who: 挑擔的貨郎（叫賣）, at: [21, 27], move: through, to: [62, 27]}
+</code></pre>
+<p>寫配置時我定了幾條規矩：</p>
+<ul>
+<li>屋子的門一律開在南面，俯視只看得到南面。</li>
+<li>物件整個放在一塊裡，屋頂也算，不跨兩塊的邊。跨塊的只有地面和牆。</li>
+<li>整排的物件用同一張圖（或兩三種輪流），排起來才整齊。我舉的例子是《十一分鐘》十九樓的辦公桌群、二十樓整排的機櫃。</li>
+<li>城裡人要多。我說：「反正城裡形形色色人一定很多，叫賣的啦、算命的、要飯的啦之類的？然後房子一定也很多。」AI 加了成排的民屋、攤子和八十多個路人。</li>
+</ul>
+<h3>檢查器先擋，色塊先進遊戲</h3>
+<p><code>python3 art/wuyuan/plan.py</code> 照配置算出每一格，擋這幾種錯：</p>
+<ol>
+<li>物件佔地出了塊的邊、兩件佔地重疊、劇情點四周都走不到。</li>
+<li>相鄰兩塊共用的邊，一邊能走、一邊是牆。走過去會卡在牆裡。</li>
+<li>連結圖說相通，邊上卻一格都走不過去；城牆兩邊卻有格子走得過去。</li>
+<li>有地方能走，從入口（隔壁塊、城門、大地圖出口）卻走不到。</li>
+<li>路人站在牆裡；來回走的走不到四格；路過的路線不是直線，或路上有擋住的格子；繞圈的轉角不是橫平豎直。</li>
+</ol>
+<p>現在這份是 0 個問題。報告也記每條邊走得過去的格數：A2 和 B2 之間 64 格全通，A1 和 C3 之間 0 格，中間是城牆。加 <code>--page</code> 會產給我看的確認頁（存檔：<a href="confirm/plan/index.html">五原配置</a>）：總圖、每一塊的色塊圖、路人和物件清單，每一塊下面可以按同意或寫要改什麼。</p>
+<figure><a href="img/city-plan.webp" target="_blank" rel="noopener"><img src="img/city-plan.webp" alt="plan.py 畫的色塊總圖：深色是佔地，斜線是往上長、人走到後面會被蓋住的範圍；小圓點是路人，虛線箭頭是路過的人走的路，C2 那圈紅線是校場跑步的路線" loading="lazy"></a><figcaption>plan.py 畫的色塊總圖：深色是佔地，斜線是往上長、人走到後面會被蓋住的範圍；小圓點是路人，虛線箭頭是路過的人走的路，C2 那圈紅線是校場跑步的路線</figcaption></figure>
+<p>產圖之前，色塊先進遊戲。<code>python3 src/city.py</code> 寫到 <code>dist-city/</code>，不動正式的 <code>dist/</code>：13 張 64×64 地圖，相鄰兩張邊上每一格都接到隔壁同一個位置。<code>tests/city_walk.mjs</code> 從 A2 北門內往北走，確認穿過門洞換到 C1、再走得回來；<code>tests/city_shots.mjs</code> 每一塊截一張。人物暫用現有的走路圖，車暫用馬。</p>
+<h2>地面選了地板組</h2>
+<p>地面試了兩種做法，放在同一張確認頁上比：</p>
+<ul>
+<li>地板組：每一種地面產一張可以無限接的方圖，照每一格的地面種類拼。</li>
+<li>整張生成：拿一塊的色塊配置當參考，請產圖服務一張畫完，再放大三倍。</li>
+</ul>
+<p>整張生成放大後會糊，落葉大得跟手一樣，相鄰兩塊的接縫還要另外處理。AI 建議地板組，我也選了地板組。</p>
+<figure><a href="img/city-ground.webp" target="_blank" rel="noopener"><img src="img/city-ground.webp" alt="同一個地方（A2），一格 48 像素，放一個人比大小。左：地板組拼的；右：整張生成放大三倍" loading="lazy"></a><figcaption>同一個地方（A2），一格 48 像素，放一個人比大小。左：地板組拼的；右：整張生成放大三倍</figcaption></figure>
+<p><code>xu/game/art/wuyuan/tex/</code> 裡有 18 張無縫貼圖和一張點綴：土地三種、街兩種、門洞的石板、城頭走道、市集、大路、小徑、草地兩種、山腳、田、軍營、校場、荒原、乾河溝；點綴是綠底上的九小堆（落葉堆、草叢、水窪、碎石）。畫風參考是舊版五原的地面（<code>assets/maps/a3r_ground.webp</code>）裁下的一塊。街的提示詞：</p>
+<pre><code>Seamless tileable texture for a top-down 2D RPG map ground, seen from directly above. Match the painting style, colours and light of image 1 exactly: image 1 is a crop of the same game's map ground (a painted top-down 2D RPG map of an Eastern Han frontier town in autumn: warm sandy earth, soft light from the top left, fine painterly detail).
+Draw: a packed-earth town street: two worn cart-wheel ruts running perfectly straight from the top edge to the bottom edge, pebbles and a few autumn leaves along the sides.
+This is a seamless tileable square texture: the left edge continues into the right edge and the top edge continues into the bottom edge, detail spread evenly over the whole square, no single big feature, no vignette, no border, no frame.
+Draw only the flat ground: no buildings, no walls, no trees or tall plants, no people, no animals, no carts, no shadows cast by objects, no text, no letters.
+</code></pre>
+<figure><a href="img/city-tex.webp" target="_blank" rel="noopener"><img src="img/city-tex.webp" alt="地板組：18 張無縫貼圖和一張點綴（點綴去背後墊了土色）" loading="lazy"></a><figcaption>地板組：18 張無縫貼圖和一張點綴（點綴去背後墊了土色）</figcaption></figure>
+<p>拼的時候（<code>ground.py compose</code>）AI 處理了這幾件：</p>
+<ul>
+<li>產出來的方圖不一定真的接得起來。<code>tileable()</code> 拿它跟錯開半張的自己混，中間留原圖，越靠邊越換成錯開的那張，四邊就接得上。</li>
+<li>貼圖照整座城的座標取樣，每一塊四邊多算隔壁 4 格，漸變跨過邊界時兩邊算出來一樣。<code>ground.py seams</code> 量交界兩側那排像素的差，跟同一塊裡相鄰兩排比，16 處交界都接得起來。</li>
+<li>土地三種、草地兩種照整座城共用的一張平滑亂數場分區輪流，大範圍看不出重複。街只用一張：兩張的車轍位置不同，混在一起會有重影。</li>
+<li>橫的街把貼圖轉九十度，車轍跟著橫過去。不同地面的交界用模糊加雜訊的遮罩，接起來是一條起伏的邊。</li>
+<li>點綴每塊隨機撒二、三十個，離塊邊兩格以上，城門、城頭、田、校場不撒。</li>
+</ul>
+<p>點綴原本每塊各自縮放到 1.6 到 3 格大，我問：「為什麼只有一片的紅葉那麼大片？」切出來的單片落葉被放大了三、四倍。改成每一塊都用同一個比例（0.34 到 0.46），原圖約 300 像素的落葉堆縮成兩格半。田的殘株貼圖一張只蓋 8 格（其他蓋 16 格），殘株才跟人的大小對得上。</p>
+<p>季節和時期（冬天的雪、燒過、空了）各產一套貼圖，配置不動。這一套只做了秋天、修好那幾年。</p>
+<h2>物件先把角度定死</h2>
+<p>產物件之前我先定了一條：所有物件跟地圖同一個鏡頭。我的原話是「不要再生成那個 45 度角之類一整排排起來反而會歪歪扭扭的，連續整排的時候會不整齊很醜，最好是大家固定一定的角度」。</p>
+<p>第一批的參考圖是舊《續》的物件，屋子用的是 <code>assets/objects/f2/南屋東.png</code>，那是平角度。AI 用同一種民房試了好幾種角度：A 約 60 度、D 約 70 度，看到的屋頂只有前面一片；E 約 80 度，前後兩片屋頂都看得到，前牆只剩一條細邊。再從 E 調前牆的高度和屋寬，畫了 E2 到 E5。我選了 E3：從高處往下看，屋頂前後兩片都在，屋脊橫過中間，前牆約佔整張圖下面三分之一，門比人高一點。</p>
+<figure><a href="img/city-angle.webp" target="_blank" rel="noopener"><img src="img/city-angle.webp" alt="同一種民房試的幾種角度，旁邊放一個人比大小" loading="lazy"></a><figcaption>同一種民房試的幾種角度，旁邊放一個人比大小</figcaption></figure>
+<p>E3 的提示詞（第一張參考圖是舊物件，第二張是 E）：</p>
+<pre><code>Game map sprite of a one-storey commoner house of an Eastern Han dynasty frontier town: grey clay tile roof with a straight ridge, rammed-earth walls, a plain wooden door in the middle of the front wall, two small lattice windows. High top-down view, like image 2 (the same house seen from high above): both roof slopes and the ridge are visible from above, and the front wall with the door is tall: the front wall takes the bottom third of the sprite, the door is a little taller than a grown man, the house looks like a proper one-storey house with walls about two and a half meters high. Axis-aligned: ridge and eaves perfectly horizontal, front facing straight south toward the viewer, no rotation, no 45-degree view. Paint it in the art style of image 1 (painted 2D RPG game art, warm autumn light from the top left, fine detail).
+Draw only this one house: no ground, no cast shadow on the ground, no people, no other objects. Clean edges.
+Background: a completely flat opaque #00FF00 pure green fill, no gradient, no shadow. No text, no letters, no watermark.
+</code></pre>
+<p>大小也改過一次。原本屋子統一三種規格（大屋 10×6、小屋 8×6、矮屋 10×4）。我要照實際大小：三開間約 9 公尺＝18 格，門才比人高。現在一開間 8 格、兩開間 12 格、三開間 18 格，深 6、7、8 格；成年人約 3.5 格高。</p>
+<p>之後產物件，參考圖只送 E3 一張。第一次多送了一張平角度的舊圖，產出來 11 張全部畫回平角度；只送 E3 時，11 張裡還有 2 張回去，重產一次就好。產完逐張看：前後兩片屋頂在不在、有沒有轉斜。提示詞都在 <code>objects.py</code>：有屋頂的用 <code>HIGH</code>，沒屋頂的小物、樹、帳子用 <code>LOW</code>（主要看到頂面，正面只露一小條）。一般物件的提示詞最後都接同一段收尾 <code>TAIL</code>：</p>
+<pre><code>HIGH:
+Use EXACTLY the camera of image 1 (the same game): seen from high above and from the south. The roof shows BOTH slopes: the ridge runs straight across the middle of the roof, the far (back) slope is visible above the ridge as a band about as tall as the near (front) slope below the ridge; below the roof, the front wall with the door takes about the bottom third of the sprite; the door is a little taller than a grown man. Axis-aligned: ridge, eaves and walls perfectly horizontal and vertical, the front faces straight south toward the viewer, no rotation, no 45-degree view, no perspective.
+
+TAIL:
+Draw only this object: no ground, no cast shadow on the ground, no people, no animals, no other objects. Clean edges.
+Background: a completely flat opaque #00FF00 pure green fill, no gradient, no shadow. No text, no letters, no writing on signs, no watermark.
+</code></pre>
+<p>有方向的物件（車、長板凳）要寫明正對左邊、車轅水平、軸是上下方向，不然會畫成斜的。</p>
+<p><code>objects.py cut</code> 去背以後量一件事：圖照設計寬度擺，自然有幾列高，寫進 <code>obj/fit.json</code>。圖比佔地矮的要改佔地。糧倉佔地 12×12，圖只有 11.8 列，佔地上面那幾列會變成看不見的牆，所以佔地照圖改淺、下緣不動。樹冠、屋簷比佔地寬，佔地只寫樹幹（2×2），圖照設計寬度擺在佔地正中。</p>
+<p><code>objects.py sheet</code> 把同一排會輪流用的幾種並排成一張（<code>obj/_rows.jpg</code>），看屋簷、門口高度齊不齊。<code>objects.py pack</code> 把圖縮成一格 64 像素的 webp 進 git；原圖和產圖的原始檔加起來 145 MB，不進 git。新圖產完忘了 pack，預覽讀到的還是舊的 webp，被拉成新的大小。</p>
+<p>院子裡的廂房、豬圈第一版太小，我看出這兩件的比例不對，照真實大小重產：廂房 8×5 格、門口接近人高，豬圈 7×6 格。</p>
+<figure><a href="img/city-objects.webp" target="_blank" rel="noopener"><img src="img/city-objects.webp" alt="五原用到的物件，照設計寬度、同一個比例排；第一排最右邊是一個人" loading="lazy"></a><figcaption>五原用到的物件，照設計寬度、同一個比例排；第一排最右邊是一個人</figcaption></figure>
+<h2>住家改成院落</h2>
+<p>城裡排滿成排的民屋以後，我覺得整排一樣的屋子太整齊。AI 查了漢代的住宅，提議一般人家改成有院子的院落，市集改成有市牆、市門、市樓、列肆的「市」，我同意。</p>
+<p>院落在 <code>plan.yaml</code> 寫一行，<code>plan.py</code> 自動展開：</p>
+<pre><code class="language-yaml">- {name: 東南, rect: [42, 33, 21, 20], gate: [w, 44, 3], side: e, pen: sw}
+</code></pre>
+<p><code>rect</code> 是院子的範圍，<code>gate</code> 是院門開在哪一邊、從哪一格開始、幾格寬，<code>side</code> 是廂房在哪邊，<code>pen</code> 是豬圈在哪個角，加 <code>wall: tile</code> 是瓦頂院牆。展開出來是四邊院牆（院門那邊留口）、坐北朝南的正房、廂房、豬圈。正房照院子的寬自動挑 18、12 或 8 格。幾條規矩：</p>
+<ul>
+<li>正房前面至少留 4 列院子。</li>
+<li>廂房跟正房之間留兩列走道，不然正房兩側到院牆的窄縫會被堵死。</li>
+<li>正房的圖往上長 7 到 13 格。我說「城內民房的屋頂好像都被切掉」，改成院子北牆離塊的上緣至少 5 列，產完再跑一次「物件圖框有沒有超出地圖邊」的檢查。</li>
+</ul>
+<p>院牆分兩種。AI 在牆與門確認頁建議：一般人家用素夯土，有錢人家和公家（郡府、傳舍、客舍、各大戶）用夯土瓦頂。我同意，走在城裡看得出貧富。理由是河套乾、雨少，一般人家的院牆多半是素的夯土；漢代城址常挖到瓦和瓦當，郡治裡有錢人家、公家用瓦說得通。石牆、編籬不放在城裡：石頭要從陰山運來，編籬適合城外的菜園、羊圈。</p>
+<p>我也問過有沒有人家是沒院子的、漢代有沒有客棧，兩種都加了。B1、B2 各兩間、A3 北街南邊三間是沒院子的一開間小屋；這點沒查到直接的考古證據，陶屋模型多是中上人家訂做的，算推測。A3 郡府前空地西邊放官方的傳舍；B2 南門內大街西邊放民間的客舍，正房兩開間、廂房當馬廄，院子裡停車、立一排拴馬的木樁。</p>
+<p>B3 改成「市」：夯土瓦頂的市牆圍一圈，北面、西面各開一個市門，正中一座兩層的市樓（樓上掛鼓，開市、閉市擊鼓），攤子用同一種棚架排成一排一排，就是列肆。第四章的市集挪進市裡。</p>
+<h2>牆整圈產、切九格</h2>
+<p>院牆、市牆、營柵這種會接長的牆，前後試了三種做法。</p>
+<p>第一種是產一長條牆，照需要的長度裁。轉角接不起來。</p>
+<p>第二種是牆頂、牆面各產一張無縫貼圖，由程式一格一格拼。我看了說：「是你剪貼的吧，很醜，不是一個整體。」橫的牆還露出太多牆面。</p>
+<figure><a href="img/city-paste.webp" target="_blank" rel="noopener"><img src="img/city-paste.webp" alt="被否決的那一版：牆頂瓦和牆面用兩張無縫貼圖一格一格拼，接縫看得出來，橫牆露出一大片牆面" loading="lazy"></a><figcaption>被否決的那一版：牆頂瓦和牆面用兩張無縫貼圖一格一格拼，接縫看得出來，橫牆露出一大片牆面</figcaption></figure>
+<p>第三種是我提的：「先生好轉角，我們自己剪出能重複的部分。」產一整圈牆，四個角都畫好，切成 3×3 九格，正中間不放牆，其他八格正好對應四個轉角和四條直邊。我打給 AI 看的是：</p>
+<pre><code>╭ー╮
+|  |
+╰ー╯
+</code></pre>
+<p>AI 照這個產出來以後，我說：「就是這種感覺。」提示詞（<code>RING_P</code>）要寫清楚：四面牆接成一個封閉的方框、沒有門；東、西兩面從上面看是一條直的牆頂；南、北兩面露出的牆面要矮；整面牆的花樣一樣，切下來才能重複。</p>
+<pre><code>Game map tile set for a top-down 2D RPG: ONE closed square ring of {desc}. Use EXACTLY the camera of image 1 (the same game): seen from high above and from the south, axis-aligned, no rotation, no 45-degree view, no perspective.
+The ring fills the picture with a narrow green margin around it: four straight walls joined at four corners into one closed square loop. No gate, no gap, no opening, nothing inside.
+The west and east walls run straight up and down: from above they are narrow vertical strips of the tiled top, the same width all the way.
+The north and south walls run straight left and right: you see their tiled top from above and, under it, their south-facing side as a short band only about as tall as the tiled top is wide (the camera is high, so the sides of the walls look short).
+At the four corners the tiled tops meet in a clean right angle.
+Tiles and rammed earth look the same all along each wall, a regular repeating pattern, so straight pieces can be cut out and repeated.
+Match the painting style, colours and light of image 1 exactly (a painted top-down 2D RPG of an Eastern Han dynasty frontier town in China, warm autumn light from the top left, fine painterly detail).
+Inside and outside the ring: a completely flat opaque #00FF00 pure green fill, no ground, no grass, no shadow. No people, no objects, no text, no watermark.
+</code></pre>
+<p>切法（<code>objects.py nine</code>）：</p>
+<ul>
+<li>四個角各佔一格，四條邊各取一截一格長的直段，中間空著。</li>
+<li>直段在原圖裡找：開頭接得上前一個轉角，結尾接得回自己的開頭，也接得上後一個轉角。</li>
+<li>轉角那一格要把整根柱子包進去。柱子常比牆寬、比橫牆的牆頂高，照牆的寬度切會切掉柱頭。第一版我看到右上、左下的柱頭被切掉。</li>
+<li>院門的門柱用下排那兩根轉角柱子，這是我定的：「直接接左下轉角和右下轉角當門邊。」東牆、西牆上的門，牆斷開的那一頭也放一根。</li>
+</ul>
+<figure><a href="img/city-nine.webp" target="_blank" rel="noopener"><img src="img/city-nine.webp" alt="院牆：產一整圈、切成九格、拼成要的大小並開院門" loading="lazy"></a><figcaption>院牆：產一整圈、切成九格、拼成要的大小並開院門</figcaption></figure>
+<p>拼的時候（<code>objects.py ring &lt;種類&gt; W H</code>）一戶一圈，拼好再切成能排前後的幾張：北牆一張、南牆一張、東牆和西牆每 5 列一張。引擎照圖框下緣排前後，一整面直牆只有一個下緣，人走在牆邊會被整面牆蓋住。牆跨兩塊時（營柵從 C1 接到 C2），碰到塊邊、隔壁還接著的那一邊往外多伸兩格當作有牆，拼好只截這一塊裡的部分，邊上就不會冒出轉角或門柱。</p>
+<p>去背也成了固定的一步。城牆那一圈我自己修過透明（下一節），我要院牆、營柵也照這樣先讓我確認，不行我就自己去背，這一步就這樣定下來。AI 把自動去背過的那一圈放在 <code>art/wuyuan/manual/院牆一圈.png</code>，綠底原圖另存 <code>_原圖.png</code>，讓我補被咬掉的地方；修好存回同一個檔名，<code>objects.py nine</code> 就改用那一張切。後來我問：「院牆和市牆還有沒有需要我去背？還是你可以參考軍營圍籬一樣的做法了，你已經學會了？」AI 量過自動去背的邊緣沒有殘留綠邊，就不用我修了；同時改照原圖的解析度拼，一格 80 像素，原本縮成 48 像素會糊。</p>
+<p>院牆的樣子也換過。第一版我看了說：「牆院一圈可以不可以多繪幾種，我來找個合適製作的，目前這個感覺不合適。」AI 多產了六種一圈（<code>gen yardwall-ring-&lt;名&gt;</code>：tile 夯土瓦頂、thatch 草頂、adobe 土坯、wattle 編籬、stone 石牆、plain 素夯土），放在<a href="confirm/walls/index.html">牆與門</a>確認頁（<code>tools/walls_pick.html</code>）給我挑，選擇存在頁面資料庫。最後用的是素夯土和夯土瓦頂。</p>
+<h3>營柵照我做的積木拼</h3>
+<p>軍營的營柵原本也是整圈產、切九格。後來我自己做了積木：一根圓錐、一根角圓柱，再用圓錐排一排示意間距（<code>manual/營柵一圈-單一圓錐.png</code>、<code>-角圓柱.png</code>、<code>-橫牆圓錐.png</code>）。我的意思是「單一圓錐疊成直的或橫的，九十度角用角圓柱當邊，營門也這樣組」。<code>objects.py stakes</code> 把積木存進 <code>obj/</code>，間距量我排的那一排（約半格一根），營柵改照積木拼（<code>stake_ring</code>），不再用九格。</p>
+<p>之後我看一次說一句，AI 改一次：</p>
+<ul>
+<li>「不一定從頭到尾都尖的，中間可以穿插圓柱」：長的一段中間大約每 8 格穿插一根角圓柱。</li>
+<li>「都太矮，要兩倍高」：只拉長下半截木頭，尖頂和繩子不動，影子跟著長。</li>
+<li>「角錐只有一種嗎」：一根一根左右翻、高矮差一點、深淺差一點，照位置固定挑。</li>
+<li>「排起來有點太亂」：高度改回一樣、頂端排成一直線，只留翻面和很小的深淺差。</li>
+<li>「解析度看起來很差」：拉長的那根會糊。我說拿這一根去生成另外三根，「就有幾種不同的，而且是原生高解析度」。圓錐、角圓柱各產三根本來就高的（<code>gen fence-stake-tall-1..3</code>、<code>fence-post-tall-1..3</code>），木紋各不同。</li>
+<li>「高度不一定，綁繩位置一定要一樣」：每根照繩子下緣那條深色影子對齊。尖頂和繩子都是淺色，分不開；繩子下面一定有一條很暗的影子，比木頭的裂縫暗得多，AI 拿它當基準線。</li>
+<li>「為什麼看起來不整齊了」：只對齊繩子，尖頂高低、粗細、深淺都會亂。再排整齊：粗細照我那根，尖頂到繩子那段每根一樣長，深淺拉到一樣，只留紋路不同。</li>
+<li>「每根中間像樹枝分支的圓洞是幹嘛的」：重產，提示詞加上不要木節；比最清楚那根糊 15% 以上的不用，圓錐留兩根、角圓柱三根。</li>
+<li>「圓錐好像寬度太寬，互相疊到了」：改成一根挨一根，間距是圓錐寬的 0.95 倍。</li>
+</ul>
+<figure><a href="img/city-stakes.webp" target="_blank" rel="noopener"><img src="img/city-stakes.webp" alt="營柵：上排是我做的積木；中間是照我那根產的高解析度版本；下面是遊戲裡 C1 軍營北邊的營柵" loading="lazy"></a><figcaption>營柵：上排是我做的積木；中間是照我那根產的高解析度版本；下面是遊戲裡 C1 軍營北邊的營柵</figcaption></figure>
+<h3>營門和市門另外產</h3>
+<p>門樓另外產一張蓋在門口。營門我要照我的角圓柱、圓錐和舊營門重產一張大一點的（<code>gen campgate-big</code>），AI 量出圖裡兩根門柱的位置，把設計寬度設成 9.1 格，門柱剛好壓在柵欄門口的角圓柱上。我又要營門往右一點、離左邊的牆遠一點，營門挪到正對營帳中間的走道，門前接一條小路。</p>
+<p>市的西門，我要 AI 照北門的樣子產一張側面的（<code>gen market-gate-w</code>，屋脊上下走向）。我看了說第一張可以，中間的洞看得到人走過（<code>manual/市場西門.png</code>）。後來縮小一點，從 3 格寬改成 2.6 格。</p>
+<h2>城牆連城門、角樓產一整圈</h2>
+<p>城牆一開始也照九格做：產一圈很厚的城牆（頂上走道、外緣垛口、內緣矮牆），切九格畫進地面；城門樓、角樓拿那一圈當參考各自產，疊在牆上。我看了指出三個問題：角樓畫成看得到底下的門，應該跟東門、西門一樣，「不可能看到底」；北門跟兩邊城牆的高度、材質接不起來；北門、角樓和城外看的南門，屋頂都超出地圖上緣被切掉。</p>
+<p>我提的改法是比照院牆，城牆連城門、角樓一次產一整圈，排法照我打的這張：</p>
+<pre><code>角 牆 北門 牆 角
+牆          牆
+西門        東門
+牆          牆
+角 牆 南門 牆 角
+</code></pre>
+<p>牆段畫短（約一座城門寬），城樓在圖裡才夠大。參考圖三張：E3 定角度，厚城牆那一圈定材質，西門樓定城樓的樣子（我覺得東門、西門的樣子是對的）。指令是 <code>objects.py gen cityring2</code>。</p>
+<p>AI 切的方法（<code>objects.py cityring cityring2</code>）：沿四面量輪廓，比牆頂高、比直牆寬的地方就是塔。塔的屋頂和上層之間常有一兩條縫，斷不到一格的接起來。切出四個角、四座城門、八段能重複的直牆，每一塊記下比牆頂高出幾格。北牆的角樓和北門高 2.65 格，北邊那一列塊的城牆就往下內縮 3 列（<code>plan.py</code> 的 <code>NIN</code>）；南門從城外看高 3.12 格，城南城外內縮 4 列（<code>SOUT</code>）。內縮的那幾列是牆外的地，城樓屋頂才不會被地圖上緣切掉。</p>
+<p>第二輪我又挑出四件：「西牆重疊不對、邊緣被切、黑瓦被黃牆疊到、門洞要透空」。AI 這樣改：</p>
+<ul>
+<li>角樓、城門往外凸約 1 格、往城裡凸約 2 格，城內的西牆、東牆離地圖邊內縮 2 格，整座塔才放得進地圖。</li>
+<li>直段只取一格長時垛口對不上，黑瓦被黃牆蓋住，改挑長一點的。</li>
+<li>門洞第一次連門楣、門板一起挖掉了。我要門楣、門板留著，改成只挖兩扇門板中間的通道，通道 4 格，跟配置的門洞一樣寬。</li>
+</ul>
+<p>接著我說「你給我圖我來切」。AI 把那一圈和照它另產的四個長段放進 <code>art/wuyuan/manual/</code>，附一份 <code>說明.txt</code>。我在那一圈裡把四座城門、四個角樓以外的牆全部去背掉，城樓留在原位，南北門的門洞挖透。<code>objects.py manual-ring</code> 照位置分成八塊，用那一圈的量測算出每塊比牆頂高幾格、往外凸幾格。</p>
+<figure><a href="img/city-cityring.webp" target="_blank" rel="noopener"><img src="img/city-cityring.webp" alt="左：產出來的一整圈，南牆的垛口畫在靠城裡那一側，方向反了；右：我修過的那一張，只留八座城樓，南北門的門洞透空" loading="lazy"></a><figcaption>左：產出來的一整圈，南牆的垛口畫在靠城裡那一側，方向反了；右：我修過的那一張，只留八座城樓，南北門的門洞透空</figcaption></figure>
+<p>牆段改成整條連續鋪，城樓疊在上面，接口藏在城樓底下。牆段從照那一圈另外產的四個長段挑 6 到 10 格長的一截，解析度也比較高；原本拆得短，我覺得西牆、東牆拆得太短。垛口一定在城外那一側：北牆從城裡看在上緣，南牆從城裡看在靠畫面那一側，西牆在左、東牆在右。cityring2 和照它產的南牆長段，南牆垛口都畫到裡面去了。我發現另一張一圈（cityring1）的南牆方向才對，外側垛口高、內側矮牆低，南牆段改從那一張挑。</p>
+<h3>位置我在城邊積木頁排</h3>
+<p>位置要微調，我請 AI「做個簡單積木塊，我來排排看城內的上下左右應該長怎樣」。城邊積木頁（<code>tools/blocks.html</code>，素材由 <code>art/wuyuan/blocks_page.py</code> 準備）放城內六塊，可以拖城牆、城門、角樓，城牆兩頭能拉長拉短；灰色是地圖外、會被切掉的地方；旁邊放一個人、一棟三開間比大小；擺法存頁面資料庫。存檔在<a href="confirm/blocks/index.html">城邊積木</a>。</p>
+<p>我排的時候又抓到幾件：城門打開變成看到城牆，北牆、南牆在城門那裡要分成左右兩段；四個角的牆都凸出去；牆拖不動。拖不動是 AI 查出來的：頁面資料庫讀回來的是凍結的唯讀資料，直接拿來改會拖不動，要先複製一份。我也說北牆要從第 5 欄開始，「從 2 開始疊到西城牆上了」。</p>
+<p>六塊排好以後存成 <code>art/wuyuan/cityring_layout.json</code>，<code>src/city.py</code> 照這份畫，牆照排的順序鋪，後鋪的蓋在上面。北牆在 A1 從第 9 欄開始、在 A3 到第 55 欄為止，接頭藏在角樓底下；南北門兩邊的牆只到第 27 欄、從第 37 欄再開始，門樓底下不露牆。我把南牆、角樓、南門往上拉兩列（城裡看在第 55 列，<code>SIN</code>），底下才不會被切掉，南邊那一條的院子、民居、守門的兵跟著往上挪。這份擺法跟 <code>plan.py</code> 的 <code>NIN</code>、<code>SIN</code>、<code>WIN</code>、<code>EIN</code> 對不上時，產預覽會直接擋下來。</p>
+<p>城外那幾塊從隔壁城內那一塊平移過來（<code>plan.py</code> 的 <code>OUT_FROM</code>）。我要城外的城門、角樓跟城內一一對應，一對才發現城北城外的兩個角樓原本放反了。城北城外的牆比照南牆拉到第 56 列（<code>NOUT</code>），角樓和北門的底才放得進地圖。</p>
+<h3>牆鋪進地面，城樓疊上去</h3>
+<p>牆帶一格一張鋪進地面，城頭走道人走得上去；角樓、城門疊成物件，人走過門洞會被城樓蓋住。</p>
+<p>上城頭的路本來是貼在牆面上的小台階。我說：「改成沿著牆的馬道，你現在畫的我看起來合成有問題。」AI 照北牆的材質產一段馬道（<code>gen wallramp</code>），從 A2 第 10 欄斜斜爬到第 19 欄的城頭。旗杆我也說位置不對：原本城頭能走的是第 5 到 7 列，人會站到內側矮牆和牆面上，改成第 4、5 列對齊圖上的走道，旗杆、立約、箭壺跟著挪。</p>
+<p>這一圈牆要整個放進一張 1536×1024 的圖，一格只有 24 像素，放大到 48 像素會比屋子糊一點。之後可以拿這一圈當參考，每塊另外產高解析度的版本。</p>
+<p>我還提過另一種做法：先粗拼，再請產圖服務照原位置重畫成一整張，接縫會更自然，再照接縫微調城門和牆底的位置。<code>art/wuyuan/redraw.py</code> 拿北門做了粗拼草稿，還沒送去重畫。</p>
+<figure><a href="img/city-b2.webp" target="_blank" rel="noopener"><img src="img/city-b2.webp" alt="B2 南半邊（2026-10-21 下午兩點多離線算的）：左邊是客舍的院子，停著車、立著一排拴馬樁，旁邊兩間沒院子的小屋；右上是東邊大戶；下面是南牆和南門樓。車暫用馬" loading="lazy"></a><figcaption>B2 南半邊（2026-10-21 下午兩點多離線算的）：左邊是客舍的院子，停著車、立著一排拴馬樁，旁邊兩間沒院子的小屋；右上是東邊大戶；下面是南牆和南門樓。車暫用馬</figcaption></figure>
+<h2>邊牆切三截</h2>
+<p>C4 的邊牆產一長段、兩頭崩掉的夯土牆（<code>gen border</code>），切成左端、能重複的中段、右端（<code>objects.py slice3 border</code>）。接到地圖邊、還會接下去的那頭不放崩口。崩口連腳下的碎土比牆頂塌的地方寬，兩端各至少取全長的一成五；中段只在正中間四成裡挑，不然會挑到帶著斷面的那一截，重複起來像一塊一塊分開的土墩。</p>
+<h2>影子畫進地面</h2>
+<p>我說地上沒半點影子很不真實，要自然。影子畫進地面那張圖（<code>src/city.py</code> 的 <code>with_shadows</code>）：光從左上來，每個物件的佔地往右下拉長，長度照物件多高。屋子約往上格數的四成，院牆 1.4 格，市牆 1.8 格，營柵拉成兩倍高以後是 2.4 格。分六層由短到長疊，靠牆腳、屋腳最深，越遠越淡，邊緣稍微糊開。樹用樹冠大小的一片。人物腳下的影子引擎自己畫。</p>
+<p>第一版是把整張圖的輪廓往右下偏，影子離開牆腳，看起來浮在地上，改成從佔地拉長。後來查到像素 RPG 的慣例是投影短、有上限，再加一條：最長 2.5 格，城牆、角樓不照高度拉長。</p>
+<h2>路人、動物、車</h2>
+<p><code>plan.yaml</code> 現在有 107 個會動的：人 92 個，雞和狗 15 隻。走法（<code>move</code>）分六種：</p>
+<table>
+<thead>
+<tr>
+<th>move</th>
+<th>怎麼走</th>
+<th>誰用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>still</code></td>
+<td>站著</td>
+<td>叫賣的、算命的、守門的兵</td>
+</tr>
+<tr>
+<td><code>random</code></td>
+<td>在一小塊範圍裡隨意走</td>
+<td>市裡逛的人、玩耍的孩子</td>
+</tr>
+<tr>
+<td><code>horizontal</code>、<code>vertical</code></td>
+<td>左右或上下來回</td>
+<td>只給巡邏的兵</td>
+</tr>
+<tr>
+<td><code>through</code></td>
+<td>從街的一頭走到另一頭，消失後從起點再出現</td>
+<td>行人、挑擔的、車</td>
+</tr>
+<tr>
+<td><code>loop</code></td>
+<td>照轉角一直繞圈</td>
+<td>校場跑步的兵</td>
+</tr>
+</tbody>
+</table>
+<p>一開始牛車、馬車也沿大街來回走。我問除了巡邏以外，其他人來回走會不會很怪，之後來回走只留給巡邏的兵，<code>plan.py</code> 也擋。做事的人標 <code>act</code>（練樁、打鐵、鋸木、洗衣、打水），要有循環的動作，我的意思是不然他們只是站著發呆。校場三個兵逆時針繞著跑步是我加的；路上、院子裡的雞和狗也是，我覺得「比較有生氣」。</p>
+<p>校場我問過是不是只有操練、有沒有射箭場和馬場。C2 南半邊加了射箭場，三個箭靶面朝南，射手站在南邊往北射；C1 營門走道東邊加了馬廄、馬槽和拴著的馬。再看一次，我說兵拿的是槍和戟、不像在練射，三個箭靶都一樣，馬好像都同一隻。射手換成背對鏡頭拉弓的圖，三個箭靶各不相同，馬換成舊道具的棗紅、灰斑、栗色三匹，栗色那匹翻成朝右。</p>
+<p>引擎沒有「路過」。AI 用兩頁組：看得見的那一頁在背景走到終點，把自己的變數設成真；看不見的那一頁用 <code>hop</code> 跳回起點、停一下，再把變數設回假。<code>hop</code> 一定要寫 <code>times</code>，漏了整張地圖讀不出來。叫賣的頭上冒泡泡：背景事件 <code>wait</code> → <code>balloon</code>（指自己）→ <code>loop</code>。繞圈一個 <code>move</code> 最多 8 段、每段最多 20 步，切成幾個 <code>move</code> 再 <code>loop</code>。</p>
+<p>新的走路圖（新身分、動物、車）先各產一張三視圖（正面、朝左、背面，<code>art/wuyuan/critters.py gen</code>），參考圖用同一套遊戲的三視圖：人用鄰居，動物用馬。三視圖放上走路圖確認頁給我看（存檔：<a href="confirm/threeview/index.html">新角色的三視圖</a>），我點頭再照三視定錨流程做跨步，朝右用朝左鏡射。車子要拿那隻動物自己的三視圖當參考：拿馬當參考，牛車會被畫成馬車；牽牛、趕車的人要寫明三個方向都在，不然側面那張會少掉人。這一套做到 11 張三視圖（四種動物、三種車、四種新身分的路人）；預覽裡動物還沒放，車暫用馬。</p>
+<h2>查資料改配置</h2>
+<p>2026-10-21 清晨，AI 另外派一個子代理上網查做法和考古，整理在 <code>建城工法.md</code> 第六節，來源連結都附在那裡。做法這幾條：</p>
+<ul>
+<li>九宮格只做得出方框，沒有丁字和內角。兩戶共用一面牆、L 形的牆、城牆上的馬面要更多塊（Tiled 的 Edge Set 用 16 塊）。之後要做這種牆，一次產一圈「有門缺口、一個丁字、一個馬面、一段坡道」的牆再切，所有塊出自同一張，光線一致。</li>
+<li>RPG Maker 的牆也分牆頂、牆面兩種自動拼接，跟城牆的九格同一個想法；厚牆的轉角邊長等於牆厚（城牆 6 格，角就是 6×6）。</li>
+<li>多張參考圖時第一張保留最多細節，E3 一直放第一張。再穩一點可以用照實際尺寸畫的灰模（固定斜角、光從左上）當第一張，比用文字寫角度可靠。</li>
+<li>城鎮地圖：每張圖放一個從入口就看得到的地標（井、市樓、門樓），全城分三到五區，主路用最平整的地面，井邊放打水、洗衣、推磨的人。</li>
+</ul>
+<p>考古查到的，改了配置的有這些：</p>
+<ul>
+<li>漢代縣城（北京通州路縣故城）牆基寬約 18 公尺＝36 格，超過半張地圖，所以城牆厚度壓縮成 6 格，高度照實。包頭麻池古城（有論文認為是五原郡治）夯土牆殘高 7 到 8 公尺。</li>
+<li>角樓、馬面在漢代城址有實例；甕城宋代才成定制，漢代沒找到實例，五原不放。</li>
+<li>晁錯建議移民實邊「營邑立城，製里割宅……家有一堂二內，門戶之閉」，跟三開間（18 格）的一堂二內對得上。</li>
+<li>漢代的井（陶井模型）多是方井台加瓦頂滑輪架，五原的井照這個重產。</li>
+<li>官方有給出公差的人住的傳舍，民間的客舍戰國就有，就是上面加的那兩處。</li>
+</ul>
+<p>AI 列出來等我決定、還沒動配置的：市照成都東漢畫像磚改成十字街、四區列肆；院落照河南三楊莊的宅院，豬圈加廁所、挪到西北角，井放到院門外；秋天的路人照《四民月令》加打場、塗倉、修兵器、練射、修牆。查不到直接證據的：縣城牆原高、女牆形制、里牆尺寸、縣城的市多大。</p>
+<h2>引擎的坑</h2>
+<ul>
+<li>一格只能有一個事件。物件的自由圖片事件放在擋路的格子上（牆裡、屋裡）。</li>
+<li>走過邊界換圖：邊上每一格各放一個觸碰事件，跳到隔壁那一張同一個位置往裡一格，不能跳到對面的換圖格上；角落那格兩邊都接時只接一邊。</li>
+<li>自由圖片照圖框下緣排前後。長的直牆要切段；人走得上去的（城頭走道）畫進地面。</li>
+<li>角色圖每格最大 512 像素、一列最多 16 格，超過整張地圖讀不進來；動態 AVIF 在地圖上只畫第一格，動作動畫要用角色圖。</li>
+<li>圖多會讓地圖載入變慢：同一種物件用同一個網址，只載一次；牆拼好再切成少數幾張。</li>
+<li>截圖要等「NOW LOADING」消失，一次只跑一個瀏覽器測試。瀏覽器截圖的「整塊縮進畫面」只照得到中間約 36 列，看整塊用 <code>tests/city_render.py</code> 離線算。</li>
+</ul>
+<p>更多實測在<a href="engine.html">Larch RPG 引擎實測</a>。</p>
+<h2>一座城要準備的素材</h2>
+<p>照這張盤點缺什麼，完整的清單在 <code>建城工法.md</code> 第五節。五原的清單可以用程式列：<code>plan.yaml</code> 裡每個物件對不到圖的，就是還缺的。</p>
+<ul>
+<li>地面：上面那 18 種加點綴。</li>
+<li>住家：一、二、三開間的瓦頂、草頂；廂房、柴棚、豬圈、雞籠、井、晾衣竿、柴堆、劈柴的木樁。</li>
+<li>街上與市：市牆、市門、市樓、列肆的小鋪、攤子、算命攤、告示、旗杆、藥鋪、鐵匠鋪、木匠鋪。</li>
+<li>官府與軍：郡府（院落加五開間正堂）、照壁、糧倉、兵器庫、營柵、營門、營帳、軍官的帳子、哨棚、點將台、兵器架、木人樁、刑凳。</li>
+<li>城防：城牆連城門樓、角樓一整圈，馬道，火把。城外：路邊樹、大樹、枯樹、灌木、大石頭、墳、茶棚、邊牆。</li>
+<li>會動的：各種身分的路人和做事的動作，雞、狗、牛、豬，牛車、馬車、騾車。</li>
+<li>村子沒有城牆和市，改成籬笆或土牆一圈、田、打穀場、草垛，大戶人家可以有塢堡。</li>
+</ul>
+<h2>照順序跑一遍</h2>
+<p>指令都在 <code>xu/game/</code> 底下跑：</p>
+<pre><code>python3 art/wuyuan/plan.py                          # 檢查＋色塊圖 → art/wuyuan/out/
+python3 art/wuyuan/plan.py --page                   # 給我確認的網頁
+python3 art/wuyuan/ground.py compose A1 A2 A3       # 地面，一格 48 像素 → art/wuyuan/proto/（中間檔，不進 git）
+python3 art/wuyuan/ground.py seams                  # 量相鄰兩塊的交界
+python3 art/wuyuan/objects.py gen --blocks A2,B2    # 這幾塊要用的物件，綠幕產（會花產圖額度）
+python3 art/wuyuan/objects.py cut                   # 去背、量自然高度 → obj/、obj/fit.json
+python3 art/wuyuan/objects.py sheet                 # 同一排並排看齊不齊 → obj/_rows.jpg
+python3 art/wuyuan/objects.py gen yardwall-ring-tile
+python3 art/wuyuan/objects.py nine yardwall-tile    # 切九格 → obj/yardwall-tile-9.png
+python3 art/wuyuan/objects.py ring yardwall-tile 11 9
+python3 art/wuyuan/objects.py stakes                # 營柵照積木拼
+python3 art/wuyuan/objects.py gen cityring2
+python3 art/wuyuan/objects.py cityring cityring2    # 城牆一圈切成積木 → obj/cityring/
+python3 art/wuyuan/objects.py manual-ring           # 換上修好的八座城樓、牆段從長段挑
+python3 art/wuyuan/objects.py slice3 border         # 邊牆切三段
+python3 art/wuyuan/objects.py pack                  # 縮成 webp（進 git 的是這些）
+python3 art/wuyuan/blocks_page.py &lt;輸出目錄&gt;         # 城邊積木頁的素材
+CITY_GROUND=tex python3 src/city.py                 # 進遊戲預覽 → dist-city/（CITY_CAMERA=fit 是整塊縮進一個畫面）
+python3 src/city.py A2 31 12 &amp;&amp; node tests/city_walk.mjs    # 從北門內出發，邊界走得過
+node tests/city_shots.mjs &lt;輸出目錄&gt; A2,B2           # 每一塊截一張
+python3 tests/city_render.py &lt;輸出目錄&gt;              # 不開瀏覽器，離線算每一塊整張
+</code></pre>
+<p>推上 Larch 之前照 README 的推送規矩：我的編輯器分頁先關，推完讀回來比對。</p>
+<h2>換成走進原畫以後，哪些還在用</h2>
+<p>2026-10-21 下午，AI 開始做<a href="confirm/style/index.html">畫風試做</a>（<code>tools/style_pick.html</code>），拿拼好的 B2 跟舊版五原的街比。我看完說：「我想要的是那種可以走進原畫的感覺。」又補了兩句：「走進原畫的原因是，原畫的風格很喜歡。」「我們獨立製作的時候，風格整個走偏了。」</p>
+<p>AI 回頭查產圖的參考圖和提示詞，找到四個原因，每一個都是這一章裡的一個決定：</p>
+<ol>
+<li>物件產圖的參考圖一直是 E3 那張（<code>wy-angle-e3_v2.webp</code>），為了每件角度一致挑的，不是舊原畫。</li>
+<li>提示詞要求邊緣乾淨、地上不要投影（<code>TAIL</code> 那段）。</li>
+<li>每件在綠底上各畫各的，光也各打各的。</li>
+<li>地面是無縫材質照格子拼的，整片一樣。</li>
+</ol>
+<p>第二套把整張畫當地圖，遮擋層從同一張畫剪。一般民房、廂房、豬圈、樹改成色塊，讓模型照舊原畫自由畫；地板組和從佔地拉長的影子也不用了，地面和光影都在整張畫裡。留下來的有：</p>
+<ul>
+<li><code>plan.yaml</code> 和 <code>plan.py</code>：配置、檢查都照舊，原畫是照這份配置畫的。這一套的建城指令（<code>CITY_GROUND=tex python3 src/city.py</code>）也還是第二套的第一步，構圖、外框都從它拼出來的那份讀。</li>
+<li>城牆、城門、角樓照我在城邊積木頁排的那套（<code>cityring_layout.json</code>），直接貼進構圖，只重新上色，城門樓、角樓不重畫。</li>
+<li>九宮格拼出來的院牆牆段：它們的圖框就是構圖裡院牆的色塊，剪遮擋層時也一段一段照它們切。</li>
+<li>其他物件（郡府正堂、魏家老屋、市牆、營柵、井、晾衣竿、雞籠、柴堆、攤子、營帳……）貼這一套產的圖當構圖，形狀、位置照原樣，只重新上色；拴著的馬、射箭的兵照原本的圖疊在原畫上。</li>
+<li>路人的走法和 <code>plan.py</code> 的檢查照舊，擋路改成跟著畫走。</li>
+<li>上面那些引擎的坑都還在。</li>
+</ul>
+<p>整張畫怎麼變成走得進去的地圖，看<a href="walkin.html">走進原畫</a>。每一張確認頁的存檔在<a href="confirm.html">確認頁一覽</a>。</p><div class="pager"><a href="cg.html">← 上一章</a><a href="walkin.html">下一章 →</a></div></main>
+<footer class="foot"><span>仙泉．香布纏．續 · 製作手記 · 作者 亞澤 · 內容授權 CC BY-NC 4.0</span>
+<a href="https://github.com/yazelin/larch-xu-canon" target="_blank" rel="noopener">GitHub</a><a href="https://www.facebook.com/yaze.lin.gm" target="_blank" rel="noopener">Facebook</a>
+<a href="https://buymeacoffee.com/yazelin" target="_blank" rel="noopener">請我喝咖啡</a><a href="https://yazelin.github.io/" target="_blank" rel="noopener">亞澤的部落格</a></footer>
+<script>
+/* yz-promo-footer (trimmed) | 三件套+BMC 注意力效果 | https://github.com/yazelin/promo-footer-skill
+   對 footer 既有的 Buy Me a Coffee 連結加 bobbing + 講話氣泡（不重新注入連結）。 */
+(function(){"use strict";
+if(window.__yzPromoInit)return;window.__yzPromoInit=1;
+try{if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return}catch(e){}
+var LINES=["嘿，這裡這裡，我是咖啡按鈕","我是一顆很努力的按鈕，求被點一下","噓，亞澤不知道我在偷偷拉贊助","你看我跳得這麼賣力，不請一杯嗎？","不請也沒關係，你來玩我就很開心","一杯咖啡，是下一個作品的燃料","你的咖啡會變成下一個作品，真的","咖啡因進入亞澤體內，程式碼就會自己寫完","用愛發電中，咖啡因可提升發電效率","覺得好玩嗎？抖內一下下","這個網站沒有廣告，只有我這顆按鈕"];
+var CSS="@keyframes yzIdle{0%,55%,100%{transform:translateY(0)}62%{transform:translateY(-4px)}70%{transform:translateY(0)}78%{transform:translateY(-2px)}84%{transform:translateY(0)}}.yz-idle{animation:yzIdle 2.6s ease-in-out infinite}@keyframes yzHop{0%,100%{transform:translateY(0)}20%{transform:translateY(-6px) scale(1.04)}40%{transform:translateY(0) scale(1)}55%{transform:translateY(-3px)}70%{transform:translateY(0)}}.yz-hop{animation:yzHop .9s cubic-bezier(.36,.07,.19,.97)}.yz-bubble{position:fixed;z-index:2147483000;max-width:200px;padding:6px 11px;border-radius:14px;background:#fffdf7;color:#4a3f35;border:1px solid rgba(0,0,0,.1);box-shadow:0 4px 14px rgba(0,0,0,.18);font:13px/1.5 system-ui,-apple-system,'Noto Sans TC',sans-serif;pointer-events:none;opacity:0;transform:translateY(5px);transition:opacity .25s ease,transform .25s ease}.yz-bubble.yz-on{opacity:1;transform:translateY(0)}.yz-bubble::after{content:'';position:absolute;left:var(--yz-tail,50%);margin-left:-6px;border:6px solid transparent}.yz-bubble.yz-above::after{bottom:-6px;border-bottom:0;border-top:6px solid #fffdf7}.yz-bubble.yz-below::after{top:-6px;border-top:0;border-bottom:6px solid #fffdf7}";
+var bubble,anchor;
+function addCss(){if(document.getElementById("yz-promo-css"))return;var s=document.createElement("style");s.id="yz-promo-css";s.textContent=CSS;document.head.appendChild(s)}
+function findAnchor(){var as=document.querySelectorAll('a[href*="buymeacoffee.com/yazelin"]');if(!as.length)return null;var vis=[],i,r;for(i=0;i<as.length;i++){r=as[i].getBoundingClientRect();if(r.width||r.height)vis.push(as[i])}var pool=vis.length?vis:[].slice.call(as);return pool[pool.length-1]}
+function hop(){anchor.classList.remove("yz-hop");void anchor.offsetWidth;anchor.classList.add("yz-hop")}
+var shown=0,MAX_SHOWS=3;
+function say(){if(document.hidden)return;var r=anchor.getBoundingClientRect();if(!r.width&&!r.height)return;if(r.bottom<0||r.top>innerHeight)return;if(shown>=MAX_SHOWS)return;shown++;bubble.textContent=LINES[Math.floor(Math.random()*LINES.length)];bubble.classList.remove("yz-on","yz-above","yz-below");bubble.style.left="0px";bubble.style.top="0px";var bw=bubble.offsetWidth,bh=bubble.offsetHeight,cx=r.left+r.width/2;var left=Math.max(8,Math.min(cx-bw/2,innerWidth-bw-8));var above=r.top-bh-12>=8;bubble.style.left=left+"px";bubble.style.top=(above?r.top-bh-12:r.bottom+12)+"px";bubble.classList.add(above?"yz-above":"yz-below");bubble.style.setProperty("--yz-tail",Math.max(12,Math.min(cx-left,bw-12))+"px");hop();requestAnimationFrame(function(){bubble.classList.add("yz-on")});setTimeout(function(){bubble.classList.remove("yz-on")},4200)}
+function start(){addCss();anchor=findAnchor();if(!anchor)return false;try{if(getComputedStyle(anchor).display==="inline")anchor.style.display="inline-block"}catch(e){}anchor.classList.add("yz-idle");anchor.addEventListener("animationend",function(e){if(e.animationName==="yzHop")anchor.classList.remove("yz-hop")});bubble=document.createElement("div");bubble.className="yz-bubble";bubble.setAttribute("aria-hidden","true");document.body.appendChild(bubble);window.__yzPromo=say;(function loop(first){if(shown>=MAX_SHOWS)return;setTimeout(function(){say();loop(false)},first?18e3+Math.random()*12e3:9e4+Math.random()*9e4)})(true);return true}
+function boot(){var tries=0;(function t(){if(start())return;if(++tries<20)setTimeout(t,1500)})()}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+})();
+</script></body></html>

@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>五原的牆與門（確認頁存檔）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&display=swap">
+<style>
+/* 版面：一節一件要作者定的事，每節是幾張圖加按鈕；顏色、字型跟城邊積木頁同一套 */
+:root {
+  --bg: #e9ebe6; --surface: #f7f8f5; --ink: #1f2522; --muted: #5f6763; --line: #d0d6cf;
+  --tile: #3d566a; --earth: #a8692b; --ok: #3f7a4a; --warn: #a8562b;
+  --display: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  --body: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #141917; --surface: #1b211f; --ink: #e2e7e2; --muted: #9ca59f; --line: #2f3734; --tile: #8fb0c6; --earth: #d9a25e; --ok: #8cc49a; --warn: #e0a07a; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #141917; --surface: #1b211f; --ink: #e2e7e2; --muted: #9ca59f; --line: #2f3734; --tile: #8fb0c6; --earth: #d9a25e; --ok: #8cc49a; --warn: #e0a07a; color-scheme: dark; }
+* { box-sizing: border-box; }
+img { max-width: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.6; margin: 0; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 22px 64px; display: grid; gap: 28px; }
+h1 { font-family: var(--display); font-size: 28px; margin: 0; letter-spacing: .05em; text-wrap: balance; }
+h2 { font-family: var(--display); font-size: 20px; margin: 0; letter-spacing: .04em; text-wrap: balance; }
+.lead, .note { color: var(--muted); margin: 0; max-width: 72ch; }
+.status { font-family: var(--mono); font-size: 13px; color: var(--muted); min-height: 1.4em; margin: 0; }
+section { display: grid; gap: 12px; border-top: 1px solid var(--line); padding-top: 18px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); gap: 14px; }
+.grid.two { grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr)); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.card.on { border-color: var(--tile); box-shadow: 0 0 0 2px var(--tile) inset; }
+.card img { width: 100%; height: auto; display: block; border-radius: 6px; }
+.card h3 { margin: 0; font-size: 16px; font-family: var(--display); }
+.card p { margin: 0; color: var(--muted); font-size: 13px; }
+.wide img { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--line); }
+.bar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 6px 12px; font: inherit; font-size: 14px; }
+.btn:disabled { cursor: default; opacity: .5; }
+.btn[aria-pressed="true"] { background: var(--tile); color: var(--surface); border-color: var(--tile); opacity: 1; }
+label, .lbl { font-size: 13px; color: var(--muted); }
+.saved-note { border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 8px; padding: 6px 10px; font-size: 14px; white-space: pre-wrap; }
+.tag { font-family: var(--mono); font-size: 12px; color: var(--earth); }
+/* 存檔說明與當時的選擇 */
+.archive { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--earth); border-radius: 10px; padding: 12px 14px; display: grid; gap: 8px; }
+.archive p { margin: 0; max-width: 78ch; }
+.archive .kicker { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: .04em; }
+.archive .links { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 14px; }
+.archive .how { color: var(--muted); font-size: 13px; }
+a { color: var(--tile); }
+.picked { border: 1px dashed var(--earth); border-radius: 10px; padding: 10px 14px; display: grid; gap: 8px; background: var(--surface); }
+.picked p { margin: 0; max-width: 78ch; font-size: 14px; }
+.picked .plabel { font-family: var(--mono); font-size: 12px; color: var(--earth); letter-spacing: .04em; }
+.said { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; font-size: 14px; max-width: 86ch; }
+.said .t { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-right: 6px; }
+.before { display: grid; gap: 6px; max-width: 720px; }
+.before img { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--line); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <aside class="archive" aria-label="存檔說明">
+    <p class="kicker">確認頁存檔．原頁面 2026-10-21</p>
+    <p>2026-10-21 中午，我覺得院牆那一圈不合適，AI 多產了六種院牆，連同營柵、營門、市門放進這一頁給我定，後來又加了射箭場、馬廄和上城頭的路。頁面資料庫裡有兩筆：市門是我按的，北門「可以」、西門「照北門的樣子產一張側面的」（12:11）；院牆是我在對話裡回「好啊，看得出來窮和富」，AI 替我記進去：一般人家素夯土，有錢人家和公家夯土瓦頂。其他幾節是在對話裡一句一句改的，我說的話和 AI 怎麼改，照 git 提交記在各節下面。營柵最後照我做的那根圓錐和角圓柱，產高解析度的版本、一格 80 像素拼，院牆、市牆也照這個做法，不用我去背。</p>
+    <p class="links"><a href="../../confirm.html">回確認頁一覽</a><span>相關的章：<a href="../../city.html">建城工法：拼出來的城</a></span></p>
+    <p class="how">存檔版的按鈕都停用了；存進頁面資料庫的選擇，按鈕會亮著。各節下面的框寫的是當時的選擇和我在對話裡說的話：引號裡是我打的字（只補了標點、改了錯字），沒有引號的是我做的事，冒號後面是 AI 照著改的，時間是 git 提交的時間。原頁面的文字是 AI 寫給我的，裡面的「你」是我。</p>
+  </aside>
+  <header style="display:grid;gap:6px">
+    <h1>五原的牆與門</h1>
+    <p class="lead">四件事要你定：院牆用哪一種、營柵這樣拼行不行、營門用哪一種、兩個市門怎麼辦。按了就存，想說的寫在每一節下面，我讀得到。</p>
+  </header>
+
+  <section aria-labelledby="h-yard">
+    <h2 id="h-yard">院牆一圈：一般人家、有錢人家和公家各挑一張</h2>
+    <p class="note">現在遊戲裡用的是第一張，另外六張是剛產的，每張下面寫了適不適合五原。我的建議：有錢人家和公家的院子用夯土瓦頂，一般人家用素夯土，走在城裡看得出貧富。兩邊可以挑同一張。綠底我先換成土色方便看。挑好以後，我把挑中的綠底原圖和自動去背的版本放進 <span class="tag">art/wuyuan/manual/</span> 給你修。</p>
+    <p class="note">已經照這個建議做進遊戲了（下圖：A2 上面兩戶素夯土、下面東邊大戶夯土瓦頂）。不用你去背：產圖用純綠底，自動去背的邊緣量過沒有殘留綠邊；也照營柵的做法改用原圖的解析度拼（一格 80 像素），市牆一樣。</p>
+    <div class="wide"><img src="yard-game.webp" alt="A2：上面兩戶素夯土院牆，下面東邊大戶夯土瓦頂院牆" width="1200" height="1200" loading="lazy"></div>
+    <div class="grid" id="yardwall"></div>
+    <span class="lbl">想說的</span><div class="saved-note" id="note-yardwall"></div>
+    <div class="picked">
+      <p class="plabel">資料庫裡的選擇</p>
+      <p>一般人家用「素夯土」，有錢人家和公家用「夯土瓦頂」。這一筆是我在對話裡回「好啊，看得出來窮和富」以後，AI 替我記進頁面資料庫的。</p>
+      <p class="plabel">我在對話裡說的</p>
+      <ul class="said">
+        <li><span class="t">12:01</span>「院牆一圈可以不可以多繪幾種？我來找個合適製作的，目前這個感覺不合適」：AI 多產六種院牆，做了這一頁（5fd026cc）。</li>
+        <li><span class="t">12:20</span>「好啊，看得出來窮和富」：院牆分兩種做進遊戲，一般人家素夯土，有錢人家和公家夯土瓦頂（f3c7c430）。</li>
+        <li><span class="t">13:54</span>「院牆和市牆，還有沒有需要我去背？還是你可以參考軍營圍籬一樣的做法了，你已經學會了？？」：改用原圖的解析度拼（一格 80 像素），自動去背量過沒有殘留綠邊，不用我去背（d101d4bf）。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-fence">
+    <h2 id="h-fence">營柵：照你的圓錐、角圓柱拼</h2>
+    <p class="note">C1、C2 的軍營。橫的一根接一根，間距照你排的那一排（每根約半格）；直的往下疊；四個角和營門兩邊放角圓柱，長的一段中間大約每 8 格也穿插一根（你說不一定從頭到尾都尖的）。圓錐和角圓柱換成照你那根產的高解析度版本（各三根），繩子下緣對在同一條線上，同一組粗細一樣，上端高低不一；營門挪到正對營帳中間的走道。</p>
+    <div class="wide"><img src="camp.webp" alt="C1、C2 的軍營：四周是一根一根的圓錐木柵，四個角是角圓柱" width="1600" height="910" loading="lazy"></div>
+    <p class="note">上面整座軍營縮小了（一格 20 像素）。下面這張是營門一帶在遊戲裡的大小（一格約 60 像素）。</p>
+    <div class="wide"><img src="camp-close.webp" alt="營門一帶，遊戲裡的大小" width="1200" height="720" loading="lazy"></div>
+    <div class="bar" id="fence"></div>
+    <span class="lbl">想說的</span><div class="saved-note" id="note-fence"></div>
+    <div class="picked">
+      <p class="plabel">資料庫裡的選擇</p>
+      <p>這一節沒有存到選擇，都是在對話裡一句一句改的。</p>
+      <p class="plabel">我在對話裡說的</p>
+      <ul class="said">
+        <li><span class="t">12:01</span>我自己做了積木：一根圓錐、一排橫牆的圓錐、一根角圓柱，跟 AI 說「我製作了單一圓錐，你可以用來疊圖疊成直的或橫的都可以，然後 90 度角邊用角圓柱來當邊邊，營門應該也是可以這樣組合起來」：營柵改照這些拼，橫的一根接一根，直的往下疊，轉角和營門兩邊放角圓柱（5fd026cc）。</li>
+        <li><span class="t">12:07</span>「你的軍營不一定要從頭到尾都尖的，也可以中間幾個串圓柱之類的，對嗎？」：長的一段中間大約每 8 格穿插一根角圓柱（0fce0a46）。</li>
+        <li><span class="t">12:24</span>「營門的圓角柱和圓柱都太矮了嗎？感覺好像有需要 2 倍高」：圓錐、角圓柱拉成兩倍高，只拉下半截木頭，尖頂和繩子不變。「另外，營門好像可以右邊一點，離左邊牆有一點距離」：營門挪到正對營帳中間的走道（62c1296d）。</li>
+        <li><span class="t">12:30</span>「你的角錐是只有 1 種嗎？」：圓錐一根一根做出左右翻、高矮、深淺的差別（23e4ce70）。</li>
+        <li><span class="t">12:32</span>「排起來有點太亂」：高度改回一樣，頂端排成一直線（ad0996c8）。</li>
+        <li><span class="t">12:44</span>「高度不一定吧，是綁繩位置一定要一樣吧」「圓柱也是啊，繩子位置要在一樣，如果解析度不夠，就去重生 3 張高解析圓柱」：照我那根產高解析度的圓錐、角圓柱各三根，繩子下緣對齊，一格 80 像素拼（d544cac0）。</li>
+        <li><span class="t">13:35</span>「為什麼看起來不整齊了？」：粗細改回我那根，尖頂到繩子那段每根一樣長，木頭深淺拉到一樣（d26f3d6b）。</li>
+        <li><span class="t">13:42</span>「每個圓錐柱中有一個看起來像是樹枝分支的圓洞嗎？那是幹嘛，為什麼要畫那個？」：圓錐、角圓柱重產，不要木節（54511ac2）。</li>
+        <li><span class="t">13:52</span>「營圍牆的角錐好像寬度太寬所以互相疊到了？」：圓錐一根挨一根，不再疊（269a8ef4）。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-camp2">
+    <h2 id="h-camp2">射箭場、馬廄</h2>
+    <p class="note">你問校場是不是只操練、要不要馬場，加了這兩樣，各看一下。</p>
+    <div class="grid two" id="camp2"></div>
+    <span class="lbl">想說的</span><div class="saved-note" id="note-camp2"></div>
+    <div class="picked">
+      <p class="plabel">資料庫裡的選擇</p>
+      <p>這一節沒有存到選擇。</p>
+      <p class="plabel">我在對話裡說的</p>
+      <ul class="said">
+        <li><span class="t">12:44</span>「校場真的只是用來校練而已？沒有其他設施像是射箭？」「或者還有什麼馬場？」：C2 校場南半邊加射箭場，C1 軍營加馬廄、馬槽和拴著的馬（d544cac0）。</li>
+        <li><span class="t">13:52</span>「三個箭靶好像都一樣？？」「兵看起來是拿槍和戟不是拿弓練射？」：三個箭靶各不相同，射手換成背對鏡頭拉弓的圖。「馬廄（C1 營門走道東邊）的馬好像都同一隻？？？」：換成舊道具圖的棗紅、灰斑、栗色三匹（269a8ef4）。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-stairs">
+    <h2 id="h-stairs">上城頭的路（立約）</h2>
+    <p class="note">你選了沿著牆的馬道，已經做進遊戲：A2 北牆內面從第 10 欄（西）斜斜爬到第 19 欄（東）的城頭，原本那段小台階拿掉。順便修了城頭能走的列：原本第 5–7 列，人會站到內側矮牆和牆面上，改成第 4–5 列，跟圖上的走道對齊；旗杆移到走道上，立約、箭壺的位置跟著往上挪。下圖放了幾個兵示意：立約的位置（旗杆左邊）、馬道底、中間、頂、城頭靠垛口那一列。</p>
+    <div class="wide"><img src="ramp.webp" alt="A2 北牆：馬道、城頭走道、旗杆，幾個兵站在立約位置和馬道上" width="1152" height="576" loading="lazy"></div>
+    <div class="bar" id="stairs"></div>
+    <span class="lbl">想說的</span><div class="saved-note" id="note-stairs"></div>
+    <div class="picked">
+      <p class="plabel">資料庫裡的選擇</p>
+      <p>這一節沒有存到選擇；馬道是我在對話裡選的。</p>
+      <div class="before">
+        <p>改成馬道之前，這一節放的是下面這張：A2 北門西邊第 16–19 欄兩階小台階，貼在牆面上。當時兩個選項是「維持現在的台階」和「改成沿著牆的馬道」。</p>
+        <img src="stairs.webp" alt="改版前：A2 北牆、旗杆、城頭走道，牆面上貼著一段小台階" width="1200" height="560" loading="lazy">
+      </div>
+      <p class="plabel">我在對話裡說的</p>
+      <ul class="said">
+        <li><span class="t">13:52</span>「另外我們可能有需要，幫北牆邊製作一個梯或斜坡嗎？不然續和布要怎麼上去立約？」：確認頁加上這一節，列出「維持現在的台階」和「改成沿著牆的馬道」兩個選項（269a8ef4）。</li>
+        <li><span class="t">14:01</span>「改成沿著牆的馬道，你現在畫的我看起來合成有問題」：A2 北牆內面加沿著牆的馬道，拿掉小台階。「桿也是，位不正確」：旗杆移到城頭走道上，立約、箭壺的位置跟著挪（0fee2b0f）。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-gate">
+    <h2 id="h-gate">營門：兩種擇一</h2>
+    <p class="note">A 是你要的大一點的營門（兩根粗門柱、一道橫木、一面布），現在遊戲裡用這張。B 是只用柵欄的角圓柱、不加門樓。</p>
+    <div class="grid two" id="campgate"></div>
+    <span class="lbl">想說的</span><div class="saved-note" id="note-campgate"></div>
+    <div class="picked">
+      <p class="plabel">資料庫裡的選擇</p>
+      <p>這一節沒有存到選擇。</p>
+      <p class="plabel">我在對話裡說的</p>
+      <ul class="said">
+        <li><span class="t">12:20</span>「可以帶上圓角柱和角錐，跟用之前產的營門圖，再重生一個大一點的營門圖嗎？」：營門照我的角圓柱、圓錐和舊營門重產成大一點的，門柱壓在柵欄門口的角圓柱上（f3c7c430）。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-mgate">
+    <h2 id="h-mgate">市門</h2>
+    <p class="note">B3 的市有兩個門，各選各的。</p>
+    <div class="grid two" id="mgate"></div>
+    <span class="lbl">想說的</span><div class="saved-note" id="note-mgate"></div>
+    <div class="picked">
+      <p class="plabel">我按的</p>
+      <p id="pick-mgate"></p>
+      <p class="plabel">我在對話裡說的</p>
+      <ul class="said">
+        <li><span class="t">12:20</span>「我看起來好像可以耶？？」「市場西門去背，然後排進去，可以看到人走過呢」：西門照北門的樣子產側面的，用第一張（f3c7c430）。</li>
+        <li><span class="t">12:24</span>「西門可以縮小一點點嗎？」：西門 3 格寬改成 2.6 格（62c1296d）。</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<script>
+const DATA = {"picks":{"mgate":{"choice":{"n":"ok","w":"gen"},"note":"","time":"2026-10-21 12:11"},"yardwall":{"choice":{"common":"plain","rich":"tile"},"note":"","time":""}}};
+const $ = s => document.querySelector(s);
+const SECT = {   // 每一節幾張卡：圖、名字、說明、按鈕；group 是同一節裡分開記的（市門北、西各選各的）
+  yardwall: [
+    ['now', 'yard-now.webp', '現在這張', '夯土牆、灰瓦頂（遊戲裡用的）。合適：有錢人家、公家的院子'],
+    ['tile', 'yard-tile.webp', '夯土瓦頂', '夯土的層次清楚，瓦比較大。合適：有錢人家、公家的院子（漢代城址常挖到瓦和瓦當）'],
+    ['plain', 'yard-plain.webp', '素夯土', '沒有瓦頂的夯土牆（重產過，四邊畫正了）。最合適一般人家：河套乾、雨少，院牆多半就是素的夯土'],
+    ['thatch', 'yard-thatch.webp', '草頂', '夯土牆，頂上鋪一層草擋雨（重產過，看得出是草）。可以給窮人家；漢代的直接證據我沒查到'],
+    ['adobe', 'yard-adobe.webp', '土坯', '土坯（曬乾的泥磚，沒有燒）抹泥，灰瓦頂。合適：西北的漢代遺址常見土坯'],
+    ['stone', 'yard-stone.webp', '石牆', '亂石砌、土填縫。不建議用在城裡：五原在平原上，石頭要從陰山運來'],
+    ['wattle', 'yard-wattle.webp', '編籬', '木柱中間編枝條、抹泥。不建議用在城裡：比較適合城外的菜園、羊圈'],
+  ].map(([v, img, name, desc]) => ({ img, name, desc, choices: [{ v, group: 'common', label: '給一般人家', on: '一般人家用這張' }, { v, group: 'rich', label: '給有錢、公家', on: '有錢、公家用這張' }] })),
+  campgate: [
+    { img: 'gate-a.webp', name: 'A　新產的大營門', desc: '照你的角圓柱、圓錐和之前那張營門重產，比之前大；兩根門柱壓在柵欄門口的角圓柱上，比柵欄高 2 格多', choices: [{ v: 'sprite', label: '選這個', on: '選了這個' }] },
+    { img: 'gate-b.webp', name: 'B　只用兩根角圓柱', desc: '缺口兩邊各一根角圓柱，跟柵欄同一套（這張拿掉了守門的兵，看得到柱子）', choices: [{ v: 'posts', label: '選這個', on: '選了這個' }] },
+  ],
+  camp2: [
+    { img: 'archery.webp', name: '射箭場（C2 校場南半邊）', desc: '三個不一樣的箭靶（布靶撐在木架上，漢代叫侯）面朝南；三個射手背對鏡頭，一個拉弓、一個抽箭', group: 'archery', choices: [{ v: 'ok', label: '可以' }, { v: 'change', label: '要改（寫在下面）' }] },
+    { img: 'stable.webp', name: '馬廄（C1 營門走道東邊）', desc: '草頂、前面敞開的馬廄，前面兩個馬槽；三匹馬是舊道具圖的三種毛色（棗紅、栗色、灰斑），灰斑那匹拴在走道西邊', group: 'stable', choices: [{ v: 'ok', label: '可以' }, { v: 'change', label: '要改（寫在下面）' }] },
+  ],
+  stairs: [{ choices: [{ v: 'ok', label: '可以' }, { v: 'change', label: '要改（寫在下面）' }] }],
+  mgate: [
+    { img: 'mgate-n.webp', name: '北門', desc: '之前產的市門圖（兩根柱子、小瓦頂），從 A3 的東街進來', group: 'n',
+      choices: [{ v: 'ok', label: '可以' }, { v: 'fix', label: '我來修透明' }] },
+    { img: 'mgate-w.webp', name: '西門', desc: '照北門的樣子產的側面（你看過說可以），中間的洞看得到人走過：圖裡門洞站了兩個人示意', group: 'w',
+      choices: [{ v: 'gen', label: '照北門的樣子產一張側面的' }, { v: 'posts', label: '只留缺口和兩根柱子' }] },
+  ],
+  fence: [{ choices: [{ v: 'ok', label: '可以' }, { v: 'change', label: '要改（寫在下面）' }] }],
+};
+const picks = DATA.picks || {};
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function chosen(k, card, c) { const p = (picks[k] || {}).choice, g = c.group || card.group; return g ? !!p && typeof p === 'object' && p[g] === c.v : p === c.v; }
+function buttons(k, card) { return card.choices.map(c => { const on = chosen(k, card, c);
+  return `<button class="btn" disabled aria-pressed="${on}">${esc(on && c.on ? c.on : c.label)}</button>`; }).join(''); }
+for (const [k, cards] of Object.entries(SECT)) {
+  const el = document.getElementById(k);
+  if (k === 'fence' || k === 'stairs') el.innerHTML = buttons(k, cards[0]);
+  else el.innerHTML = cards.map(card => `<div class="card${card.choices.some(c => chosen(k, card, c)) ? ' on' : ''}"><img src="${card.img}" alt="${esc(card.name)}" loading="lazy">
+    <h3>${esc(card.name)}</h3><p>${esc(card.desc)}</p><div class="bar">${buttons(k, card)}</div></div>`).join('');
+  document.getElementById('note-' + k).textContent = (picks[k] || {}).note || '（沒有留話）';
+}
+// 市門：照資料庫寫出按了哪兩個
+const mg = picks.mgate;
+if (mg && mg.choice) {
+  const lab = (g, v) => { const c = SECT.mgate.find(x => x.group === g).choices.find(x => x.v === v); return c ? c.label : v; };
+  $('#pick-mgate').textContent = `北門「${lab('n', mg.choice.n)}」，西門「${lab('w', mg.choice.w)}」${mg.time ? `（${mg.time}）` : ''}。`;
+} else $('#pick-mgate').textContent = '這一節沒有存到選擇。';
+</script>
+</body>
+</html>

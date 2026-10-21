@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>五原配置</title>
+<style>html { scroll-padding-top: env(safe-area-inset-top, 0px); } body { margin: 0; padding: 0; } [hidden]:not([hidden=until-found i]) { display: none !important; } :root { color-scheme: light; }</style>
+<style>
+:root { --bg: #eeebe3; --surface: #fbf9f4; --ink: #25211b; --muted: #6b6455; --line: #d8d0c0; --accent: #7b4b1e; --accent-ink: #fff8ec; --ok: #2f7d4a;
+  --display: "Noto Serif TC", "Songti TC", "PMingLiU", serif; --body: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #15130f; --surface: #1e1b16; --ink: #ece5d6; --muted: #a59c8a; --line: #36302a; --accent: #d79b5e; --accent-ink: #1a1207; --ok: #6cc28c; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #15130f; --surface: #1e1b16; --ink: #ece5d6; --muted: #a59c8a; --line: #36302a; --accent: #d79b5e; --accent-ink: #1a1207; --ok: #6cc28c; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.65; margin: 0; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 28px max(16px, env(safe-area-inset-left, 0px)) 80px max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 26px; }
+h1 { font-family: var(--display); font-size: 32px; margin: 0; letter-spacing: .04em; }
+h2 { font-family: var(--display); font-size: 23px; margin: 0 0 8px; }
+h3 { font-family: var(--display); font-size: 19px; margin: 0; }
+.lead { color: var(--muted); margin: 6px 0 0; max-width: 76ch; }
+.sub { color: var(--muted); font-size: 13px; }
+.box, .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+img { max-width: 100%; height: auto; display: block; border-radius: 8px; image-rendering: pixelated; }
+.overview img { margin: 0 auto; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--muted); font-size: 13px; margin-top: 10px; }
+.legend i { display: inline-block; width: 14px; height: 14px; border-radius: 3px; margin-right: 5px; vertical-align: -2px; border: 1px solid #0003; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr)); gap: 16px; }
+.card { display: grid; gap: 8px; align-content: start; }
+.card ul { margin: 4px 0 0; padding-left: 1.2em; font-size: 14px; }
+summary { cursor: pointer; color: var(--accent); font-size: 14px; }
+textarea { width: 100%; min-height: 64px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 8px; padding: 6px 10px; font: inherit; font-size: 14px; resize: vertical; }
+textarea:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.acts { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 6px; }
+.btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 6px 12px; font: inherit; font-size: 14px; cursor: pointer; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.state { color: var(--ok); font-size: 13px; }
+.periods { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+.periods div { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 13px; }
+.periods b { display: block; font-size: 14px; }
+.toast { position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 18px); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 16px; border-radius: 8px; font-size: 14px; display: none; z-index: 5; }
+/* 存檔版 */
+.decided { margin-top: 8px; background: var(--bg); border: 1px solid var(--line); border-left: 4px solid var(--ok); border-radius: 8px; padding: 8px 12px; font-size: 14px; }
+.decided code { font-size: .92em; }
+.arc { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 10px; padding: 14px 16px; display: grid; gap: 8px; }
+.arc .tag { font-size: 12px; color: var(--muted); letter-spacing: .08em; }
+.arc p { margin: 0; max-width: 72ch; }
+.arc nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; }
+.arc a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="arc" aria-label="存檔說明">
+    <span class="tag">確認頁存檔</span>
+    <p>這一頁是 2026-10-21 凌晨的五原配置：照連結圖把整座城排成 13 塊、每塊 64×64 格的色塊圖，每一塊列出劇情點、路人和物件，另外有鏡頭、地面兩題要我選。整座城的配置我同意，也要 AI 加成排的民屋、攤子和形形色色的路人，這裡存的是加過以後的版本。頁面資料庫裡沒有存到我的回覆，我的決定記在 repo 的 <code>xu/地圖重做.md</code>：鏡頭城裡用 wide、屋內用 normal，地面選地板組。後來 AI 照這份配置把物件、牆、城牆一樣一樣產出來，做法整理在<a href="../method/index.html">建城工法</a>。存檔版拿掉了回覆欄，鏡頭和地面兩題底下改寫我後來定的。</p>
+    <nav><a href="../../confirm.html">回確認頁一覽</a><a href="../../city.html">建城工法：拼出來的城</a></nav>
+  </section>
+  <header><h1>五原配置</h1>
+    <p class="lead">照連結圖排好的整座城：每一塊是一張 64×64 格的地圖（一格半公尺，一塊約 32×32 公尺）。這一步只定大配置（街、城牆、城門、屋子和物件大概佔哪幾格、劇情發生在哪裡）；你看過以後，我再把每一塊細到物件的佔地與高度，換成色塊放進遊戲讓你看前後遮擋，最後才產圖。每一塊下面可以按同意或寫要改什麼，會存起來。</p></header>
+  <section><h2>一、整座城</h2>
+    <div class="box overview"><img src="overview.webp" alt="五原整座城的色塊總圖" width="1280" height="1280">
+      <div class="legend"><span><i style="background:rgb(230,215,176)"></i>廣場</span><span><i style="background:rgb(214,192,150)"></i>街、路</span><span><i style="background:rgb(232,198,136)"></i>市集</span><span><i style="background:rgb(236,224,192)"></i>院子、空地</span><span><i style="background:rgb(186,204,150)"></i>草地、田、山坡</span><span><i style="background:rgb(128,112,90)"></i>城牆</span><span><i style="background:rgb(200,184,152)"></i>城頭走道（有階梯上得去）</span><span><i style="background:rgb(196,84,58)"></i>城門洞</span><span><i style="background:rgb(139,101,72)"></i>屋子</span><span><i style="background:rgb(220,40,60)"></i>事件點</span></div>
+      <p class="sub">城裡一排一排的民屋、鋪子、攤子，同一排用同一張圖重複，所有物件都用跟地圖一樣的正面俯視角度（鏡頭在南方往下約 50 度，不轉 45 度），排起來才整齊。路人寫的是修好那幾年（179–189）平常日子的樣子，其他時期另外換。</p>
+      <p class="sub">北邊城牆在城裡那一側看得到牆面和城頭走道，從城外（C1、C2、C3）看是牆頂；南牆從城外（C5）看得到整面牆和南門樓。西、東城牆是側面。城頭只有北門西邊那一段有階梯（A2 的登城道），立約、箭壺都在那一段。屋子的門一律開在南面（俯視只看得到南面）。</p>
+      <p class="sub">檢查：相鄰兩塊共用的邊都對得上（沒有一邊能走、一邊是牆的格子）；城牆兩邊一格都走不過去，只有四個城門通；每一塊能走的地方都從入口走得到。</p></div>
+  </section>
+  <section><h2>二、遊戲裡的鏡頭（請選一個）</h2><div class="box">
+    <img src="ingame/camera.webp" alt="四種鏡頭比較" loading="lazy" width="1600" height="900">
+    <p class="sub">同一個地方、同一個畫面大小（1600×900）。不設鏡頭：一個畫面看得到整張的寬（64 格，32 公尺），人比較小、上下捲動；wide：約 37 格；normal：約 24 格，跟現在《續》的小地圖一樣大；close：約 16 格。我傾向 wide（人看得清楚，也看得到一條街的長度）；底下的遊戲畫面是用「不設鏡頭」截的，方便一次看到整塊。</p>
+    <div class="decided"><b>我後來定的</b>：城和村每一塊用 wide，屋內用 normal，大地圖不設鏡頭、人物縮一半（記在 repo 的 <code>xu/地圖重做.md</code>）。這一題頁面資料庫裡沒有存到回覆。</div></div></section>
+  <section><h2>三、地面的做法（請選一個）</h2><div class="box">
+    <img src="ingame/ground_compare.webp" alt="兩種地面在遊戲裡的比較" loading="lazy" width="1000" height="1125">
+    <p class="sub">同一個地方（A2 北門內的大街），鏡頭 wide。上：無縫地面組，每種地面產一張可以無限接的方圖（下面五張），照每一格的地面種類拼起來，交界做柔和的漸變；落葉、碎石跟人的比例對，畫面清楚，相鄰兩塊天生接得起來。下：整張生成，照這一塊的配置一張畫完再放大三倍，落葉大得跟手一樣、比較糊，相鄰兩塊的接縫要另外處理。</p>
+    <img src="ingame/textures.webp" alt="五種無縫地面" loading="lazy" width="1600" height="360">
+    <p class="sub">我建議用無縫地面組，再補三件事：街的邊界做清楚（踩實的深色土、路邊的碎石）、每種地面多產幾張輪流用（大範圍看不出重複）、隨機撒落葉堆、小草、水窪這類點綴。季節與時期（冬天的雪、燒過、空了）就是換一套地面。</p>
+    <div class="decided"><b>我後來選的</b>：地板組，也就是上面那種無縫地面組，照每一格的地面種類拼（記在 repo 的 <code>xu/建城工法.md</code>）。這一題頁面資料庫裡沒有存到回覆。</div></div></section>
+  <section><h2>四、物件（照 E3 的角度、實際大小）</h2><div class="box">
+    <img src="ingame/objects.webp" alt="物件總表" loading="lazy" width="1292" height="4000">
+    <p class="sub">從上到下：三開間（18 格，約 9 公尺：舊瓦頂、草頂、粉牆新瓦頂）、兩開間（12 格）、一開間小屋（8 格）、柴房、魏家老屋（三開間草頂，新舊草補過）、藥鋪、市裡的小鋪、鐵匠鋪、木匠鋪、市樓、市門、院牆（橫、直）、市牆（橫、直）；最下面是上一批的攤子、算命攤、告示牌、水缸、旗杆（角度較平，看了再決定要不要重產）。每一列是同一種輪流排的樣子，下緣對齊。還沒產的：城牆、城門樓、角樓、井、木樁、柴堆、雞籠這類小東西，以及新身分的路人。</p></div></section>
+  <section><h2>五、每一塊</h2><p class="sub">路人：叫賣的、算命的、要飯的、守門的兵、洗衣的、老人站著（叫賣的頭上會冒泡泡）；買東西的、孩子、搬糧的、種田的在一小塊範圍裡隨意走；只有巡邏的兵左右或上下來回；行人、挑擔的、牛車馬車騾車是「路過」：從街的一頭走到另一頭（或走出城門），在看不見的時候回到起點再走一次。</p><div class="cards"><article class="card" id="b-C4"><h3>C4　邊牆外的荒原</h3><div class="sub">城外・一張 64×64 格・出入口：大地圖（往北，靈山）</div>
+<img src="C4.webp" alt="C4 色塊圖" loading="lazy" width="640" height="640">
+<img src="ingame/C4.webp" alt="C4 遊戲裡的畫面" loading="lazy" width="1280" height="720"><div class="sub">遊戲裡：地面是地板組（秋天，修好那幾年）；屋子、院牆、店鋪、市樓已經換成 E3 角度的圖，城牆城門和小東西還是色塊；鏡頭 wide；人物暫用現有的走路圖，車暫用馬</div>
+<details open><summary>事件點（紅點）</summary><ul><li><b>巡邊（胡騎）</b>：第三章 第一次實戰</li></ul></details>
+<details><summary>路人（1 個；圓點顏色：兵紅、叫賣橘、算命紫、要飯灰、孩子綠、車是褐色方塊、其他藍綠；線是來回走的範圍）</summary><ul><li>守邊牆缺口的兵：站著</li></ul></details>
+<details><summary>物件（深色是佔地、擋路；斜線是往上長、人走到後面會被蓋住）</summary><ul><li>邊牆西段：夯土的邊牆，到地圖西邊</li><li>邊牆東段：中間 28–37 欄是缺口</li><li>枯樹</li><li>大石頭</li></ul></details></article>
+<article class="card" id="b-C3"><h3>C3　城北山腳・墳地</h3><div class="sub">城外・一張 64×64 格</div>
+<img src="C3.webp" alt="C3 色塊圖" loading="lazy" width="640" height="640">
+<img src="ingame/C3.webp" alt="C3 遊戲裡的畫面" loading="lazy" width="1280" height="720"><div class="sub">遊戲裡：地面是地板組（秋天，修好那幾年）；屋子、院牆、店鋪、市樓已經換成 E3 角度的圖，城牆城門和小東西還是色塊；鏡頭 wide；人物暫用現有的走路圖，車暫用馬</div>
+<details open><summary>事件點（紅點）</summary><ul><li><b>墳地</b>：第二章 城北的墳</li><li><b>往山裡的小路</b>：第一章 山腳；173 有人看見一個男孩拖著戟往山裡走</li></ul></details>
+<details><summary>路人（1 個；圓點顏色：兵紅、叫賣橘、算命紫、要飯灰、孩子綠、車是褐色方塊、其他藍綠；線是來回走的範圍）</summary><ul><li>砍柴的：在一小塊範圍裡隨意走</li></ul></details>
+<details><summary>物件（深色是佔地、擋路；斜線是往上長、人走到後面會被蓋住）</summary><ul><li>墳（爹）：第二章才有（燒過、修好、空了才有）</li><li>墳（娘）（燒過、修好、空了才有）</li><li>老樹</li><li>灌木一</li><li>灌木二</li></ul></details></article>
+<article class="card" id="b-C1"><h3>C1　北門外・城北軍營</h3><div class="sub">城外・一張 64×64 格・出入口：北門（通 A2）、大地圖（從北面進五原）</div>
+<img src="C1.webp" alt="C1 色塊圖" loading="lazy" width="640" height="640">
+<img src="ingame/C1.webp" alt="C1 遊戲裡的畫面" loading="lazy" width="1280" height="720"><div class="sub">遊戲裡：地面是地板組（秋天，修好那幾年）；屋子、院牆、店鋪、市樓已經換成 E3 角度的圖，城牆城門和小東西還是色塊；鏡頭 wide；人物暫用現有的走路圖，車暫用馬</div>
+<details open><summary>事件點（紅點）</summary><ul><li><b>營門</b>：第二章 入營；第三章 快馬</li><li><b>軍侯的帳門</b>：進帳子（R3）：裡面要有軍侯能說話（作者）</li></ul></details>
+<details><summary>路人（7 個；圓點顏色：兵紅、叫賣橘、算命紫、要飯灰、孩子綠、車是褐色方塊、其他藍綠；線是來回走的範圍）</summary><ul><li>營門的兵：站著</li><li>營門的兵：站著</li><li>巡營的兵：左右來回巡邏</li><li>營裡的兵：在一小塊範圍裡隨意走</li><li>營裡的兵：在一小塊範圍裡隨意走</li><li>趕路的旅人：路過；從北邊的大路走向北門</li><li>運糧的馬車：路過；出北門往北</li></ul></details>
+<details><summary>物件（深色是佔地、擋路；斜線是往上長、人走到後面會被蓋住）</summary><ul><li>營柵西：削尖的木柵欄（直的一格一根）</li><li>營柵北</li><li>營柵南西段</li><li>營門：營門開在朝南的柵欄上（舊城北軍營也是），兩根門柱一道橫木，門口站兩個兵；從大路往東走到門口</li><li>營柵南東段</li><li>軍侯的帳子：帳門朝南（進帳子 R3），帳子裡有軍侯</li><li>營帳（同一張圖排 2 個）：同一種營帳排成一排</li><li>營帳南排（同一張圖排 2 個）</li><li>哨棚：營門外大路西邊的哨棚</li></ul></details></article>
+<article class="card" id="b-C2"><h3>C2　城北軍營・校場</h3><div class="sub">城外・一張 64×64 格</div>
+<img src="C2.webp" alt="C2 色塊圖" loading="lazy" width="640" height="640">
+<img src="ingame/C2.webp" alt="C2 遊戲裡的畫面" loading="lazy" width="1280" height="720"><div class="sub">遊戲裡：地面是地板組（秋天，修好那幾年）；屋子、院牆、店鋪、市樓已經換成 E3 角度的圖，城牆城門和小東西還是色塊；鏡頭 wide；人物暫用現有的走路圖，車暫用馬</div>
+<details open><summary>事件點（紅點）</summary><ul><li><b>校場</b>：第二章 教學戰；第四章 祿米</li><li><b>刑凳</b>：第三章 四十軍棍</li></ul></details>
+<details><summary>路人（9 個；圓點顏色：兵紅、叫賣橘、算命紫、要飯灰、孩子綠、車是褐色方塊、其他藍綠；線是來回走的範圍）</summary><ul><li>點將台前的軍官：站著</li><li>對練的兵：在一小塊範圍裡隨意走</li><li>對練的兵：在一小塊範圍裡隨意走</li><li>對練的兵：在一小塊範圍裡隨意走</li><li>練樁的兵：站著；站在木人樁西邊面向東，循環播「架式、刺出去」（作者：不然只是站著發呆）</li><li>練樁的兵：站著</li><li>跑步的兵：繞圈；三個兵逆時針繞著校場跑步（作者 2026-10-21）</li><li>跑步的兵：繞圈</li><li>跑步的兵：繞圈</li></ul></details>
+<details><summary>物件（深色是佔地、擋路；斜線是往上長、人走到後面會被蓋住）</summary><ul><li>營柵北</li><li>營柵東</li><li>營柵南</li><li>木人樁（同一張圖排 6 個）：練武的木人樁，一排六根</li><li>兵器架</li><li>點將台</li><li>刑凳：四十軍棍</li></ul></details></article>
+<article class="card" id="b-C6"><h3>C6　五原城西（西門外）</h3><div class="sub">城外・一張 64×64 格・出入口：西門（通 A1）、大地圖（從西面進五原）</div>
+<img src="C6.webp" alt="C6 色塊圖" loading="lazy" width="640" height="640">
+<img src="ingame/C6.webp" alt="C6 遊戲裡的畫面" loading="lazy" width="1280" height="720"><div class="sub">遊戲裡：地面是地板組（秋天，修好那幾年）；屋子、院牆、店鋪、市樓已經換成 E3 角度的圖，城牆城門和小東西還是色塊；鏡頭 wide；人物暫用現有的走路圖，車暫用馬</div>
+<details open><summary>事件點（紅點）</summary><ul><li><b>西門外</b></li></ul></details>
+<details><summary>路人（3 個；圓點顏色：兵紅、叫賣橘、算命紫、要飯灰、孩子綠、車是褐色方塊、其他藍綠；線是來回走的範圍）</summary><ul><li>種田的：在一小塊範圍裡隨意走</li><li>種田的：在一小塊範圍裡隨意走</li><li>行人：路過；往西門進城</li></ul></details>
+<details><summary>物件（深色是佔地、擋路；斜線是往上長、人走到後面會被蓋住）</summary><ul><li>西門樓（城外）：從城外看的西門</li><li>路邊樹（同一張圖排 3 個）</li></ul></details></article>
+<article class="card" id="b-A1"><h3>A1　北牆西段・城牆下廣場西半・魏家那條巷</h3><div class="sub">城內・一張 64×64 格・出入口：西門（通 C6）</div>
+<img src="A1.webp" alt="A1 色塊圖" loading="lazy" width="640" height="640">
+<img src="ingame/A1.webp" alt="A1 遊戲裡的畫面" loading="lazy" width="1280" height="720"><div class="sub">遊戲裡：地面是地板組（秋天，修好那幾年）；屋子、院牆、店鋪、市樓已經換成 E3 角度的圖，城牆城門和小東西還是色塊；鏡頭 wide；人物暫用現有的走路圖，車暫用馬</div>
+<details open><summary>事件點（紅點）</summary><ul><li><b>摔跤的空地</b>：第零幕 認識、摔跤</li><li><b>魏家門檻</b>：第零幕一起吃飯、第二、三章劈柴與門口；面朝北按就進屋（R1、R2）</li><li><b>城頭（西段）</b>：從 A2 的階梯上來</li></ul></details>
+<details><summary>路人（7 個；圓點顏色：兵紅、叫賣橘、算命紫、要飯灰、孩子綠、車是褐色方塊、其他藍綠；線是來回走的範圍）</summary><ul><li>守西門的兵：站著</li><li>玩耍的孩子：在一小塊範圍裡隨意走</li><li>玩耍的孩子：在一小塊範圍裡隨意走</li><li>樹下乘涼的老人：站著</li><li>賣糖人的（叫賣）：站著</li><li>挑水的：路過；從廣場沿巷子往南挑水</li><li>行人：路過；從西門進來往東走</li></ul></details>
+<details><summary>物件（深色是佔地、擋路；斜線是往上長、人走到後面會被蓋住）</summary><ul><li>角樓：西北角的木造角樓</li><li>西門樓：西門的門樓（門洞 52–55 列）</li><li>木樁一排：牆根下的木樁（摔跤時的邊界）</li><li>火把：牆上一盞火把（夜裡的場景點著）</li><li>老槐樹：廣場東邊的老樹，樹下有人乘涼</li><li>魏家老屋：老屋在廣場西南角：北面背對廣場（從廣場看到屋頂），門開在南面 16–19 欄；燒過那幾年是重新蓋的茅草頂</li><li>門檻：門前的石階與木門檻（第二、三章坐在旁邊劈柴）</li><li>木樁：劈柴的木樁；第零幕一起吃飯時當桌子</li><li>柴堆</li><li>柴棚（同一張圖排 2 個）：西門大街南邊的柴棚</li><li>柴棚東（同一張圖排 2 個）</li></ul></details></article>
+<article class="card" id="b-A2"><h3>A2　北門・登城道・城頭・廣場東半</h3><div class="sub">城內・一張 64×64 格・出入口：北門（通 C1）</div>
+<img src="A2.webp" alt="A2 色塊圖" loading="lazy" width="640" height="640">
+<img src="ingame/A2.webp" alt="A2 遊戲裡的畫面" loading="lazy" width="1280" height="720"><div class="sub">遊戲裡：地面是地板組（秋天，修好那幾年）；屋子、院牆、店鋪、市樓已經換成 E3 角度的圖，城牆城門和小東西還是色塊；鏡頭 wide；人物暫用現有的走路圖，車暫用馬</div>
+<details open><summary>事件點（紅點）</summary><ul><li><b>立約（旗杆左邊）</b>：第零幕 城頭立約</li><li><b>箭壺</b>：第零幕 箭壺（城頭）</li><li><b>大孩子的牆角</b>：第零幕 大孩子、跟班</li><li><b>修城</b>：第一章 修城（燒過那幾年，城頭三個塌口在走道上）</li></ul></details>
+<details><summary>路人（11 個；圓點顏色：兵紅、叫賣橘、算命紫、要飯灰、孩子綠、車是褐色方塊、其他藍綠；線是來回走的範圍）</summary><ul><li>守北門的兵：站著</li><li>守北門的兵：站著</li><li>算命的：站著</li><li>要飯的：站著</li><li>巡查的軍官：上下來回巡邏；帶兩個兵沿南北大街巡查</li><li>巡查的兵：上下來回巡邏</li><li>巡查的兵：上下來回巡邏</li><li>拉貨的牛車：路過；從北門進來沿大街往南</li><li>賣餅的（叫賣）：站著</li><li>行人：路過</li><li>行人：路過</li></ul></details>
+<details><summary>物件（深色是佔地、擋路；斜線是往上長、人走到後面會被蓋住）</summary><ul><li>北門樓：北門的門樓，門洞 30–33 欄</li><li>旗杆：城頭的旗杆；立約在旗杆左邊（7</li><li>告示牌：北門內的告示牌</li><li>算命攤：一張小桌、一面布幡</li><li>磚堆：修城時才有（燒過才有）</li><li>水缸（同一張圖排 3 個）：北街南邊防火的大水缸</li></ul></details></article>
+<article class="card" id="b-A3"><h3>A3　東北角・郡府與倉</h3><div class="sub">城內・一張 64×64 格・出入口：東門（通 C7）</div>
+<img src="A3.webp" alt="A3 色塊圖" loading="lazy" width="640" height="640">
+<img src="ingame/A3.webp" alt="A3 遊戲裡的畫面" loading="lazy" width="1280" height="720"><div class="sub">遊戲裡：地面是地板組（秋天，修好那幾年）；屋子、院牆、店鋪、市樓已經換成 E3 角度的圖，城牆城門和小東西還是色塊；鏡頭 wide；人物暫用現有的走路圖，車暫用馬</div>
+<details open><summary>事件點（紅點）</summary><ul><li><b>郡府大門</b>：尚未開放</li><li><b>倉</b>：修城時的工地（燒過那幾年）</li></ul></details>
+<details><summary>路人（7 個；圓點顏色：兵紅、叫賣橘、算命紫、要飯灰、孩子綠、車是褐色方塊、其他藍綠；線是來回走的範圍）</summary><ul><li>郡府門口的衛兵：站著</li><li>郡府門口的衛兵：站著</li><li>搬糧的：在一小塊範圍裡隨意走</li><li>搬糧的：在一小塊範圍裡隨意走</li><li>文吏：在一小塊範圍裡隨意走</li><li>守東門的兵：站著</li><li>騾車：路過；往東門出城</li></ul></details>
+<details><summary>物件（深色是佔地、擋路；斜線是往上長、人走到後面會被蓋住）</summary><ul><li>角樓：東北角的角樓</li><li>東門樓：東門的門樓（門洞 52–55 列）</li><li>郡府：太守府：院牆圍著正堂，大門朝南開在 22–25 欄（目前劇本沒寫到，門口說「尚未開放」）</li><li>照壁：郡府大門對面的照壁</li><li>糧倉</li><li>兵器庫</li><li>運糧車（停著）</li><li>民居（同一張圖排 2 個）：北街南邊的矮屋</li><li>民居東</li></ul></details></article>
+<article class="card" id="b-C7"><h3>C7　五原城東（東門外）</h3><div class="sub">城外・一張 64×64 格・出入口：東門（通 A3）、大地圖（從東面進五原）</div>
+<img src="C7.webp" alt="C7 色塊圖" loading="lazy" width="640" height="640">
+<img src="ingame/C7.webp" alt="C7 遊戲裡的畫面" loading="lazy" width="1280" height="720"><div class="sub">遊戲裡：地面是地板組（秋天，修好那幾年）；屋子、院牆、店鋪、市樓已經換成 E3 角度的圖，城牆城門和小東西還是色塊；鏡頭 wide；人物暫用現有的走路圖，車暫用馬</div>
+<details open><summary>事件點（紅點）</summary><ul><li><b>東門外</b></li></ul></details>
+<details><summary>路人（2 個；圓點顏色：兵紅、叫賣橘、算命紫、要飯灰、孩子綠、車是褐色方塊、其他藍綠；線是來回走的範圍）</summary><ul><li>種田的：在一小塊範圍裡隨意走</li><li>行人：路過；往東門進城</li></ul></details>
+<details><summary>物件（深色是佔地、擋路；斜線是往上長、人走到後面會被蓋住）</summary><ul><li>東門樓（城外）：從城外看的東門</li><li>路邊樹（同一張圖排 3 個）</li></ul></details></article>
+<article class="card" id="b-B1"><h3>B1　西南巷子・鄰居與井</h3><div class="sub">城內・一張 64×64 格</div>
+<img src="B1.webp" alt="B1 色塊圖" loading="lazy" width="640" height="640">
+<img src="ingame/B1.webp" alt="B1 遊戲裡的畫面" loading="lazy" width="1280" height="720"><div class="sub">遊戲裡：地面是地板組（秋天，修好那幾年）；屋子、院牆、店鋪、市樓已經換成 E3 角度的圖，城牆城門和小東西還是色塊；鏡頭 wide；人物暫用現有的走路圖，車暫用馬</div>
+<details open><summary>事件點（紅點）</summary><ul><li><b>井</b>：第二章 挑水；鄰居叫住他</li><li><b>鄰居</b>：第二章 街坊</li></ul></details>
+<details><summary>路人（6 個；圓點顏色：兵紅、叫賣橘、算命紫、要飯灰、孩子綠、車是褐色方塊、其他藍綠；線是來回走的範圍）</summary><ul><li>洗衣的婦人：站著</li><li>打水的婦人：站著</li><li>玩耍的孩子：在一小塊範圍裡隨意走</li><li>玩耍的孩子：在一小塊範圍裡隨意走</li><li>坐在門口的老婦人：站著</li><li>挑擔的貨郎（叫賣）：路過</li></ul></details>
+<details><summary>物件（深色是佔地、擋路；斜線是往上長、人走到後面會被蓋住）</summary><ul><li>角樓：西南角的角樓</li><li>井：挑水的井</li><li>晾衣竿</li><li>雞籠</li><li>柴堆</li></ul></details></article>
+<article class="card" id="b-B2"><h3>B2　南北大街・藥鋪・南門</h3><div class="sub">城內・一張 64×64 格・出入口：南門（通 C5）</div>
+<img src="B2.webp" alt="B2 色塊圖" loading="lazy" width="640" height="640">
+<img src="ingame/B2.webp" alt="B2 遊戲裡的畫面" loading="lazy" width="1280" height="720"><div class="sub">遊戲裡：地面是地板組（秋天，修好那幾年）；屋子、院牆、店鋪、市樓已經換成 E3 角度的圖，城牆城門和小東西還是色塊；鏡頭 wide；人物暫用現有的走路圖，車暫用馬</div>
+<details open><summary>事件點（紅點）</summary><ul><li><b>藥鋪門口</b>：第二章 藥錢倒數；面朝北按就進屋（R4）</li><li><b>南門</b>：第一章 往南逃；第九章 空了的五原從這裡進城</li></ul></details>
+<details><summary>路人（13 個；圓點顏色：兵紅、叫賣橘、算命紫、要飯灰、孩子綠、車是褐色方塊、其他藍綠；線是來回走的範圍）</summary><ul><li>賣餅的（叫賣）：站著</li><li>賣菜的（叫賣）：站著</li><li>算命的：站著；南門內路邊鋪一張蓆子</li><li>要飯的：站著</li><li>守南門的兵：站著</li><li>守南門的兵：站著</li><li>拉貨的牛車：路過；沿大街往南門</li><li>馬車：路過；從南門進來往北</li><li>行人：在一小塊範圍裡隨意走</li><li>行人：在一小塊範圍裡隨意走</li><li>行人：在一小塊範圍裡隨意走</li><li>行人：路過</li><li>巡查的兵：左右來回巡邏</li></ul></details>
+<details><summary>物件（深色是佔地、擋路；斜線是往上長、人走到後面會被蓋住）</summary><ul><li>南門樓：南門的門樓（從城裡看到門樓的背面）</li><li>藥鋪：門開在南面 49–52 欄，門前的空地通到大街（進屋 R4）</li><li>民居東南（同一張圖排 2 個）</li></ul></details></article>
+<article class="card" id="b-B3"><h3>B3　東南・市（市牆、市門、市樓、列肆）</h3><div class="sub">城內・一張 64×64 格</div>
+<img src="B3.webp" alt="B3 色塊圖" loading="lazy" width="640" height="640">
+<img src="ingame/B3.webp" alt="B3 遊戲裡的畫面" loading="lazy" width="1280" height="720"><div class="sub">遊戲裡：地面是地板組（秋天，修好那幾年）；屋子、院牆、店鋪、市樓已經換成 E3 角度的圖，城牆城門和小東西還是色塊；鏡頭 wide；人物暫用現有的走路圖，車暫用馬</div>
+<details open><summary>事件點（紅點）</summary><ul><li><b>市集</b>：第四章 市集（原本在 B2 大街）</li><li><b>作坊</b>：幫工、賣柴（之後可以放的日常）</li></ul></details>
+<details><summary>路人（15 個；圓點顏色：兵紅、叫賣橘、算命紫、要飯灰、孩子綠、車是褐色方塊、其他藍綠；線是來回走的範圍）</summary><ul><li>市吏：站著；市樓下管市的小吏</li><li>守市門的：站著</li><li>守市門的：站著</li><li>賣菜的（叫賣）：站著</li><li>賣布的（叫賣）：站著</li><li>賣陶器的（叫賣）：站著</li><li>賣雞蛋的（叫賣）：站著</li><li>賣餅的（叫賣）：站著</li><li>鐵匠：站著</li><li>木匠：站著</li><li>買東西的人：在一小塊範圍裡隨意走</li><li>買東西的人：在一小塊範圍裡隨意走</li><li>買東西的人：在一小塊範圍裡隨意走</li><li>巡查的兵：上下來回巡邏</li><li>騾車：路過；從西邊的市門進來</li></ul></details>
+<details><summary>物件（深色是佔地、擋路；斜線是往上長、人走到後面會被蓋住）</summary><ul><li>角樓：東南角的角樓</li><li>市牆北西：夯土的市牆，頂上蓋瓦</li><li>市門北：北邊的市門（從 A3 的東街進來）</li><li>市牆北東</li><li>市牆南</li><li>市牆西北</li><li>市門西：西邊的市門（從 B2 往市的街進來）</li><li>市牆西南</li><li>市牆東</li><li>市樓：市中間兩層的市樓，樓上掛鼓（開市、閉市擊鼓），市吏在樓下</li><li>攤子西北（同一張圖排 5 個）：列肆：同一種棚架排成一排，賣的東西各不同</li><li>攤子西北南排（同一張圖排 5 個）</li><li>攤子東北（同一張圖排 3 個）</li><li>攤子東北南排（同一張圖排 3 個）</li><li>市鋪（同一張圖排 2 個）：列肆：一間一間的小鋪（一開間，門朝南）</li><li>市鋪南排（同一張圖排 2 個）</li><li>鐵匠鋪</li><li>鐵砧</li><li>木匠鋪</li><li>攤子西南（同一張圖排 3 個）</li><li>攤子東南（同一張圖排 3 個）</li></ul></details></article>
+<article class="card" id="b-C5"><h3>C5　南門外大路</h3><div class="sub">城外・一張 64×64 格・出入口：南門（通 B2）、大地圖（往嚴家、往晉陽）</div>
+<img src="C5.webp" alt="C5 色塊圖" loading="lazy" width="640" height="640">
+<img src="ingame/C5.webp" alt="C5 遊戲裡的畫面" loading="lazy" width="1280" height="720"><div class="sub">遊戲裡：地面是地板組（秋天，修好那幾年）；屋子、院牆、店鋪、市樓已經換成 E3 角度的圖，城牆城門和小東西還是色塊；鏡頭 wide；人物暫用現有的走路圖，車暫用馬</div>
+<details open><summary>事件點（紅點）</summary><ul><li><b>南門外</b>：第一章 逃難出城；第四章 搬家出發；第九章 回到五原</li></ul></details>
+<details><summary>路人（7 個；圓點顏色：兵紅、叫賣橘、算命紫、要飯灰、孩子綠、車是褐色方塊、其他藍綠；線是來回走的範圍）</summary><ul><li>守南門的兵（城外）：站著</li><li>茶棚的老闆：站著</li><li>歇腳的旅人：站著</li><li>歇腳的旅人：站著</li><li>進城的牛車：路過</li><li>挑擔進城的人：路過</li><li>種田的：在一小塊範圍裡隨意走</li></ul></details>
+<details><summary>物件（深色是佔地、擋路；斜線是往上長、人走到後面會被蓋住）</summary><ul><li>南門樓（城外）：從城外看的南門：整面城牆和門樓</li><li>茶棚</li><li>路邊樹（同一張圖排 3 個）：大路兩邊一排樹</li><li>路邊樹東（同一張圖排 2 個）</li></ul></details></article></div></section>
+  <section><h2>六、屋內（小地圖，從門進去）</h2><div class="box"><ul><li><b>R1　魏家屋裡（老屋）</b>：從 A1 魏家門檻 進去；objects_b3.yaml（m-a3in）</li><li><b>R2　魏家屋裡（修好）</b>：從 A1 魏家門檻 進去；objects_b3.yaml（m-b3）</li><li><b>R3　軍侯的帳子</b>：從 C1 軍侯的帳門 進去；m-c2t（帳子裡要有軍侯能說話）</li><li><b>R4　藥鋪</b>：從 B2 藥鋪門口 進去；新畫一間</li></ul></div></section>
+  <section><h2>七、同一套配置用在五個時期</h2><div class="periods"><div><b>完整</b>169–173：第零幕。城北軍營還沒有（C1、C2 是空地）、沒有墳；路人比修好那幾年少一點</div><div><b>城破</b>173 冬：第一章。A1 起火、A2 城頭、B2 往南逃、C5；路人換成逃難的人群</div><div><b>燒過</b>176–179：第一章。全部燒過，A2 城頭走道三個塌口、魏家老屋要修；C1 只有營門；路人很少，修城的人多</div><div><b>修好</b>179–189：第二到四章。全部；上面寫的路人就是這幾年</div><div><b>空了</b>223：第九章。A1 老屋塌了、A2、B2、C5，沒有人</div></div></section>
+</div>
+
+</body>
+</html>

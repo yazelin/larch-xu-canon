@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>續 地點表</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&display=swap">
+<style>
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { margin: 0; padding: 0; }
+img { max-width: 100%; }
+[hidden]:not([hidden=until-found i]) { display: none !important; }
+/* 版面：一欄讀下來。比例尺三張卡 → 大地圖相對位置草圖（SVG，照真實經緯度） → 地點表（每一列一張卡，作者在卡上回意見，存頁面資料庫） */
+:root {
+  --bg: #efece4;
+  --surface: #fbf9f4;
+  --ink: #26221b;
+  --muted: #6c6556;
+  --line: #d9d2c3;
+  --accent: #7b4b1e;          /* 赭色：舊地圖的墨色 */
+  --accent-ink: #fff8ec;
+  --land: #e7dcc4;
+  --river: #6f9cbf;
+  --mount: #a99b80;
+  --route: #b5452f;
+  --ok: #2f7d4a;
+  --warn: #a76a12;
+  --display: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  --body: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #15130f; --surface: #1e1b16; --ink: #ece5d6; --muted: #a59c8a; --line: #36302a; --accent: #d79b5e; --accent-ink: #1a1207; --land: #2b261e; --river: #5b8db3; --mount: #6d6250; --route: #e0705a; --ok: #6cc28c; --warn: #e2a64a; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #15130f; --surface: #1e1b16; --ink: #ece5d6; --muted: #a59c8a; --line: #36302a; --accent: #d79b5e; --accent-ink: #1a1207; --land: #2b261e; --river: #5b8db3; --mount: #6d6250; --route: #e0705a; --ok: #6cc28c; --warn: #e2a64a; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.65; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 80px; display: grid; gap: 28px; }
+h1 { font-family: var(--display); font-size: 32px; margin: 0; letter-spacing: .04em; }
+h2 { font-family: var(--display); font-size: 22px; margin: 0 0 10px; }
+.lead { color: var(--muted); margin: 6px 0 0; max-width: 68ch; }
+.scales { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.sc { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: grid; gap: 4px; align-content: start; }
+.sc b { font-size: 16px; }
+.sc .big { font-family: var(--display); font-size: 20px; color: var(--accent); }
+.sc p { margin: 0; color: var(--muted); font-size: 14px; }
+.limit { background: var(--surface); border-left: 4px solid var(--accent); border-radius: 6px; padding: 10px 14px; font-size: 14px; }
+.mapbox { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px; }
+.mapbox svg { width: 100%; height: auto; display: block; }
+.mapbox .cap { color: var(--muted); font-size: 13px; padding: 6px 4px 0; }
+.rows { display: grid; gap: 12px; }
+.row { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 8px; min-width: 0; }
+.row.ok { border-color: var(--ok); }
+.row.change { border-color: var(--warn); }
+.rh { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: baseline; }
+.rh .lv { font-size: 12px; border: 1px solid var(--line); border-radius: 999px; padding: 0 9px; color: var(--muted); }
+.rh .pl { font-family: var(--display); font-size: 19px; font-weight: 700; }
+.rh .wh { color: var(--muted); font-size: 13px; }
+dl { display: grid; grid-template-columns: 6.5em minmax(0, 1fr); gap: 4px 12px; margin: 0; font-size: 14px; }
+dt { color: var(--muted); }
+dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+dd a { color: var(--accent); }
+.prop { background: var(--bg); border-radius: 8px; padding: 8px 10px; font-size: 14px; }
+/* 存檔版：作者當時的回覆，取代原本的意見欄與按鈕 */
+.ans { border-top: 1px dashed var(--line); padding-top: 8px; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; font-size: 14px; }
+.ans .who { font-weight: 700; }
+.ans .mk { font-size: 12px; border-radius: 999px; padding: 0 9px; border: 1px solid var(--ok); color: var(--ok); }
+.ans .mk.change { border-color: var(--warn); color: var(--warn); }
+.ans .tm { color: var(--muted); font-size: 12px; font-family: var(--mono); }
+.ans p { flex-basis: 100%; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.ans .none { color: var(--muted); }
+.arc { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 10px; padding: 14px 16px; display: grid; gap: 8px; }
+.arc .tag { font-size: 12px; color: var(--muted); letter-spacing: .08em; }
+.arc p { margin: 0; max-width: 72ch; }
+.arc nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; }
+.arc a { color: var(--accent); }
+@media (max-width: 720px) { .scales { grid-template-columns: minmax(0, 1fr); } dl { grid-template-columns: minmax(0, 1fr); } dt { margin-top: 4px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="arc" aria-label="存檔說明">
+    <span class="tag">確認頁存檔</span>
+    <p>這一頁是 2026-10-20 晚上的地點表：整部用到的地點一列一個，寫出現在哪幾章、現在用哪幾張圖、建議拆成幾張，準備把地圖重做成大地圖、城或村、屋內三層。十七列我都按了同意，其中十四列有留話，像長安要大、嚴家村要有好幾戶、第九章往北是最大的自由時間。我最常寫的是同一件事：要拆成好幾張，就先把相連的地方畫出來，不然傳送點會傳錯，AI 接著做了<a href="../links/index.html">連結圖</a>。仙泉所在的靈山，AI 一開始寫成真實的陰山，我問了才改回來。存檔版拿掉了存意見的按鈕，當時的回覆列在每一列底下。</p>
+    <nav><a href="../../confirm.html">回確認頁一覽</a><a href="../../city.html">建城工法：拼出來的城</a></nav>
+  </section>
+
+  <header>
+    <h1>續 地點表</h1>
+    <p class="lead">把整部用到的地點列出來，討論重做成「大地圖 → 城或村 → 屋內」三層。每個地點寫了出現的章節年份、劇情在那裡做什麼、現在用哪幾張圖（實際多大）、我建議拆成幾張。每一列底下可以直接寫意見，按「同意」或「要改」存起來，我讀得到。</p>
+  </header>
+
+  <section>
+    <h2>比例尺</h2>
+    <div class="scales">
+      <div class="sc"><b>大地圖（天下）</b><span class="big">不照比例，一格約 25 公里</span><p>五原到下邳直線約 1,300 公里，放進一張 64×48 格。城、村、山谷畫成 4×4 格左右的圖示，走進去就傳送到那座城的城門。</p></div>
+      <div class="sc"><b>城、村、營</b><span class="big">一格 0.5 公尺（跟現在一樣）</span><p>人高 3.4 格＝1.7 公尺。一座城拆成好幾張相連的區塊：城門與城牆、大街、市集、營區、巷子、城外，走到邊界換下一張。</p></div>
+      <div class="sc"><b>屋內</b><span class="big">一格 0.5 公尺</span><p>一間十公尺寬的屋子大約 20 格，跟現在的屋內（24×18 格）差不多。</p></div>
+    </div>
+    <p class="limit">限制：Larch 一張地圖最大 64×64 格（約 32×32 公尺），編輯器說明寫「再大手機就跑不動，想要更大的世界，把它分成幾張地圖，用傳送連起來」。現在最大那張五原是 56×40 格，實際只有 28×20 公尺，所以看起來像只有幾戶的小村。漢代縣城一面城牆常有幾百公尺到一公里，照實際比例一面牆就要上千格，所以城一定是「多張相連、只做故事會走到的區塊、房子照人的比例但條數精簡」。</p>
+  </section>
+
+  <section>
+    <h2>大地圖：相對位置草圖</h2>
+    <div class="mapbox">
+      <svg id="world" viewBox="0 0 1000 640" role="img" aria-label="大地圖相對位置草圖"></svg>
+      <div class="cap">照真實經緯度畫的位置。嚴家正典沒寫哪一縣，先放在五原南邊（虛線框）；丁原的刺史營照史實放在晉陽。靈山是書裡的山名，正典與第九章寫在五原北邊，位置只畫大概。紅線是魏續一輩子走過的路，數字是年份。</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>地點表</h2>
+    <div class="rows" id="rows"></div>
+  </section>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+// 存檔版：「現在的圖」連到同一個資料夾旁邊的地圖總覽存檔
+const ATLAS = '../atlas/index.html#';
+const m = ids => ids.split(' ').map(s => { const [id, sz] = s.split(':'); return `<a href="${ATLAS}${id}">${id}</a>${sz ? `（${sz}）` : ''}`; }).join('、');
+
+// 地點：lv 層級、pl 地點、wh 在哪、ch 章節年份、story 劇情、now 現在的圖（卡片 id:格數）、prop 建議
+const ROWS = [
+  { id: 'world', lv: '大地圖', pl: '天下', wh: '北到靈山、南到洛陽與長安、東到下邳',
+    ch: '全書', story: '章與章之間在這裡走：173 逃難到嚴家、176 回五原、188 投丁原（并州刺史）、189 隨丁原到洛陽、190 遷到長安、196 東行到下邳、198 到許都曹營、223 告老往北回五原、進靈山。',
+    now: '沒有。章與章之間現在用章節字卡直接跳。', prop: '新做一張 64×48 格，一格約 25 公里。每座城、村、山谷一個 4×4 格的圖示，走進去傳送到那裡的城門那張；走過的路畫成官道。' },
+  { id: 'wuyuan', lv: '城', pl: '五原郡城', wh: '靈山南邊、黃河北岸（今包頭一帶）',
+    ch: '第零幕到第四章（169–189）、第九章（223）', story: '魏續與布長大、城頭立約、城破、回來修城、從軍、布出營救湘、冠禮、搬家；二十五年後回來城已經空了。',
+    now: m('m-z1:56×40 m-z4:56×40 m-z5:56×40 m-z6:56×40 m-z7:56×40 m-z8:56×40 m-b5:56×40 m-a1:32×40 m-a3:56×40 m-d1:56×40 m-i2:32×40 m-b2:32×24'),
+    prop: '拆成約 8 張相連：北門與城頭、城北軍營、北街與井、魏家那條巷子、市集與郡府、南門、城外北邊（墳、往荒原的路）、城外南邊（往嚴家村的大路）。五個時期（完整、城破、燒過、修好、空了）用同一套配置，換地面與物件。' },
+  { id: 'wuyuan-wei', lv: '屋內', pl: '魏家（院子、門口、屋裡）', wh: '五原城內，魏家那條巷子',
+    ch: '第零幕到第四章', story: '一起吃飯、分餅、過年、冠禮、爹娘病倒、湘生荃、搬到老屋。',
+    now: m('m-z2:24×18 m-z3:24×18 m-a4:24×18 m-c4:24×18 m-c7:24×18 m-c9:24×18 m-d3:24×18 m-d5:24×18 m-a3in:24×18 m-a4h:24×18 m-a4in:40×23 m-b3:24×18 m-c6:24×18 m-c8:24×18'),
+    prop: '院子與門口併進「魏家那條巷子」那張（鄰居、井看得見）；屋裡一張，照時期換佈置。' },
+  { id: 'wuyuan-camp', lv: '區塊', pl: '城北軍營（并州邊軍）', wh: '五原城北門外',
+    ch: '第二到四章（179–188）', story: '入營、校場對練、四十軍棍、快馬來報、祿米。',
+    now: m('m-b1:40×28 m-c2:40×28 m-c5:40×28 m-d2:40×28 m-c2t:24×16'), prop: '營區兩張（營門與營房、校場），軍侯的帳子一張屋內。' },
+  { id: 'wuyuan-out', lv: '區塊', pl: '五原城外：城北的墳、荒原', wh: '五原城北',
+    ch: '第二、三章', story: '埋爹娘；巡邊遇上胡騎、第一次殺人。', now: m('m-b4:28×20 m-c1:40×28'),
+    prop: '墳在城外北邊的小坡，併進「城外北邊」那張；荒原是一張邊境野外（巡邊的戰鬥在這裡）。' },
+  { id: 'road-south', lv: '路', pl: '逃難的路', wh: '五原往南到嚴家村',
+    ch: '第一章（173）', story: '被娘拖走，路上找水找餅。', now: m('m-a1r:40×28'),
+    prop: '在大地圖上走；路邊那間茅屋（找水、找餅）留一張小圖。' },
+  { id: 'yan', lv: '村', pl: '嚴家（我先叫嚴家村）', wh: '正典寫「并州別的縣」，沒寫哪縣；先放五原南邊約 200 公里',
+    ch: '第一章（173–176）', story: '寄住三年、偷學刀、陪湘、湘練弓；嚴家是軍籍士族，家裡有武裝子弟。', now: m('m-a2:48×54 m-a2sp:48×54 m-a2su:48×54 m-a2au:48×54'),
+    prop: '做成塢堡的樣子，約 4 到 5 張：村口與田、嚴家塢（圍牆、門樓、練刀場、射箭場、宗族屋舍）、村裡（溪、果樹、鄰居、菜園）、嚴家屋內。四季換地面。' },
+  { id: 'jinyang', lv: '城', pl: '丁原的刺史營（我推在晉陽）', wh: '正典只寫丁原任并州刺史；并州州治在晉陽（今太原）是史實推的',
+    ch: '第四章（188）', story: '布投丁原當主簿、校場、骨梳與戰袍。', now: m('m-d2:40×28 m-d4:40×28'),
+    prop: '刺史營兩張（營門與大帳、校場）；城本身只在大地圖上經過。' },
+  { id: 'luoyang', lv: '城', pl: '洛陽（城外丁原營、城裡的小屋）', wh: '今洛陽',
+    ch: '第四章（189）', story: '金冠、赤兔那一夜、第二天、魏續在小屋門檻上守夜。', now: m('m-d6:40×28 m-d7:40×28 m-d8:40×28 m-d9:24×18'),
+    prop: '城外營地一張；城裡的巷子一張、小屋屋內一張。' },
+  { id: 'changan', lv: '城', pl: '長安（只做城南一帶、城門、城外）', wh: '今西安西北',
+    ch: '第五、六章（190–196）', story: '城南宅、龐家地窖四年、宵禁躲巡兵、搜屋夜、城外挖坑、東行出城。',
+    now: m('m-f2a:36×30 m-f2b:36×30 m-f2c:36×30 m-f2d:36×30 m-f2e:36×30 m-e3:36×30 m-e1:32×26 m-e4:32×26 m-f0a:32×26 m-e6:32×26 m-e2:24×28 m-e5:24×28 m-f2h:24×28 m-f3a:36×26 m-f3c:36×26 m-f3d:36×26'),
+    prop: '約 8 到 9 張：城南大街三段（王司徒府那段、市集那段、往城門那段）、龐家（後門巷、後院與柴房）、城南宅、城門、城外（坑、東門外）。長安城太大，只做這一區，其他用大街盡頭的城門與路牌交代。' },
+  { id: 'changan-in', lv: '屋內', pl: '龐家的地窖、城南宅屋裡', wh: '長安城南',
+    ch: '第五、六章', story: '地窖四年、燈下、先讓誰吃。', now: m('m-f1a:24×18 m-f1f:24×18'), prop: '照現在的大小。' },
+  { id: 'yanzhou', lv: '只出現在消息', pl: '兗州（濮陽）', wh: '今濮陽一帶',
+    ch: '第六章（194–195）', story: '布在兗州的消息傳回長安。', now: '沒有地圖。', prop: '大地圖上標出來，不能進。' },
+  { id: 'xiapi', lv: '城', pl: '下邳（徐州）', wh: '今邳州',
+    ch: '第七章（196–198）', story: '到下邳、府後院、轅門射戟那夜、守城、護傷兵、陳宮的屋子、出城那一夜、船邊、船翻了。',
+    now: m('m-g0:36×26 m-g1a:36×30 m-g2b:36×24 m-g2a:40×28 m-g3a:40×30 m-g5:24×18'),
+    prop: '約 7 到 8 張：西門與城外、城頭一段、城內大街、府（前院、後院）、高順營、水邊（出城、船邊）；內室與陳宮的屋子是屋內。' },
+  { id: 'caoying', lv: '營', pl: '曹營（下邳城外，198 冬）', wh: '下邳城外',
+    ch: '第七章', story: '下邳城破後降曹。', now: m('m-g6:40×28'), prop: '一張。' },
+  { id: 'xudu', lv: '營', pl: '許都曹營（二十五年）', wh: '許都城外（今許昌）',
+    ch: '第八章（199–223）', story: '降將名冊、餵馬、門檻刻痕、四季輪轉二十五年。', now: m('m-h1-0:40×30 m-h1s-0:40×30'),
+    prop: '約 3 張：營門與營房、馬廄、糧倉一帶；魏續住的屋子一張屋內。年份季節換地面與物件。' },
+  { id: 'road-north', lv: '路', pl: '往北的官道', wh: '許都往北到五原',
+    ch: '第九章（223）', story: '告老還鄉，路上的人與事。', now: m('m-i1:36×26'), prop: '在大地圖上走；路邊兩三站小圖（茶棚、渡口）。' },
+  { id: 'valley', lv: '山谷', pl: '靈山幽谷：林子、谷口、小屋、仙泉的山洞', wh: '五原北邊的山（第九章）；正典：仙泉在靈山幽谷裡的山洞',
+    ch: '第九章（223）；173 年布在這裡喝了仙泉（不演）', story: '迷路五天、拾箭、到谷口、晚飯、那碗水；洞底石壁有持長兵器的女子像，水從像的手下滴進石窪。',
+    now: m('m-i3-1:40×30 m-i3-5:40×30 m-i4:48×36 m-i5a:40×30 m-i7:40×23 m-i8b:40×23'),
+    prop: '林子三到四張（繞圈迷路照現在的做法）、谷口一張（菜園、雞舍、練箭空地、洞口）、小屋屋內一張；仙泉的山洞要不要能進去，你決定。' },
+];
+
+// 大地圖草圖：經度 105.5–119.5、緯度 42–33 換成 1000×640
+const P = (lon, lat) => [(lon - 105.5) / 14 * 1000, (42 - lat) / 9 * 640];
+const PLACES = [['五原', 109.8, 40.6], ['靈山谷口（仙泉）', 110.0, 41.4], ['嚴家（位置假設）', 111.6, 39.5, true], ['晉陽（推）', 112.5, 37.9], ['洛陽', 112.45, 34.65],
+  ['長安', 108.9, 34.3], ['濮陽（兗州）', 115.0, 35.75], ['許都', 113.85, 34.05], ['下邳', 118.0, 34.3]];
+const ROUTE = [[[109.8, 40.6], [111.6, 39.5], '173'], [[111.6, 39.5], [109.8, 40.6], '176'], [[109.8, 40.6], [112.5, 37.9], '188'], [[112.5, 37.9], [112.45, 34.65], '189'],
+  [[112.45, 34.65], [108.9, 34.3], '190'], [[108.9, 34.3], [118.0, 34.3], '196'], [[118.0, 34.3], [113.85, 34.05], '198'], [[113.85, 34.05], [109.8, 40.6], '223'], [[109.8, 40.6], [110.0, 41.4], '223']];
+const RIVER = [[106.4, 38.4], [106.8, 39.8], [107.6, 40.8], [109.5, 40.6], [111.0, 40.3], [111.2, 39.0], [110.5, 37.5], [110.4, 35.6], [110.3, 34.6], [111.5, 34.8], [113.0, 34.9], [114.5, 35.2], [115.5, 35.8], [116.8, 36.8], [118.6, 37.7]];
+function drawWorld() {
+  const css = getComputedStyle(document.documentElement), col = n => css.getPropertyValue(n).trim();
+  const pts = RIVER.map(([a, b]) => P(a, b).map(v => v.toFixed(1)).join(',')).join(' ');
+  let s = `<rect x="0" y="0" width="1000" height="640" rx="10" fill="${col('--land')}"/>`;
+  s += `<path d="M ${P(106.5, 41.6).join(' ')} Q ${P(110, 41.9).join(' ')} ${P(113.5, 41.5).join(' ')}" stroke="${col('--mount')}" stroke-width="22" fill="none" stroke-linecap="round" opacity=".55"/>`;
+  s += `<text x="${P(107.4, 41.25)[0]}" y="${P(107.4, 41.25)[1]}" font-size="15" fill="${col('--muted')}">靈山</text>`;
+  s += `<polyline points="${pts}" stroke="${col('--river')}" stroke-width="5" fill="none" stroke-linejoin="round"/>`;
+  s += `<text x="${P(110.6, 36.6)[0]}" y="${P(110.6, 36.6)[1]}" font-size="15" fill="${col('--river')}">黃河</text>`;
+  ROUTE.forEach(([a, b, yr], i) => {
+    const [x1, y1] = P(...a), [x2, y2] = P(...b), mx = (x1 + x2) / 2 + (i % 2 ? 14 : -14), my = (y1 + y2) / 2 + (i % 2 ? -10 : 10);
+    s += `<path d="M ${x1} ${y1} Q ${mx} ${my} ${x2} ${y2}" stroke="${col('--route')}" stroke-width="2.5" fill="none" stroke-dasharray="${yr === '223' ? '7 5' : '0'}" opacity=".85"/>`;
+    s += `<text x="${mx}" y="${my}" font-size="13" fill="${col('--route')}" text-anchor="middle" font-family="${col('--mono')}">${yr}</text>`;
+  });
+  PLACES.forEach(([n, lon, lat, guess]) => {
+    const [x, y] = P(lon, lat);
+    s += guess ? `<rect x="${x - 14}" y="${y - 14}" width="28" height="28" fill="none" stroke="${col('--ink')}" stroke-dasharray="4 3"/>` : `<rect x="${x - 10}" y="${y - 10}" width="20" height="20" fill="${col('--accent')}" stroke="${col('--surface')}" stroke-width="2"/>`;
+    s += `<text x="${x + 16}" y="${y + 5}" font-size="17" font-weight="700" fill="${col('--ink')}" stroke="${col('--land')}" stroke-width="4" paint-order="stroke">${n}</text>`;
+  });
+  $('#world').innerHTML = s;
+}
+
+// 存檔版：頁面資料庫 notes 讀出來的回覆（2026-10-20 至 10-21，時間是 UTC+8），只留選擇、文字、時間
+const NOTES = {"caoying":{"mark":"ok","text":"","when":"2026-10-21 00:06"},"changan-in":{"mark":"ok","text":"","when":"2026-10-21 00:02"},"changan":{"mark":"ok","text":"長安城應該就要很大了因為續要在這裡生活4年 到處跑到處逛 所以組合起來應該要相當多地圖，所以你必需一定要製作連結圖參考不然我也無法知道你製作錯出口點方位 要參考連結點設計規劃製作","when":"2026-10-21 00:02"},"jinyang":{"mark":"ok","text":"OK","when":"2026-10-20 23:55"},"luoyang":{"mark":"ok","text":"洛陽這裡劇情不進洛陽城嗎???如果有點自由時間進洛陽城的話會不會有機會多張? 就是洛陽（城外丁原營、城裡的小屋）會有機會到洛陽城內逛逛嗎??","when":"2026-10-21 00:02"},"road-north":{"mark":"ok","text":"我們可以路續走路經過很多城 我們可以邊逛邊向仙泉處走，那應該是最大地圖的自由活動時間，玩家也可以先不去仙泉 可以先去別的城裡逛逛再去仙泉也OK","when":"2026-10-21 00:09"},"road-south":{"mark":"ok","text":"可以應該會經過一些小地方邊境小村落感","when":"2026-10-21 00:02"},"valley":{"mark":"ok","text":"大家都是生活在那裡，所以應該續來的時候 也是經過好多森林路口等塑(那個5天至少就5地圖了) 這樣的話 才會夠神秘，然後洞內應該要有一張，如果我喝的喝的話，也許可以安排一下喝完什麼時候去洞裡參觀，或者，最終如果是選喝，就直接變成完全自由活動????\n\n因為有無限時間，故事結束後，但就變成完全自由時間。這樣如何 我們自由時也可以帶著大隊人馬在仙泉處亂逛 應該要有夠多的互動物件或遊戲，普為他們的人生都很長，也許要有多種無限任務產生器之類的不然可能一下就玩完 如果喝的話。\n如果不喝的話就是正式完結，讓玩家選擇用其他角色探索仙泉處或不玩了，選擇喝不喝前提示存檔\n然後我覺得仙迫處應該要很好玩因為他們都在那邊種菜養雞(真的可以種也可以養可以累積數量(你可以參考王子姬))\n還有其他上山打動物之類的 反正時間很長玩家可以玩很久很久","when":"2026-10-21 00:15"},"world":{"mark":"ok","text":"我想要製作的城可以由上下左右4方向進城 所以可能最少要2x2 的外面的外推2格是進城點才能有4面進成  等於其實是 4x4的格子\n那這樣的話 其實大城也可以畫成4x4 最大，小城畫成2x2 之類的反正 我其待的是上下左右進去城中的地圖是不同地點 4 個方向對應著","when":"2026-10-20 23:45"},"wuyuan-camp":{"mark":"ok","text":"也是一樣 你如要相對空間要正確 你先把相關連的圖連結設計好之後生成圖的時候 才不會傳送點傳錯","when":"2026-10-21 00:02"},"wuyuan-out":{"mark":"ok","text":"我覺得要盡量考慮好是獨立的幾張，巡邊併城外北邊的，再向外推一張圖，沒有城 這樣可能比較好發揮，埋爹娘一定是跟胡騎不同 張圖","when":"2026-10-21 00:02"},"wuyuan-wei":{"mark":"ok","text":"也是一樣 你如要相對空間要正確 你先把相關連的圖連結設計好之後生成圖的時候 才不會傳送點傳錯","when":"2026-10-20 23:46"},"wuyuan":{"mark":"ok","text":"你如果要拆分的話那是不是這座城內相對哪些地圖相連處 要先設計畫出來(像大地圖那樣通對位置畫好，不然很難在小地圖的對應點處加上正立的連結出入口","when":"2026-10-20 23:45"},"xiapi":{"mark":"ok","text":"OK 一樣要大一點因為有很多任務 要在這裡完成 連結圖要先出來我們確認後製作","when":"2026-10-21 00:06"},"xudu":{"mark":"ok","text":"你這樣可能要互動的物件要非常多 互動遊戲要非常多 不然很容易玩頑逆 不然就要多一點地圖可探索","when":"2026-10-21 00:07"},"yan":{"mark":"ok","text":"可以 嚴家村應該有好幾戶的地圖 所以可能不只4張圖??我覺得可以再大一點到教在一張 那張可以探險打打小動物或是採果子(嚴湘不是一直想要採果子? 可以在頂裡棏樹採也可以和魏續組隊出去外相打小動物採果子，湘也可以拿小弓只是很弱在隊伍裡，這樣子","when":"2026-10-21 00:02"},"yanzhou":{"mark":"ok","text":"","when":"2026-10-21 00:02"}};
+const MARK = { ok: '同意', change: '要改' };
+function renderRows() {
+  $('#rows').innerHTML = ROWS.map(r => {
+    const n = NOTES[r.id];
+    const ans = n ? `<div class="ans"><span class="who">我的回覆</span><span class="mk ${n.mark === 'change' ? 'change' : ''}">${MARK[n.mark] || esc(n.mark)}</span><span class="tm">${esc(n.when)}</span>${n.text ? `<p>${esc(n.text)}</p>` : ''}</div>`
+      : '<div class="ans"><span class="none">這一列沒有存到回覆。</span></div>';
+    return `<article class="row ${n && n.mark === 'ok' ? 'ok' : n && n.mark === 'change' ? 'change' : ''}" id="r-${r.id}">
+      <div class="rh"><span class="lv">${esc(r.lv)}</span><span class="pl">${esc(r.pl)}</span><span class="wh">${esc(r.wh)}</span></div>
+      <dl><dt>章節年份</dt><dd>${esc(r.ch)}</dd><dt>劇情</dt><dd>${esc(r.story)}</dd><dt>現在的圖</dt><dd>${r.now}</dd></dl>
+      <div class="prop"><b>建議：</b>${esc(r.prop)}</div>
+      ${ans}</article>`;
+  }).join('');
+}
+drawWorld(); renderRows();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', drawWorld);
+</script>
+</body>
+</html>

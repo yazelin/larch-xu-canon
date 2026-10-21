@@ -1,0 +1,211 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.archive{margin:12px 0 22px;padding:12px 16px;border:1px solid #c8502e;background:rgba(200,80,46,.08);line-height:1.8}.archive b{display:block;color:#c8502e}.said{margin:10px 0 4px;padding:10px 14px;border-left:3px solid #c8502e;background:rgba(127,127,127,.08)}.said b{font-size:14px}.said p{margin:4px 0}.btn[disabled]{cursor:default;opacity:.55}.btn[disabled][aria-pressed="true"]{opacity:1}</style></head><body>
+<title>五原畫風試做</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&display=swap">
+<style>
+/* 版面：上面三張並排的對照圖、近看對照，下面兩條路各一張卡，選了就存；顏色、字型跟牆與門確認頁同一套 */
+:root {
+  --bg: #e9ebe6; --surface: #f7f8f5; --ink: #1f2522; --muted: #5f6763; --line: #d0d6cf;
+  --tile: #3d566a; --earth: #a8692b;
+  --display: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  --body: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #141917; --surface: #1b211f; --ink: #e2e7e2; --muted: #9ca59f; --line: #2f3734; --tile: #8fb0c6; --earth: #d9a25e; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #141917; --surface: #1b211f; --ink: #e2e7e2; --muted: #9ca59f; --line: #2f3734; --tile: #8fb0c6; --earth: #d9a25e; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.6; margin: 0; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 22px 64px; display: grid; gap: 24px; }
+h1 { font-family: var(--display); font-size: 28px; margin: 0; letter-spacing: .05em; text-wrap: balance; }
+h2 { font-family: var(--display); font-size: 20px; margin: 0; letter-spacing: .04em; text-wrap: balance; }
+.lead, .note { color: var(--muted); margin: 0; max-width: 72ch; }
+.status { font-family: var(--mono); font-size: 13px; color: var(--muted); min-height: 1.4em; margin: 0; }
+section { display: grid; gap: 12px; border-top: 1px solid var(--line); padding-top: 18px; }
+.wide img { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--line); }
+.cap { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; font-size: 13px; color: var(--muted); text-align: center; }
+.cap.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+ul { margin: 0; padding-left: 1.2em; color: var(--muted); max-width: 72ch; }
+.bar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 6px 12px; font: inherit; font-size: 14px; cursor: pointer; }
+.btn:hover, .btn:focus-visible { border-color: var(--tile); outline: none; }
+.btn[aria-pressed="true"] { background: var(--tile); color: var(--surface); border-color: var(--tile); }
+label { font-size: 13px; color: var(--muted); }
+textarea { width: 100%; min-height: 64px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 6px 10px; font: inherit; font-size: 14px; resize: vertical; }
+textarea:focus-visible { outline: 2px solid var(--tile); outline-offset: 1px; }
+</style>
+
+<div class="wrap">
+  <header style="display:grid;gap:6px">
+    <h1>五原畫風試做</h1><div class="archive"><b>存檔版</b>這一頁是 2026-10-21 AI 做給我看的畫風確認頁。那一天五原的地圖從「拼出來的城」改成「走進原畫」，這頁從下午到晚上一直在更新，最上面是最後一版，越往下越早。頁面上的按鈕我一次都沒按，選擇都是在對話裡回的；每一題底下貼了我當時的回覆，亮起來的按鈕，是後來照著做的選項。整個過程寫在<a href="../../walkin.html">走進原畫</a>，其他確認頁在<a href="../../confirm.html">確認頁一覽</a>。</div>
+    <p class="lead">你要的是能走進舊原畫那種畫裡。做法定了：整張原畫直接當地圖，屋子、院牆、樹從同一張畫上沿外框剪下來，原位疊回去擋人；外框照你的主意，請 AI 把物件以外塗成純綠再去背，像素一律用原畫的。畫風你選了第五版（不行才退第三版），B2 已經照第五版整塊畫好、在遊戲裡走過。</p>
+    
+  </header>
+
+  <section aria-labelledby="h-batch1">
+    <h2 id="h-batch1">第一批：A1、A2、B1 做好了（加上 B2 是城的西半邊）</h2>
+    <p class="note">照 B2 的做法：底圖分四片畫、每棟放大重畫、遮擋層從同一張剪。熱鬧的住家用第五版（房子讓模型照舊原畫畫）；城牆、城門、角樓、馬道照你排的那套；魏家老屋、門檻、劈柴木樁、柴堆、井、晾衣竿、告示牌、算命攤這些貼原本的圖，形狀位置不變。下圖是四塊拼起來（左上 A1、右上 A2、左下 B1、右下 B2；遊戲裡一塊一張圖，接邊不會並排出現）。</p>
+    <div class="wide"><img src="four_blocks.webp" alt="四塊拼成城的西半邊：北牆、北門、魏家那條巷、北門廣場、西南巷子與井、南北大街與南門" width="1800" height="1800"></div>
+    <div class="wide"><img src="A1_final.webp" alt="A1：北牆西段、城牆下廣場西半、魏家老屋那條巷" width="1400" height="1400"></div>
+    <div class="wide"><img src="A2_final.webp" alt="A2：北門、馬道、城頭、廣場東半" width="1400" height="1400"></div>
+    <div class="wide"><img src="A1_walk.webp" alt="A1 十二個試走點：魏家老屋屋後與門前、鄰居正房與廂房、柴棚" width="1950" height="1010"></div>
+    <div class="wide"><img src="A2_walk.webp" alt="A2 十個試走點" width="1950" height="1010"></div>
+    <div class="wide"><img src="B1_walk.webp" alt="B1 十二個試走點" width="1950" height="1010"></div>
+    <div class="wide"><img src="gates.webp" alt="北門、南門、西門的門洞：走在門洞深處被城樓蓋住，走到門口看得到下半身" width="1470" height="1010"></div>
+    <ul>
+      <li>三塊每一格能走的都走得到，十三塊所有劇情點、出口都從遊戲起點走得到；路過的人路線不會撞到東西。</li>
+      <li>給你看之前抓到、修好的：北門、南門門洞被 AI 外框當成城樓，人走進門洞整個不見（外框不准超出你那張城樓圖的外形，門洞透空）；A1 老槐樹的樹冠被城牆蓋掉一半（城牆畫在物件下面）；B1 西街西頭模型多畫了一圃花，挑擔的貨郎會卡住（路線改走上面兩列）；B2 馬車改道後跟牛車同一欄對撞（換到沒人走的那一欄）；B1 的角樓被重畫了一次（城門樓、角樓不重畫，每塊跟你排的一樣）。</li>
+      <li>老槐樹畫成紅楓（色塊圖例只有楓樹）。要黃葉的槐樹，之後補一個槐樹的顏色重畫那一片。</li>
+    </ul>
+    <div class="bar" id="batch1"></div>
+    <div class="said"><b>我當時在對話裡的回覆</b><p>「好像可以耶」（22:14）</p></div>
+    <p class="note">接下來整齊、公家的四塊（A3 郡府與倉、B3 市、C1 C2 軍營）怎麼做：</p>
+    <div class="bar" id="tidy"></div>
+    <div class="said"><b>我當時在對話裡的回覆</b><p>在對話裡用選項選了「第五版＋貼原圖」（22:30 左右）</p></div>
+  </section>
+
+  <section aria-labelledby="h-final">
+    <h2 id="h-final">B2 做好了：底圖分四片畫，每棟放大重畫補細節</h2>
+    <p class="note">照你說的「獨立棟出來做細節」：底圖整塊分四片畫（守得住配置、光整張一致，城牆城門用你排的那套）；每棟房子、廂房、豬圈、樹、車、拴馬樁，拿底圖上剪好的那件當參考單獨放大重畫，對準原位畫回整張（一格 48 像素，跟舊原畫一樣密），遮擋層再從這張剪。</p>
+    <div class="wide"><img src="b2_final.webp" alt="B2 整塊：每棟房子、院牆、楓樹、南門城樓，秋天斜陽、滿地紅葉" width="1600" height="1600"></div>
+    <div class="wide"><img src="b2_detail_cmp.webp" alt="同一塊放成同樣大小：左底圖，右每棟放大重畫後，門環、牆面裂紋、竹籃編紋清楚很多" width="1932" height="624"></div>
+    <div class="wide"><img src="walkin_v5_zoom.webp" alt="遊戲裡六張近看：院子楓樹幹前、院子楓樹冠下、街邊楓樹幹前、東邊大戶正房屋後、東邊大戶南牆內側、藥鋪門口" width="1820" height="910"></div>
+    <ul>
+      <li>遊戲裡走過十個點：樹冠蓋在樹下的人上面，站在樹幹前頭被葉子蓋住；屋後被屋頂擋住；院牆內側瓦頂整條在前面；藥鋪門口站在畫上的門前。樹冠照 AI 畫的葉子形狀切，沒有直線。</li>
+      <li>給你看之前自己抓到、已經修好的：重畫的正房被連著的院牆拉寬 3 格（改用外形重疊對位）；客舍正房和廂房疊成兩層屋頂（參考圖改成剪好的那件本身）；房子前面的陶罐被切一半（重畫的畫進地面那張，遮擋層從同一張剪）；大街東側一條木頭路邊被當成牆、大街只剩 3 格過得去（細線不算擋路）；院子楓樹伸出院牆的樹冠被切成直線（樹的剪外框範圍放大）；隔壁 B3 會把人從邊界跳進東邊大戶院子（相鄰的塊也看畫上的擋路）。</li>
+      <li>畫上的位置跟配置差幾格的（藥鋪往上、院牆比配置寬），擋路、門口事件都跟著畫走；模型自己多畫的牆和小物件也標成不能走。每個門口、出口、劇情點都走得到。</li>
+      <li>還沒做的：南巷的水缸剪壞了（把小屋牆邊一條也剪進去），留著底圖那件沒重畫；門邊油燈的火還沒做成會動的物件；守南門的兵站在城樓後面看起來像站在屋頂上，要不要移到門洞兩邊。高解析那張地面 4 MB，推上 Larch 前要確認放得上去。</li>
+    </ul>
+    <div class="bar" id="final"></div>
+    <div class="said"><b>我當時在對話裡的回覆</b><p>「門邊油燈的火還沒做成會動的物件。怎麼做？高解析地面是怎樣？」（18:42）</p><p>「如果有些不重要的地方或需要整齊的地方用 3 版本製作，有些強調熱鬧或人性自然的地方用 5 版本，現在這種做法製作，會比較好嗎？」（18:44）</p></div>
+  </section>
+
+  <section aria-labelledby="h-detail">
+    <h2 id="h-detail">細節的做法：底圖整塊畫，房子一棟一棟放大重畫</h2>
+    <p class="note">分很多片畫，接縫一定會切過房子，模型會在接縫上重新想像（半個屋頂補成一整棟、片的邊上自己加房子）；分四片守得住配置，但每格像素少、細節少。產圖工具一張最大 1254 像素（要 2048 也只回 1254），整塊畫大一點這條路不通。</p>
+    <div class="wide"><img src="detail_one.webp" alt="左：四片那張原畫上的西北大戶正房；右：拿它當參考單獨放大重畫，同一棟、同樣的光，細節清楚很多" width="1732" height="560"></div>
+    <ul>
+      <li>右邊是拿左邊那一塊當參考、綠底單獨放大重畫：屋頂、門窗、門邊的燈、簷下的辣椒玉米、陶甕、板凳、竹匾、柴堆都在原位，連屋頂上的樹影都保留；一格約 85 像素（原畫 32 像素）。以前獨立產物件走偏，是因為參考圖用的是 E3，這次用的是原畫自己。</li>
+      <li>做法：底圖整塊分四片畫（守配置、光一致，城牆用你排的）；每棟房子、每棵樹拿底圖上自己那一塊單獨放大重畫，放回原位當遮擋層；擋路跟著畫走、樹冠照葉子形狀切。B2 大約 50 張產圖。</li>
+      <li>重畫時屋頂上的紅楓葉不見了，會在提示詞加一句照畫落葉。</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-v67">
+    <h2 id="h-v67">有細節的版本：兩份九片並排</h2>
+    <p class="note">我發現整塊畫第五版時，送圖的順序跟提示詞對不上（提示詞說第 3 張是配置，實際送成第 1 張），修好後第五版重畫一次，同時畫一份第三版九片。兩份城牆城門都照你排的。框起來的是模型自己加的建築。</p>
+    <div class="wide"><img src="v6v7.webp" alt="兩張並排：左第五版九片，客舍院子多一棟、南巷多一間；右第三版九片，一棟房子橫過大街、大街上一堆柴" width="2616" height="1300"></div>
+    <ul>
+      <li>第五版九片：東邊大戶正房這次只有一棟（送圖順序錯是原因之一）。客舍院子多一棟、南巷多一間小屋，都不擋路；照畫改配置就好：整塊再請 AI 只留地上的建築和物件、其他塗綠，多出來的找出來補擋路和遮擋。</li>
+      <li>第三版九片：位置大致照配置，但右中間那片在最下緣自己加了一棟草頂房子，下面那片接著畫，變成橫過南北大街擋住路；要重畫那片和接著它畫的三片。屋子比較硬、瓦片大塊。</li>
+      <li>我建議第五版九片：畫風是你要的，多出來的建築不擋路，照畫補擋路就好。以後哪一片自己加的東西擋到路，就重畫那一片。</li>
+    </ul>
+    <div class="bar" id="v67"></div>
+    <div class="said"><b>我當時在對話裡的回覆</b><p>「都不行耶為什麼，還是獨立棟出來做細節呢？」（17:27）</p></div>
+  </section>
+
+  <section aria-labelledby="h-v6">
+    <h2 id="h-v6">有細節的版本：第五版畫法分九片（城牆用你排的）</h2>
+    <p class="note">一片 24 格、一格約 52 像素，接起來不縮小。南城牆和南門照你排的圖畫，跟你排的一模一樣；細節多很多。但九片的接縫一定會切過房子，出了三處問題（框起來的地方）。</p>
+    <div class="wide"><img src="v6_whole.webp" alt="B2 分九片畫的整張，框出三處：東邊大戶正房畫成兩棟、客舍廂房畫成兩間、接縫一塊淺色方形" width="1400" height="1400"></div>
+    <div class="wide"><img src="v6_seam.webp" alt="四張：上面那片的構圖只有正房屋頂的上半，畫成一整棟房子；下面那片看到上面畫好的房子，又在色塊裡畫了一整棟" width="2110" height="520"></div>
+    <ul>
+      <li>原因：上面那片只看到正房屋頂的上半截色塊，平平的色塊看起來像一個完整的屋頂，模型就補畫了牆和門；下面那片看到上面畫好的房子，又在剩下的色塊裡畫一整棟。分四片時接縫剛好在大街和空地上，才沒出事。</li>
+      <li>建議：有細節的版本改用第三版的畫法。構圖裡是真的屋子圖，被接縫切到時兩片看到的是同一棟的上下兩半（第一版分四片切過正房也沒出事）；城牆照你排的、客舍的車和拴馬樁不會被換掉；細節靠畫得近和小物件點名，第三版一樣有。缺點是瓦片偏大塊，可以試把構圖裡的屋頂多模糊一點，讓模型自己畫細瓦。</li>
+    </ul>
+    <div class="bar" id="v6"></div>
+    <div class="said"><b>我當時在對話裡的回覆</b><p>「5 真的不行就用 3，因為還有另一件事很重要，就是城牆。」（16:55）</p></div>
+  </section>
+
+  <section aria-labelledby="h-fix">
+    <h2 id="h-fix">你問的兩處，修好了（遊戲裡近看）</h2>
+    <div class="wide"><img src="fix_zoom.webp" alt="三張遊戲裡的近看：主角站在楓樹幹正前方頭被枝葉蓋住；站在樹幹旁邊只露出腳；站在院牆內側整條瓦頂在膝蓋前面" width="2424" height="600"></div>
+    <ul>
+      <li>在樹下沒被枝葉擋：每棵樹切成兩片，樹冠永遠蓋在樹下的人上面，樹幹最下面一段照原本排（人站在樹幹前面，腳擋在樹幹前）。</li>
+      <li>院牆後角色蓋到一點瓦片：畫上的院牆比配置高，原本照配置的高度剪，瓦頂最上面一條沒剪進去；改成剪的範圍往上多留 1.5 格，外框照 AI 畫的。</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-v5">
+    <h2 id="h-v5">第五版：B2 整塊</h2>
+    <p class="note">照色塊配置分四片畫（每片 34×34 格），後畫的那片接著先畫好的那片畫。左：色塊配置；中：原畫；右：遊戲裡的擋路格（紅）和事件點（藍）疊在原畫上。</p>
+    <div class="wide"><img src="b2_v5.webp" alt="三張並排：B2 的色塊配置、第五版原畫、擋路格疊在原畫上" width="3632" height="1200"></div>
+    <ul>
+      <li>第一次整塊畫時，左上那片把西街畫成一道城牆加一座城門樓：我給的圖例寫了「最下面那條寬的土色帶是城牆」，那片最下面剛好是西街。改成圖例只寫那一片裡有的顏色、街道寫明「保持全空」，重畫後西街、南北大街、往市的街都是空的路。</li>
+      <li>畫上的位置跟配置差幾格：藥鋪往上 5 列、東邊大戶正房往上 3 列、西北大戶院子北牆往上 2 列、東牆往右 2 到 3 欄，其他 0 到 1 格。擋路改成跟著畫走：每件從剪好的外框量出畫上的下緣，佔地從那裡往上算；每段院牆搬到畫上的位置；藥鋪門口的事件跟著搬到畫上的門前。</li>
+      <li>一片畫 34 格，細節密度跟你喜歡的那張試畫（22 格）差不多，只是每格像素少一點、稍微柔一點。要更清楚可以一塊分九片畫。</li>
+    </ul>
+    <div class="wide"><img src="walkin5.webp" alt="六張遊戲截圖：楓樹幹正前方、楓樹幹旁邊、院子南牆內側、廂房屋簷下、城門洞裡、藥鋪門口" width="2420" height="910"></div>
+    <ul>
+      <li>遊戲裡試走：樹切成兩片，樹冠永遠蓋在樹下的人上面（你問的：在樹下為什麼沒被枝葉擋），站在樹幹前面頭被枝葉蓋住、腳在樹幹前面，站在樹幹旁邊只露出腳；院牆剪的範圍往上放大，人站在牆後不會再蓋到瓦頂（你問的：院牆後角色擋住一點瓦片）；廂房屋後、城門洞裡的主角被蓋住；藥鋪門口站在畫上的門前。</li>
+      <li>守南門的兩個兵和一個老人站在城門內側那一列，門樓畫得比較高，他們站在門樓後面，看起來像站在屋脊上（前後關係是對的）。可以把守門的兵移到城門外（C5），或站到門洞兩邊。</li>
+    </ul>
+    <div class="bar" id="b2v5"></div>
+    <div class="said"><b>我當時在對話裡的回覆</b><p>「在樹下為什麼沒被樹枝或樹葉擋？」（16:37）</p><p>「樹緣是沒切好嗎？」「怎麼會切成直線？」「要照葉子形狀切啊，那不就是重點嗎。」（16:47–16:51）</p><p>「生成的時候你不是說會有很多細節？你現在是有很多細節嗎？我怎麼沒看到。」（16:50）</p></div>
+  </section>
+
+  <section aria-labelledby="h-walk">
+    <h2 id="h-walk">走進原畫：加強版 B2 在遊戲裡試走（做法驗證）</h2>
+    <p class="note">用加強版那張原畫，在遊戲引擎裡把主角放到最容易穿幫的六個地方截圖（每張中間是主角站的地方）。</p>
+    <div class="wide"><img src="walkin.webp" alt="六張遊戲截圖：院子楓樹下、藥鋪屋後、院子南牆內側、廂房屋簷下、城門洞裡、藥鋪門口" width="1820" height="810"></div>
+    <ul>
+      <li>楓樹下、藥鋪屋後、廂房屋後、城門洞裡：人整個被蓋住，邊緣沒有一圈地面色。院子南牆內側：膝蓋以下被牆擋住。藥鋪門口：人站在前面。整個畫面就是原畫本身。</li>
+      <li>外框往裡收一像素再羽化一像素；兩件重疊的像素歸前面那件（你看出 AI 會把壓在北牆上的那截屋頂當成牆，後面看不到的牆本來就不用剪）。</li>
+      <li>B2 的三戶正房都背貼著院子北牆，院子裡屋後沒有路；屋後能走的只有院牆外面，走在那裡會被屋頂蓋住，只露出一點頭頂。</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-style">
+    <h2 id="h-style">原畫的畫風：跟舊原畫同比例比（你選了第五版）</h2>
+    <p class="note">都放成一格 48 像素（舊原畫的比例），取 22×22 格。各版都拿 B2 西北大戶那一角試，要求小東西列滿（柴堆、水缸、竹匾、簷下辣椒玉米、蓑衣斗笠、農具……）、3A 美術的細節和光、門邊油燈。</p>
+    <div class="wide"><img src="style_four.webp" alt="同比例四張：左上舊原畫、右上第三版、左下第四版、右下第五版" width="2128" height="2128"></div>
+    <ul>
+      <li>第三版照現在的構圖畫：屋子大小、門的位置跟配置一樣，門比人高，生活感很滿；瓦片還是大塊，因為構圖裡的屋子圖就是大塊瓦，模型照著畫。</li>
+      <li>第四版照舊原畫當初的做法，構圖只給平塗色塊：瓦片細、一層暖霧，最像舊原畫；但它照舊原畫的相機把屋子壓扁（配置裡從屋脊到門口 13 列深，它只畫 8 列，門大約一公尺高、比人矮），還自己加了一棵楓樹。舊原畫的屋子本來就是這種比例。</li>
+      <li>第五版也用平塗色塊，加了屋脊線，提示詞講明屋子要填滿色塊、門比人高、配置裡沒有的樹不准加：屋子比第四版高（門口畫在第 11 列，配置是第 14 列，還差 3 列），門跟現在的屋子一樣高，瓦片粗細介於第三版和第四版之間，暖霧、油燈、擺設都有；左上角還是自己加了一棵楓樹。</li>
+      <li>用第四、五版的話，每塊畫完要照畫上的位置改配置（屋子佔地、門的位置、多出來的樹），擋路才會跟畫對上；第三版照配置畫，不用改。</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-anchor">
+    <h2 id="h-anchor">B2 定錨圖（第一版，照現在構圖整塊畫）</h2>
+    <p class="note">照現在 B2 的配置（每棟屋子、院牆、城門都在原位、原大小），用舊版五原的街、魏家門口當畫風參考，整張重畫。整塊太大，分四片畫再接起來，接縫處讓後畫的那片接著先畫好的那片畫。院子裡的廂房、豬圈已經改成真實大小再畫。</p>
+    <div class="wide"><img src="anchor_cmp.webp" alt="左：舊版五原的街；中：現在的 B2；右：B2 定錨圖" width="2553" height="760"></div>
+    <div class="cap"><span>舊版五原的街（目標）</span><span>現在的 B2</span><span>B2 定錨圖</span></div>
+    <div class="wide"><img src="anchor_zoom.webp" alt="B2 左上角近看：左現在、右定錨圖" width="1812" height="720"></div>
+    <div class="cap two"><span>近看：現在</span><span>近看：定錨圖</span></div>
+    <ul>
+      <li>接下來照這張做：地面用這張拿掉屋子、院牆以後的樣子（屋子投在地上的影子留著）；每棟屋子、廂房、車拿這張上面那一塊當參考單獨產，人走到屋後才會被擋住。</li>
+      <li>這一版地面的金黃斜陽、深影、滿地紅葉都出來了，屋子卻幾乎照原樣，屋前也沒多擺設；地上斜斜的樹影是照舊版畫的，B2 裡其實沒有樹。所以另外在畫一版加強版：屋子也重畫成舊版那種畫法、屋前補柴堆陶罐竹簍、試種四棵楓樹讓樹影有來處（西北大戶院子東北角、藥鋪西邊街旁、東邊大戶院子西南角、南門內東邊）。畫好放在這一節讓你挑。</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-cmp">
+    <h2 id="h-cmp">之前的試做（A：物件一件一件重畫、地面疊光影）</h2>
+    <div class="wide"><img src="compare.webp" alt="左：舊版五原的街；中：現在的 B2；右：試做的 B2" width="2553" height="760"></div>
+    <div class="cap"><span>舊版五原的街（目標）</span><span>現在的 B2</span><span>試做的 B2</span></div>
+    <div class="wide"><img src="zoom.webp" alt="B2 左上角近看：左現在、右試做" width="1812" height="720"></div>
+    <div class="cap two"><span>近看：現在</span><span>近看：試做</span></div>
+    <ul>
+      <li>有效的：地面疊上光影以後，斜照的光和陰影出來了，整塊變沉、變暖；屋頂的瓦變深、有紅楓葉。</li>
+      <li>還差的：舊地圖照到太陽的地方很亮、偏金黃，陰影很深，我們的地面整片中間調；舊地圖屋前擠滿油燈、柴堆、竹簍、木桶，我們的院子空地大、擺設少；舊地圖是整張一起畫的，光從哪裡來、哪裡亮著燈整張一致。</li>
+      <li>重畫時拴馬樁被畫成一根大樹墩（原本是一排五根），已經換回原本那張；之後重畫高度差太多的會自動不用。</li>
+    </ul>
+  </section>
+
+
+</div>
+
+<script>
+const ASK = { batch1: [{ v: 'ok', label: '這批可以，接著做' }, { v: 'change', label: '要改（寫在下面）' }],
+               tidy: [{ v: 'v5paste', label: '也用第五版，正堂、市牆、營柵、營帳貼原本的圖（我的建議）' }, { v: 'v3', label: '用第三版（照現在的構圖畫）' }],
+               final: [{ v: 'ok', label: 'B2 可以，照這樣做其他 12 塊' }, { v: 'change', label: '要改（寫在下面）' }],
+               v67: [{ v: 'v6', label: '第五版九片（照畫改配置）' }, { v: 'v7', label: '第三版九片（重畫擋路的那幾片）' }, { v: 'change', label: '都不要（寫在下面）' }],
+               v6: [{ v: 'v3', label: '改用第三版畫法（分九片）' }, { v: 'v5plan', label: '再拚第五版：每塊照房子位置排片' }, { v: 'change', label: '都不要（寫在下面）' }],
+               b2v5: [{ v: 'ok', label: 'B2 這樣可以，接著做其他塊' }, { v: 'change', label: '要改（寫在下面）' }] };
+const PICKS = {"batch1": "ok", "tidy": "v5paste", "final": null, "v67": null, "v6": null, "b2v5": null};
+for (const [k, cs] of Object.entries(ASK)) document.getElementById(k).innerHTML = cs.map(c => `<button class="btn" disabled aria-pressed="${PICKS[k] === c.v}">${c.label}</button>`).join('');
+</script>
+
+</body></html>

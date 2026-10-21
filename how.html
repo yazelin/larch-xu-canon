@@ -1,0 +1,220 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>一個人跟 AI 怎麼做完一部 RPG · 仙泉．香布纏．續 製作手記</title><meta name="description" content="《續》從 2026-10-05 寫第一份設計草稿，到 10-21 第三次推上 Larch 草稿，前後十七天。我不寫程式，程式、產圖、量測、測試都是 AI 做的；我定方向、看圖、試玩、說哪裡不對。這一章講這樣分工實際怎麼跑：整部怎麼交出去、怎麼驗收、我的回饋怎麼變成修改和測試，還有推上 Larch 的"><meta name="theme-color" content="#100c0a">
+<meta property="og:title" content="一個人跟 AI 怎麼做完一部 RPG · 仙泉．香布纏．續 製作手記"><meta property="og:description" content="《續》從 2026-10-05 寫第一份設計草稿，到 10-21 第三次推上 Larch 草稿，前後十七天。我不寫程式，程式、產圖、量測、測試都是 AI 做的；我定方向、看圖、試玩、說哪裡不對。這一章講這樣分工實際怎麼跑：整部怎麼交出去、怎麼驗收、我的回饋怎麼變成修改和測試，還有推上 Larch 的"><meta property="og:image" content="https://yazelin.github.io/larch-xu-canon/img/how-autoplayer.webp">
+<style>:root{color-scheme:dark;--bg:#100c0a;--card:rgba(20,14,11,.9);--line:rgba(226,184,102,.26);--gold:#e2b866;--gold2:#f0d08f;--red:#c8502e;--fg:#f1e8dd;--dim:#b7a693}
+*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.9 "Noto Serif TC","Noto Serif CJK TC","Songti TC",serif}
+a{color:var(--gold2)}
+.bg{position:fixed;inset:0;z-index:0;background:#000}.bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.9}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,6,5,.6),rgba(8,6,5,.15) 30%,rgba(8,6,5,.15) 70%,rgba(8,6,5,.6)),linear-gradient(180deg,rgba(8,6,5,.35),rgba(8,6,5,.05) 40%,rgba(8,6,5,.65))}
+main{position:relative;z-index:2;max-width:900px;margin:40vh auto 110px;padding:34px 34px 44px;background:var(--card);border:1px solid var(--line);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+h1{color:var(--gold2);font-size:clamp(28px,4.4vw,40px);letter-spacing:.06em;margin:0 0 18px;text-shadow:0 2px 12px #000}
+h1::after{content:"";display:block;width:72px;height:3px;background:var(--red);margin-top:10px}
+h2{color:var(--gold2);font-size:24px;margin-top:60px;padding-left:12px;border-left:3px solid var(--red)}h3{color:var(--fg);margin-top:36px}
+table{border-collapse:collapse;width:100%;font-size:15px;display:block;overflow-x:auto}
+td,th{border:1px solid var(--line);padding:7px 11px;vertical-align:top}th{background:rgba(40,28,20,.9);color:var(--gold2);font-weight:500}tr:nth-child(even) td{background:rgba(40,28,20,.35)}
+blockquote{margin:16px 0;padding:6px 16px;border-left:2px solid var(--gold);color:#dccfc0;background:rgba(40,28,20,.5)}strong{color:var(--gold2);font-weight:600}
+code{font:14px/1.6 ui-monospace,"Noto Sans Mono CJK TC",monospace;background:rgba(0,0,0,.35);padding:1px 5px;border-radius:4px}
+pre{background:rgba(0,0,0,.45);border:1px solid var(--line);padding:14px 16px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}pre code{background:none;padding:0;font-size:13.5px}
+figure{margin:26px 0}figure img{display:block;width:100%;height:auto;border:1px solid var(--line);box-shadow:0 10px 36px rgba(0,0,0,.55)}
+figcaption{color:var(--dim);font-size:14.5px;margin-top:8px;line-height:1.7}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:22px 0}
+.cards a{display:block;text-decoration:none;background:rgba(40,28,20,.55);border:1px solid var(--line);color:var(--fg)}.cards a:hover{border-color:var(--gold)}
+.cards img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}.cards b{display:block;color:var(--gold2);padding:10px 12px 0;font-size:18px}.cards span{display:block;padding:2px 12px 12px;color:var(--dim);font-size:14.5px;line-height:1.6}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:60px}.pager a{padding:6px 16px;border:1px solid var(--line);border-radius:16px;text-decoration:none;background:rgba(10,7,6,.55)}
+.top{position:fixed;left:0;right:0;top:0;z-index:5;display:flex;align-items:center;gap:14px;padding:12px 24px 22px;
+  background:linear-gradient(180deg,rgba(6,4,3,.9),rgba(6,4,3,.6) 60%,rgba(6,4,3,0));text-shadow:0 1px 3px #000,0 0 12px rgba(0,0,0,.9)}
+.top .brand{color:var(--gold);font-size:21px;line-height:1.25;letter-spacing:.12em;font-weight:600;text-decoration:none;white-space:nowrap}
+.top .brand small{display:block;font-size:12.5px;font-weight:400;letter-spacing:.2em;color:#cfa760}
+.top nav{margin-left:auto;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none}.top nav::-webkit-scrollbar{display:none}
+.top nav a{padding:3px 11px;border:1px solid rgba(226,184,102,.3);border-radius:14px;background:rgba(10,7,6,.55);color:var(--gold);text-decoration:none;font-size:14.5px;line-height:1.7;white-space:nowrap}
+.top nav a.on{background:var(--red);border-color:var(--red);color:#fff}
+footer.foot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;
+  padding:20px 16px calc(10px + env(safe-area-inset-bottom));font-size:13px;color:#d4c6b5;text-shadow:0 1px 3px #000,0 0 10px #000;
+  background:linear-gradient(0deg,rgba(6,4,3,.92),rgba(6,4,3,.7) 60%,rgba(6,4,3,0))}footer.foot a{color:var(--gold);text-decoration:none}
+@media (max-width:760px){body{font-size:16px}main{margin-top:46vh;padding:24px 16px 34px}.top{flex-direction:column;align-items:flex-start;gap:6px;padding:10px 12px 16px}
+  .top .brand{font-size:18px}.top nav{margin-left:0;max-width:100%}.top nav a{padding:2px 8px;font-size:13px}footer.foot{gap:10px;font-size:12px}}</style></head><body>
+<header class="top"><a class="brand" href="index.html"><small>仙泉．香布纏．續</small>一個人跟 AI 怎麼做完一部 RPG</a><nav><a href="how.html" class="on">做法</a><a href="script.html">劇本</a><a href="sprites.html">角色</a><a href="cg.html">CG</a><a href="city.html">建城</a><a href="walkin.html">原畫</a><a href="confirm.html">確認頁</a><a href="sound.html">聲光</a><a href="engine.html">引擎</a></nav></header>
+<div class="bg" aria-hidden="true"><img src="img/how-autoplayer.webp" alt=""></div>
+<main><h1>一個人跟 AI 怎麼做完一部 RPG</h1>
+<!-- bg: img/how-autoplayer.webp -->
+
+<p>《續》從 2026-10-05 寫第一份設計草稿，到 10-21 第三次推上 Larch 草稿，前後十七天。我不寫程式，程式、產圖、量測、測試都是 AI 做的；我定方向、看圖、試玩、說哪裡不對。這一章講這樣分工實際怎麼跑：整部怎麼交出去、怎麼驗收、我的回饋怎麼變成修改和測試，還有推上 Larch 的規矩。想讓 AI 長時間自己做一個大專案的人，可以照著試。</p>
+<figure><a href="img/how-commits.webp" target="_blank" rel="noopener"><img src="img/how-commits.webp" alt="每天碰到 xu/ 的提交數，依提交訊息最後一行標的模型分色" loading="lazy"></a><figcaption>每天碰到 xu/ 的提交數，依提交訊息最後一行標的模型分色</figcaption></figure>
+<h2>2026-10-09：整部交出去</h2>
+<p>10-07 第一到三章已經能從頭玩到尾，10-08 我逐個角色審過走路圖，也確認了分層地圖的做法。2026-10-09 我跟 AI 說：</p>
+<blockquote>
+<p>我想交給你全部自行處理到整部作品每章都完成、可以玩，等做到那個程度以後我再來完整玩一輪。……你應該也具備設定自動玩家可以負責玩，就不會出錯（或錯了容易發現，參考 TDD）測試保護。……這期間都是必須自行完成、自行決定的狀態。</p>
+</blockquote>
+<p>AI 先寫了一份 <code>xu/自主完成計畫.md</code>，分四段：完成的定義、每章的做法、不做的事、決定紀錄。完成的定義第一條是整部從序玩到兩個結局都走得通；第二條是自動玩家要從序一路玩到結局最後一句，沒有頁面例外，每章的關鍵台詞、心聲、戰鬥、結局分支都要有斷言。不做的事寫了三件：不推 Larch、不發佈，要我按；不改劇本文字的內容；repo 有別人在寫，只 add 自己改的檔。</p>
+<p>那一天的提交：</p>
+<table>
+<thead>
+<tr>
+<th>時間</th>
+<th>提交</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>04:55</td>
+<td><code>1a43d17c</code></td>
+<td>自主完成的計畫與決定紀錄</td>
+</tr>
+<tr>
+<td>06:44</td>
+<td><code>4c1a6680</code></td>
+<td>第四章〈赤兔〉可玩</td>
+</tr>
+<tr>
+<td>08:36</td>
+<td><code>d83ff427</code></td>
+<td>第五章〈這邊我顧著〉可玩</td>
+</tr>
+<tr>
+<td>10:35</td>
+<td><code>5b9df582</code></td>
+<td>第六章〈地窖四年〉可玩</td>
+</tr>
+<tr>
+<td>13:01</td>
+<td><code>ed6d75de</code></td>
+<td>第七章〈副將〉可玩</td>
+</tr>
+<tr>
+<td>15:54</td>
+<td><code>3cfe3a6c</code></td>
+<td>第八章〈門檻〉可玩</td>
+</tr>
+<tr>
+<td>18:43</td>
+<td><code>4296f225</code></td>
+<td>第九章〈那碗水〉與喝、不喝兩個結局可玩，整部從序玩到全書終</td>
+</tr>
+</tbody>
+</table>
+<p>晚上 AI 自己再打磨兩輪（玩法與演出、地圖與坐姿），10-10 凌晨兩點在 <code>xu/進度.md</code> 最上面寫好〈作者回來先看〉：<code>play_all.mjs</code> 從序玩到不喝結局全部通過，約 65 分鐘；這段期間替我做的決定都在〈決定紀錄〉；只有我能做的列了五件，例如寫「日子」那一句、親耳聽第八章的新曲（AI 請 Gemini 代聽過，代聽分不出古琴和吉他）。第四章以後我自己玩，是在 2026-10-20：用分章副本把第二到第九章玩了一輪，留了 135 則回饋。</p>
+<h2>替我做的決定，一列一列記下來</h2>
+<p>計畫裡有一段〈決定紀錄〉。原本要等我拍板的事，AI 自己決定，每個決定記一列：日期、章或範圍、決定、理由。10-09 那一版的表頭寫著「作者回來一次看、一次改」。到 10-18 一共 176 列，其中 132 列是 10-09 那一天記的。抽三列：</p>
+<ul>
+<li>第四章第七幕：劇本要魏續坐在門檻上守夜，引擎沒有坐下的動作。決定：門檻做成站得上去，「坐下」用走上門檻、面朝外表示。後來〈待打磨〉裡補了坐姿的走路圖。</li>
+<li>第四章第五幕：劇本寫帳前火把邊走不過去，照做就是一道看不見的牆，我 10-09 說過地圖不要有看不見的牆。決定：跟著布走到帳前兩個火盆之間，就接燈滅那一段。</li>
+<li>第五章門檻：劇本要玩家自己聽出是不是赤兔。決定：馬蹄聲用程式合成，別的馬輕、遠、兩拍小跑過去；赤兔重、三拍，停在門口打一個響鼻。第一次劈柴一定是別的馬，理由寫的是「不隨機，測試與玩家都不會卡」。</li>
+</ul>
+<p>劇本文字也標來源。2026-10-13 我授權 AI 把剩下的文字定稿：原本標（提案）的句子，核對過設計與正典改標（代理定），我先前確認過的保留（作者定），建置遊戲時兩種標記都剝掉。AI 補的設定另外列在 <code>xu/補全清單.md</code>，到 10-16 有 143 條等我審。</p>
+<p>補設定會連帶出問題。2026-10-20 我問布的爹到底是城主還是帶隊的，AI 先前補的「守城的軍官」已經寫進好幾個地方，沒人回頭查。我說：「類似這種事你能主動修嗎，不要我提」。之後改一句設定，AI 先查正典 <code>buchan/canon.md</code>，再搜整個 <code>xu/</code> 的劇本、補全清單、角色卡有沒有同一件事的別種說法，一次改到一致，回報查了哪裡、改了哪幾處、還有哪些要我拍板。</p>
+<h2>一包一包排進度</h2>
+<p>10-16 以後同時開工的 AI 變多，工作切成一包一包，每包一個代號：z0 是第零幕，a2、a3 是各章的小挑戰，sim 是邏輯模擬器，u1 到 u3 是玩家試玩問題修正，n12 是蟬與成素的新事件，fast2 是測試加速。做完多半交一份 <code>xu/補圖報告_&lt;代號&gt;.md</code>，到現在 29 份。格式差不多：結果先講，再來是沒把握、沒做完的，要我確認的設定，沒做的與原因，踩到的坑，怎麼驗的。</p>
+<p>沒把握的地方照寫。t2 那份查第九章測試停在官道的問題，寫的是在乾淨的 worktree 跑了三輪都重現不了，修法「沒能用失敗案例驗證」，兩個結局整章也還沒跑通。</p>
+<p>報告的重點會抄到 <code>xu/進度.md</code> 最上面，一包一條，有要我看的就寫明「要你看的」。例如 10-19 u2 那條：第四章〈營變抉擇〉的四件事和後果合不合意；拴馬樁、城南宅巷口、守門兵沒有在遊戲裡親眼驗過。還沒處理的打磨項目列在 <code>自主完成計畫.md</code> 的〈待打磨〉，修好在行尾標「已修」。</p>
+<h2>自動玩家：每一章先寫好它要看到的句子</h2>
+<p>每一章的做法照 TDD，寫在計畫裡：</p>
+<ol>
+<li>讀劇本與設計，列出這一章玩家要做的事、一定要出現的台詞、心聲、CG、戰鬥。</li>
+<li>先寫 <code>xu/game/tests/steps_chN.mjs</code>（自動玩家的步驟與斷言），接進 <code>play_all.mjs</code>，確認它失敗。</li>
+<li>做地圖、走路圖、立繪、事件、戰鬥、CG 卡。</li>
+<li>做到 <code>steps_chN</code> 通過，再跑整套 <code>play_all</code>，全部通過才提交。</li>
+<li>決定寫進〈決定紀錄〉。</li>
+</ol>
+<p>10-09 那六個「可玩」的提交，每一個都帶著那一章的 <code>steps_chN.mjs</code> 和 <code>play_chN.mjs</code>。步驟檔長這樣，這是第四章開頭：</p>
+<pre><code class="language-js">await until(/奉先從我身邊走過，我把柴擔換了一邊肩/, 300); log('第四章 六年');
+await until(/荃拿著一把弓/);
+assert((await pos()).map === '五原（六年）', '到了五原（六年）');
+await press(50, 6, 'ArrowUp'); await until(/多賣一捆柴，荃晚上就能多吃一碗飯/); await calm(); log('  砍柴');
+</code></pre>
+<p>自動玩家用 Playwright 開本機預覽，按方向鍵走路、按 Enter 互動，一路翻對話等它要的句子，遇到選項選第一個。<code>play_all.mjs</code> 從序・碗玩到不喝結局的「全書終」，最後斷言章節字卡都出現過、整段沒有頁面例外。第八章它走「思念跳年」那條；一年一年過的那條交給 <code>play_ch8.mjs</code>，喝與不喝兩個結局交給 <code>play_ch9.mjs</code>。10-14 的紀錄：<code>play_all</code> 跑了 4,584 秒（76 分 24 秒）；<code>play_ch8</code> 一年一年過 1,402 秒，斷言 135 個關鍵句；第七章斷言 177 個。</p>
+<figure><a href="img/how-autoplayer.webp" target="_blank" rel="noopener"><img src="img/how-autoplayer.webp" alt="play_ch8.mjs 一年一年玩過去，每五年截一張。這張是建安十年冬，右上的刻痕數每一年都有斷言，205 年要是 8 道" loading="lazy"></a><figcaption>play_ch8.mjs 一年一年玩過去，每五年截一張。這張是建安十年冬，右上的刻痕數每一年都有斷言，205 年要是 8 道</figcaption></figure>
+<p>斷言失敗會截一張 <code>fail-chN.png</code>；看門狗時間到，先印出畫面上最後的字再截圖。整套太慢，平常改一小段只跑短測：<code>segment.mjs</code> 從指定的對話卡開始驗那一段，5 到 7 秒；<code>tests/</code> 底下另有 72 支 <code>*_probe.mjs</code>，42 支是生活小事的，27 支寫了負控制，故意弄壞，確認它抓得到。10-10 我玩第三章說「好像都一樣強 都是一刀一個」，劇本寫的是布的攻擊力至少魏續的四倍。AI 把布的攻擊力從 60 調到 130、胡騎的血從 28 調到 60，<code>battle_probe.mjs</code> 量出魏續一個人要按 6 下才砍倒一個、布兩秒內砍倒；<code>OLD=1</code> 換回舊數值當負控制，3 下就倒。</p>
+<p>測試自己也會騙人。10-09 第四章踩過一次：預覽頁上方的「跳到…」選單列著每張卡片的標題，有一張標題剛好含測試在等的字，測試還沒走到就以為等到了。之後 <code>check_static.py</code> 多一條，卡片標題不能含測試在等的字。10-19 做測試加速時，又找出靠運氣過的斷言：第二章等 <code>/去床邊看爹/</code>，是因為街上那句導引進屋時還掛在畫面上才過的。</p>
+<h2>靜態檢查：遊戲裡每一句都要在劇本裡</h2>
+<p>台詞一律從 <code>xu/劇本_*.md</code> 讀，程式裡不手打。<code>check_static.py</code> 兩個方向都查：劇本裡每一句都要用上、一字不改；遊戲裡出現的每一句都要在劇本裡找得到。10-21 晚上 AI 跑一次，它印出來的是台詞 3,933 句、選項 697 個、地圖 111 張、phase 183 個；10-14 是 1,105 句、205 個、92 張、168 個。</p>
+<p>這支檢查多一條，多半是踩過一次，程式註解寫著日期和原因：</p>
+<ul>
+<li>卡片 id 不能重複：10-09 第四章和第一章的最後一張都叫 <code>c4-end</code>，第四章播完會跳回第二章開頭。</li>
+<li>引擎白名單：10-07 用了引擎沒有的表情 ellipsis、粒子 leaves，或選項只有一個，整個畫面就壞了。</li>
+<li>擋路的格子裡要有畫出來的物件，沒畫的就放開：10-09 我說棚子旁邊有看不見的牆。</li>
+<li>換成船、背人、坐姿的主角圖，離開地圖前要換回走路的：10-20 我玩第七章，划完船以後進屋、進曹營都還在划。</li>
+</ul>
+<p>台詞另外有 <code>check_voice.py</code>。10-15 我擔心失誤，要有嚴謹的架構，AI 把能用規則抓的寫成硬規則，抓到就擋：冠禮前叫「奉先」、emoji、破折號、假對比句型、簡體字、半形標點。我試玩時抱怨過的也會變成規則。10-20 我在第六章留了一句「又在那邊亂猜奉先了，很煩了」，AI 把全劇「奉先要是」「要是奉先」二十二句改掉，加一條硬規則：心聲猜奉先會怎樣就擋。第五章那句「兩邊身上都亮了」改成「都帶了傷」，同時開一張擋下來的說法清單，抓到一次加一筆。</p>
+<p>另外還有 <code>check_crowd.py</code>（路人撞臉、站在牆裡、走不到、擋路、任務提示指向不存在的事件）和 <code>check_test_texts.py</code>（改了台詞以後，測試在等的舊句子還在不在）。</p>
+<h2>不開瀏覽器也能驗</h2>
+<p>瀏覽器一格一格走完九章要將近兩個小時，一次只能跑一條，機器一忙就因為時序漏句子，變成假失敗。10-18 我說：「你把時間浪費在跑測試了」「這些事都是要能盡快完成」。我的想法是，引擎的走路、互動、事件本來就是程式，驗證可以照順序呼叫，不必開畫面一格一格走。</p>
+<p>10-19 凌晨 AI 交出 <code>xu/game/tools/sim/</code>：讀建好的 <code>dist/project.json</code>，照引擎原始碼的事件語意重做一遍，傳送到事件格觸發，記下每一句對話和每次變數改變。整部從序走到全書終不到一秒。拿真瀏覽器第二章的紀錄來對，81 句裡依序重現 80 句，差的那一句是隨機抽到不同的心聲。自測帶六個負控制：phase 條件改錯字、拿掉一個 phase 設定、導引指到不存在的事件、少給一個包袱……，模擬器都要抓到，並指出問題在哪。</p>
+<figure><a href="img/how-tests.webp" target="_blank" rel="noopener"><img src="img/how-tests.webp" alt="寫這一章時（2026-10-21）AI 重跑的模擬器自測與台詞檢查" loading="lazy"></a><figcaption>寫這一章時（2026-10-21）AI 重跑的模擬器自測與台詞檢查</figcaption></figure>
+<p>模擬器抓不到的也寫清楚：走路與碰撞、名牌遮擋、介面版面、計時、戰鬥輸贏、素材載入、音訊，這些交給短測和截圖。真瀏覽器那條也加速了，<code>SPEED=4</code> 時第二章從 330 秒變成 80 秒上下。難在引擎每一幀把時間差截在 50 毫秒，只放大時間戳的話走路追不上，AI 把每一個實際的幀拆成最多六個小幀才解開。8 倍、16 倍也跑得過，但沒有更快，瓶頸換成機器的 CPU。做加速那一輪還找到一個內容問題：第五章趕工那張地圖的導引有 18 筆，超過引擎當時的上限 16，地圖一進去就顯示「RPG Error: 遊戲任務格式不正確」，靜態檢查和模擬器都沒抓到。當天稍晚 Larch 取消了這個上限。</p>
+<p>現在的分工是：日常改內容跑模擬器和靜態檢查；碰撞、遮擋、介面跑短測與截圖；推上 Larch 之前，最後一個改動之後再用瀏覽器完整跑一次。</p>
+<h2>讓另一個 AI 當第一次玩的玩家</h2>
+<p>自動玩家只走測試裡寫好的路。2026-10-19 AI 做了 <code>xu/game/tools/play/</code>：<code>server.mjs</code> 開本機預覽、用 Playwright 按鍵，<code>cli.mjs</code> 給另一個 AI 下指令（<code>state</code> 看畫面、<code>quest</code> 點任務框走向目標、<code>use</code> 走到物件旁互動、<code>act</code> 連按、<code>choose</code> 選選項）。玩家是 Codex（gpt-6-luna），不給它劇本和原始碼，照畫面玩、寫日誌。</p>
+<p>我給的目標是修到「玩家們滿足、覺得值得推給別人」。AI 照這句寫了 <code>xu/玩家滿意度驗收標準.md</code>：每位玩家玩完填同一份問卷，過關線是至少三位玩家分段玩完，平均 8 分以上、沒有人低於 7，「會推薦」至少三分之二。限制也寫明：玩家是 AI，滿意度只是參考，過線之後還是要我自己玩一遍，或找真人。</p>
+<p>日誌裡標「STUCK」的卡關，AI 一條一條追，都是玩家工具的問題：早期版抓不到左上角的任務文字、圖例把不在場的同名人物也列出來、計時小遊戲要連按、<code>face</code> 會多走一步。工具修好，同樣的位置都過得去。有參考價值的是感受。讀模擬器跑出來的整條主線對話那一版，反覆出現三件事：旁白替玩家把感受講完、日常循環像重播、選項多半只是挑一句心聲。第四章那份還建議，丁原那夜魏續只能靠心聲痛苦，應該有一件能做、會有後果的事。這些分給 u1、u2、u3 三包去修，〈營變抉擇〉改成四件手邊能做的事（攔丁公的親兵、叫各崗回帳、抹營門門軸、鬆赤兔的繩子），第四、五、七章各有回扣。</p>
+<p>用鍵盤玩的 C2 從第七章尾聲玩到全書終，選了「喝」。它記下有感的句子裡有第八章後院的「我給餅，她回豆。兩個人都沒開口，帳卻平了。」最想改的是任務框：空白的時候分不清要走、要互動，還是要等。這一輪也有跑不完的：Codex 的額度是五小時一個窗口，玩第一到三章、第六章的兩位玩到一半被停掉，只留 C2 玩到結局。</p>
+<h2>我的回饋怎麼變成修改</h2>
+<p>我試玩用本機預覽 <a href="https://github.com/yazelin/larch-preview" target="_blank" rel="noopener">larch-preview</a>。玩到哪裡覺得不對就按 F 寫一句，它自動附上截圖；在 RPG 地圖上還會記下地圖、主角座標、這一輪改過的變數和最近的事件。對話框裡是哪一句它抓不到，要寫在備註。</p>
+<p>回饋從 10-07 就開始留，大批的有三次：10-10 第一到三章 19 則；10-15 凌晨 51 則、早上 9 則、晚上 4 則；10-20 用 AI 做的分章副本把第二到九章玩了一輪，135 則。10-15 起，AI 每批都在 <code>xu/回饋處理.md</code> 逐則對照。10-15 那批是一張表：回饋寫什麼、改在哪個檔、狀態是已處理、部分，或「已處理，請看畫面」。</p>
+<p>下面是 10-15 凌晨在嚴家大門那一則附的截圖，備註只有一句「這一格的關門點再向上1格」：</p>
+<figure><a href="img/how-feedback-gate.webp" target="_blank" rel="noopener"><img src="img/how-feedback-gate.webp" alt="2026-10-15 凌晨我在嚴家大門留回饋時，預覽自動附上的截圖" loading="lazy"></a><figcaption>2026-10-15 凌晨我在嚴家大門留回饋時，預覽自動附上的截圖</figcaption></figure>
+<p>10-07 我就說過「開關門可以卡，不能從頭卡到尾」。這一則之後，AI 改了嚴家設計檔的關門列，也把位置寫進 <code>play_all.mjs</code>：按住方向鍵走過大門，只准在推開門、關上門那兩格各停一下，停在第幾列寫死在斷言裡。</p>
+<pre><code class="language-js">const s1 = await hold('ArrowUp'), s2 = await hold('ArrowUp'), s3 = await hold('ArrowUp');
+assert(s1 === 32, `按住往上：在嚴家門洞前一格推開門停一下（2026-10-15 作者：開門點上調一格）（停在 ${s1}）`);
+assert(s2 === 29, `再按住：走出門洞外那一排關門停一下（停在 ${s2}；2026-10-15 作者要求關門點再往外一格）`);
+</code></pre>
+<p>之後誰動了門或這張地圖，自動玩家就會停在這裡。10-10 那則「好像卡住 抱不了柴生不了火也沒熱水」也一樣：柴堆的觸發範圍吃到木樁左邊那一格，站在木樁左上按下去是抱柴，畫面上沒有任何反應，看起來就是生不了火。修好以後，<code>boil_probe.mjs</code> 照我當時站的位置（木樁左上）玩兩鍋水。</p>
+<p>10-15 那一批回饋之後，我交代了五條通用方向，並說「後面也一樣照我講的方向去修改，盡可能不要再讓我檢查出相同問題」：</p>
+<ol>
+<li>心聲用白話、寫長，把思念、擔心、憂傷寫滿；外表冷靜、內心波瀾。</li>
+<li>場景要有人：路人、兵、長輩都能說話，會在附近走動，每一年站的位置不同。</li>
+<li>畫面上要看得出時間（年號、季節），一年四季各有一段自由活動。</li>
+<li>家、帳子這類看得到的建築要能走進去。</li>
+<li>身邊沒有人的時候，他的話改成心裡想的。</li>
+</ol>
+<p>我還沒玩第四章，AI 就照這五條先改第四到九章：106 句心聲改成白話長句，各章補上路人。</p>
+<p>不改的也照實寫。名字想用不同顏色（#126 到 #134），Larch 的對話框整部只有一個名牌顏色，要請 Larch 加。重現不出來的，AI 寫出它怎麼試：換地圖時閃回字卡那一則，每 100 毫秒讀一次畫面，各試 70 到 110 次都沒看到，負控制確認字卡在畫面上的時候讀得到，等我說是在什麼時候看到的。還有一件小事：AI 一重新 build，預覽就自動重讀，我玩到一半的遊戲被重開。之後它 build 之前先看 <code>feedback.jsonl</code> 有沒有新回饋。</p>
+<h2>要我拍板的，做成網頁讓我直接按</h2>
+<p>2026-10-02 做前作 CG 時我說過：「有問題 有需要我確認的才讓我看圖」。圖跟設計明確對不上的，AI 自己重產，先對過一張清單（手指與手數、兵器握法、道具形制、衣服對定錨、季節）才拿給我。要我做決定的，用可以點的選項問，推薦的放第一個，不在一長段報告裡夾一句純文字問句。這條是 2026-08-20 我問「或同意 勾勾 之類的」之後定的。</p>
+<p>到了 2026-10-20，我說：</p>
+<blockquote>
+<p>你要我確認的圖或 RPG 內組合出來的資源，能直接在 html 給我看就好，我可以直接回應在 html 上你看比較快。不然要打開播放器到那張，因為是 RPG 又沒辦法定位置，也拿不到對話，反而不適合、不方便。</p>
+</blockquote>
+<p>確認頁是一路改出來的。10-06 CG 有挑選頁，每張候選可以開大圖。10-16 走路圖檢查頁接上本機的小伺服器，我每勾一次、每打一個字就存進 <code>xu/讀本/走路圖回饋.json</code>，AI 直接讀檔；同一天又補了三個問題：重建頁面後上一輪的勾還留著、瀏覽器顯示舊圖、記錄要找得回上一版。10-20 起確認頁改發佈在 claude.ai，我按的鈕、寫的備註存進頁面自己的資料庫，AI 讀得到；改進遊戲以後，它把那一筆標成完成、回一句話，我在頁面上看得到。</p>
+<figure><a href="img/how-confirm-atlas.webp" target="_blank" rel="noopener"><img src="img/how-confirm-atlas.webp" alt="地圖總覽（2026-10-20）：111 張地圖，每個角色在什麼條件下站在哪裡都列出來。在 claude.ai 打開才能拖人、拖物件、標重產、畫牆" loading="lazy"></a><figcaption>地圖總覽（2026-10-20）：111 張地圖，每個角色在什麼條件下站在哪裡都列出來。在 claude.ai 打開才能拖人、拖物件、標重產、畫牆</figcaption></figure>
+<p>後來又多了好幾頁：走路圖站姿（我逐張決定，58 張把站著那一格縮小）、地點表、連結圖、五原配置、城邊積木、牆與門、畫風試做、屋內。確認頁的存檔放在<a href="confirm.html">給我按的確認頁</a>。</p>
+<figure><a href="img/how-confirm-walk.webp" target="_blank" rel="noopener"><img src="img/how-confirm-walk.webp" alt="「續 待你確認」頁：每張走路圖左邊原本、右邊調整後，按一個鈕，要說的寫在備註欄。第一張卡上那一行，是我上一輪寫了「背面其中一腳不對」，AI 重產後請我再看一次。這是本機打開的畫面，沒有頁面資料庫，所以每張都顯示「還沒決定」" loading="lazy"></a><figcaption>「續 待你確認」頁：每張走路圖左邊原本、右邊調整後，按一個鈕，要說的寫在備註欄。第一張卡上那一行，是我上一輪寫了「背面其中一腳不對」，AI 重產後請我再看一次。這是本機打開的畫面，沒有頁面資料庫，所以每張都顯示「還沒決定」</figcaption></figure>
+<p>頁面資料庫也踩過坑。10-21 城邊積木頁，我在上面點了二十幾次，存回去的都是原樣。AI 查出來：資料庫推回來的資料是凍結的，直接改不報錯、也不生效；本機測試沒有資料庫，所以一切正常。修法是先複製一份再改。之後的規矩是本機測試要塞一個假的資料庫、回傳凍結的資料，舊版當負控制。</p>
+<h2>好幾條線、好幾個 AI 寫同一個 repo</h2>
+<p>這個 repo 裡不只《續》，《洛泉．袁真跡》（<code>zhenji/</code>）也同時在寫。根目錄 <code>AGENTS.md</code> 第 4 條：只 <code>git add</code> 自己改的檔，不要 <code>git add -A</code>。圖檔多半被 <code>.gitignore</code> 擋，要 <code>git add -f</code>。《續》自己也常同時有好幾個 AI 在做。最上面那張圖算到 10-21 晚上十點半，碰到 <code>xu/</code> 的提交 429 個，255 個標 Claude Opus 5.5、105 個標 Claude Sonnet 5.5、69 個沒標；10-18、10-19 兩天大多是 Sonnet，10-21 地圖重做那天幾乎都是 Opus。</p>
+<p>同時做會撞，所以有幾條規矩。一次只跑一個 build 或測試：測試會自己開預覽伺服器，有人同時重 build，跑到一半的測試會讀到新檔而失敗；審稿工具的 <code>ship</code> 遇到試玩在跑會拒絕。並行的 AI 各開一個精簡的 worktree，素材資料夾是符號連結，<code>git pull --rebase</code> 之前要先把那幾個路徑標成 assume-unchanged，不然 rebase 會被擋。</p>
+<p>Claude 以外的模型也有分工。Codex 負責看圖判斷：走路圖三視圖的順序、往前跨的是哪一隻腳，模型常把左右畫反，提示詞寫了也不能信，要它看圖確認。劇本改稿另外有一套閘門，四位讀稿人來自四個模型家族，寫的人不判自己的稿，細節在<a href="script.html">劇本與心聲</a>。這套是 2026-10-20 我用 Opus 設計的，目標是換回 Sonnet 5.5 照著跑也有好結果。</p>
+<h2>交接：換哪個 AI 都從 README 開始</h2>
+<p>10-12 我要這個專案能交給其他 agent 接手，Claude Code 之外還有 Codex、Gemini、GitHub Copilot CLI。AI 把 <code>xu/README.md</code> 改寫成接手入口：現在做到哪、檔案地圖、怎麼跑、各種素材的產線、我定過的規矩、待辦在哪。原本只寫在 Claude 記憶和 skill 裡的規矩，也直接寫進 repo，換一家的 AI 也讀得到。根目錄 <code>AGENTS.md</code> 第 6 條指到這份 README，<code>CLAUDE.md</code>、<code>GEMINI.md</code> 都連到它。</p>
+<p>待辦開在 GitHub issues，標題用「續：」開頭：#6 是交接總表，#2 只有我能做的事，#3 美術與演出的待打磨，#4 推上 Larch、參賽與上 Steam 前，#5 工程風險與接手須知。清單本體還是在 md，issue 只放摘要與連結，兩邊對不上以 md 為準。AI 替我做了決定，就加一列到〈決定紀錄〉。審稿的 <code>xu/審稿/README.md</code> 開頭也寫明：照這份做，不用問我「接下來做什麼」，只有標「升級」的條目要我拍板。</p>
+<h2>推上 Larch：先關分頁，推完讀回來比</h2>
+<p>《續》在 Larch 上只推草稿。上架、發佈、動正典 <code>buchan/canon.md</code>，都要我點頭。</p>
+<p>推之前，我的 Larch 編輯器分頁要關掉（根目錄 <code>AGENTS.md</code> 第 3 條）。編輯器開著，會把它快取的舊狀態推回伺服器，靜默蓋掉腳本剛推的版本，完全不報錯。2026-09-05 在另一部作品，我只是進編輯器填更新說明，95 張卡被打回 80 張。2026-09-26 前作《仙泉．香布纏》又一次，這次卡數完全一樣，6 張新圖被換回舊圖。所以推完讀回來要比內容，不只比卡數。</p>
+<p>推送用 <code>xu/game/src/push_larch.py</code>：先讀遠端最新版本的 ETag，帶著它覆寫，拿不到 ETag 就停，免得蓋掉別人的新版本；讀回來檢查一個 board、一個起點、Larch 素材只有兩個、沒有殘留本機素材路徑，印出卡數和 CDN 網址數。三次推送：10-14 483 張卡；10-18 573 張，推之前先把遠端舊版整包備份，讀回後跟本機的節點 id 逐一對上；10-21 609 張，讀回逐張比對一致。10-18 那次推之前，第一到九章（含兩個結局）的完整遊玩測試和 35 支生活小事短測都重跑過，合計 44 項全過。推之前一定重跑，是另一部作品 2026-10-17 吃過的虧：最後一個改動之後沒重跑全劇試玩就推，三張地圖都讀不出來。</p>
+<p>素材分流是我指定的：Larch 素材庫只放一定要由 Larch 託管的，封面 <code>xu-cg-title</code> 和 RPG 用的透明替代武器圖 <code>xu_w-none</code>。其他圖、音效、配樂都放公開素材庫 <a href="https://github.com/yazelin/larch-buchan-art" target="_blank" rel="noopener">yazelin/larch-buchan-art</a>，用固定的 tag 走 jsDelivr。圖一改就打新 tag（例如 <code>xu-card-m-g3a-r2</code>），下載回來跟本機比 SHA-256。10-14 第一次分流有 1,126 個素材引用、226 個 tag，逐一驗收 226/226；10-21 站姿縮小的 55 張走路圖又推了 28 個新 tag。</p>
+<p>10-21 我決定不交 Larch 第三屆挑戰，目標是上 Steam，以完整度為準。推上去的這一版給別人備份或接手，地圖整個重做。</p>
+<h2>現在在做：地圖重做</h2>
+<p>地圖重做先做五原：一張地圖最大 64×64 格，五原切成 13 塊相連，再加屋內。做完要把第零幕到第四章、第九章在五原的劇情搬到新地圖，現在約 35 張五原的地圖卡要對到新的 13 塊，測試跟著改。做法在<a href="city.html">建城工法：拼出來的城</a>和<a href="walkin.html">走進原畫</a>。其他章：<a href="script.html">劇本與心聲</a>、<a href="sprites.html">角色與走路圖</a>、<a href="cg.html">CG</a>、<a href="sound.html">配樂、音效與天氣光影</a>、<a href="engine.html">Larch RPG 引擎實測</a>。</p><div class="pager"><a href="index.html">← 目錄</a><a href="script.html">下一章 →</a></div></main>
+<footer class="foot"><span>仙泉．香布纏．續 · 製作手記 · 作者 亞澤 · 內容授權 CC BY-NC 4.0</span>
+<a href="https://github.com/yazelin/larch-xu-canon" target="_blank" rel="noopener">GitHub</a><a href="https://www.facebook.com/yaze.lin.gm" target="_blank" rel="noopener">Facebook</a>
+<a href="https://buymeacoffee.com/yazelin" target="_blank" rel="noopener">請我喝咖啡</a><a href="https://yazelin.github.io/" target="_blank" rel="noopener">亞澤的部落格</a></footer>
+<script>
+/* yz-promo-footer (trimmed) | 三件套+BMC 注意力效果 | https://github.com/yazelin/promo-footer-skill
+   對 footer 既有的 Buy Me a Coffee 連結加 bobbing + 講話氣泡（不重新注入連結）。 */
+(function(){"use strict";
+if(window.__yzPromoInit)return;window.__yzPromoInit=1;
+try{if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return}catch(e){}
+var LINES=["嘿，這裡這裡，我是咖啡按鈕","我是一顆很努力的按鈕，求被點一下","噓，亞澤不知道我在偷偷拉贊助","你看我跳得這麼賣力，不請一杯嗎？","不請也沒關係，你來玩我就很開心","一杯咖啡，是下一個作品的燃料","你的咖啡會變成下一個作品，真的","咖啡因進入亞澤體內，程式碼就會自己寫完","用愛發電中，咖啡因可提升發電效率","覺得好玩嗎？抖內一下下","這個網站沒有廣告，只有我這顆按鈕"];
+var CSS="@keyframes yzIdle{0%,55%,100%{transform:translateY(0)}62%{transform:translateY(-4px)}70%{transform:translateY(0)}78%{transform:translateY(-2px)}84%{transform:translateY(0)}}.yz-idle{animation:yzIdle 2.6s ease-in-out infinite}@keyframes yzHop{0%,100%{transform:translateY(0)}20%{transform:translateY(-6px) scale(1.04)}40%{transform:translateY(0) scale(1)}55%{transform:translateY(-3px)}70%{transform:translateY(0)}}.yz-hop{animation:yzHop .9s cubic-bezier(.36,.07,.19,.97)}.yz-bubble{position:fixed;z-index:2147483000;max-width:200px;padding:6px 11px;border-radius:14px;background:#fffdf7;color:#4a3f35;border:1px solid rgba(0,0,0,.1);box-shadow:0 4px 14px rgba(0,0,0,.18);font:13px/1.5 system-ui,-apple-system,'Noto Sans TC',sans-serif;pointer-events:none;opacity:0;transform:translateY(5px);transition:opacity .25s ease,transform .25s ease}.yz-bubble.yz-on{opacity:1;transform:translateY(0)}.yz-bubble::after{content:'';position:absolute;left:var(--yz-tail,50%);margin-left:-6px;border:6px solid transparent}.yz-bubble.yz-above::after{bottom:-6px;border-bottom:0;border-top:6px solid #fffdf7}.yz-bubble.yz-below::after{top:-6px;border-top:0;border-bottom:6px solid #fffdf7}";
+var bubble,anchor;
+function addCss(){if(document.getElementById("yz-promo-css"))return;var s=document.createElement("style");s.id="yz-promo-css";s.textContent=CSS;document.head.appendChild(s)}
+function findAnchor(){var as=document.querySelectorAll('a[href*="buymeacoffee.com/yazelin"]');if(!as.length)return null;var vis=[],i,r;for(i=0;i<as.length;i++){r=as[i].getBoundingClientRect();if(r.width||r.height)vis.push(as[i])}var pool=vis.length?vis:[].slice.call(as);return pool[pool.length-1]}
+function hop(){anchor.classList.remove("yz-hop");void anchor.offsetWidth;anchor.classList.add("yz-hop")}
+var shown=0,MAX_SHOWS=3;
+function say(){if(document.hidden)return;var r=anchor.getBoundingClientRect();if(!r.width&&!r.height)return;if(r.bottom<0||r.top>innerHeight)return;if(shown>=MAX_SHOWS)return;shown++;bubble.textContent=LINES[Math.floor(Math.random()*LINES.length)];bubble.classList.remove("yz-on","yz-above","yz-below");bubble.style.left="0px";bubble.style.top="0px";var bw=bubble.offsetWidth,bh=bubble.offsetHeight,cx=r.left+r.width/2;var left=Math.max(8,Math.min(cx-bw/2,innerWidth-bw-8));var above=r.top-bh-12>=8;bubble.style.left=left+"px";bubble.style.top=(above?r.top-bh-12:r.bottom+12)+"px";bubble.classList.add(above?"yz-above":"yz-below");bubble.style.setProperty("--yz-tail",Math.max(12,Math.min(cx-left,bw-12))+"px");hop();requestAnimationFrame(function(){bubble.classList.add("yz-on")});setTimeout(function(){bubble.classList.remove("yz-on")},4200)}
+function start(){addCss();anchor=findAnchor();if(!anchor)return false;try{if(getComputedStyle(anchor).display==="inline")anchor.style.display="inline-block"}catch(e){}anchor.classList.add("yz-idle");anchor.addEventListener("animationend",function(e){if(e.animationName==="yzHop")anchor.classList.remove("yz-hop")});bubble=document.createElement("div");bubble.className="yz-bubble";bubble.setAttribute("aria-hidden","true");document.body.appendChild(bubble);window.__yzPromo=say;(function loop(first){if(shown>=MAX_SHOWS)return;setTimeout(function(){say();loop(false)},first?18e3+Math.random()*12e3:9e4+Math.random()*9e4)})(true);return true}
+function boot(){var tries=0;(function t(){if(start())return;if(++tries<20)setTimeout(t,1500)})()}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+})();
+</script></body></html>
