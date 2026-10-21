@@ -21,6 +21,7 @@ figcaption{color:var(--dim);font-size:14.5px;margin-top:8px;line-height:1.7}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:22px 0}
 .cards a{display:block;text-decoration:none;background:rgba(40,28,20,.55);border:1px solid var(--line);color:var(--fg)}.cards a:hover{border-color:var(--gold)}
 .cards img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}.cards b{display:block;color:var(--gold2);padding:10px 12px 0;font-size:18px}.cards span{display:block;padding:2px 12px 12px;color:var(--dim);font-size:14.5px;line-height:1.6}
+.prog{margin:22px 0 8px;padding:18px 20px;background:rgba(40,28,20,.55);border:1px solid var(--line)}.prog h2{margin:0 0 6px;border:0;padding:0;font-size:20px}.prog .head{display:flex;gap:28px;flex-wrap:wrap;margin:6px 0 14px}.prog .head div{min-width:170px}.prog .head b{display:block;font-size:34px;line-height:1.2;color:var(--gold2)}.prog .head span{color:var(--dim);font-size:14.5px}.prog .row{margin:10px 0}.prog .row .t{display:flex;justify-content:space-between;gap:10px;font-size:15px}.prog .row .t em{font-style:normal;color:var(--gold2);white-space:nowrap}.prog .bar{height:7px;background:rgba(255,255,255,.1);margin:4px 0 2px}.prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--gold))}.prog .n{color:var(--dim);font-size:13.5px;line-height:1.6}.prog .how{color:var(--dim);font-size:13.5px;margin-top:12px}
 .pager{display:flex;justify-content:space-between;gap:12px;margin-top:60px}.pager a{padding:6px 16px;border:1px solid var(--line);border-radius:16px;text-decoration:none;background:rgba(10,7,6,.55)}
 .top{position:fixed;left:0;right:0;top:0;z-index:5;display:flex;align-items:center;gap:14px;padding:12px 24px 22px;
   background:linear-gradient(180deg,rgba(6,4,3,.9),rgba(6,4,3,.6) 60%,rgba(6,4,3,0));text-shadow:0 1px 3px #000,0 0 12px rgba(0,0,0,.9)}
@@ -39,7 +40,7 @@ footer.foot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:16
 <main><h1>劇本與心聲</h1>
 <p>《續》全劇約四千句台詞，其中一千多句是魏續的心聲。這一章講這些句子怎麼寫、怎麼改：我試玩時退回了哪些句子，退回的理由怎麼變成寫稿規則和檢查程式，最後怎麼做成一道讓不同家族的 AI 互相審稿的閘門。只看一段的話，我推最後那道閘門：寫稿的 AI 不判自己的稿，換不換進劇本由程式算。</p>
 <h2>開案那天先定的事：心聲說不出口</h2>
-<p>《續》是《仙泉．香布纏》同一段故事，換成魏續的眼睛：從五原城破（173）走到谷口那碗水（223），最後由玩家替他選喝或不喝。2026-10-05 開案那天，我一條一條定，AI 一條一條寫進 <code>xu/設計.md</code>，那一天 <code>xu/</code> 底下有 56 個提交。</p>
+<p>《續》是《仙泉．香布纏》同一段故事，換成魏續的視角，玩家扮演的是魏續：從五原城破（173）走到谷口那碗水（223），最後由玩家替他選喝或不喝。2026-10-05 開案那天，我一條一條定，AI 一條一條寫進 <code>xu/設計.md</code>，那一天 <code>xu/</code> 底下有 56 個提交。</p>
 <p>設計檔裡叫「核心機制」的那一條也是那天定的：每章有一兩個時刻跳出選項，玩家選的是他的心聲，可是不論選哪一句，說出口的都是沉默，或前作裡一句不相干的話（「進來。」「嗯。」「這邊我顧著。」）。選的那句記進背包裡一樣只有玩家看得到的道具，我把它叫「思念」。不喝的結局，臨死前的回想會把這些話一句一句帶回來。</p>
 <p>2026-10-07 我又定了寫法：《續》要讓玩家完完全全明白所有事，原作那種只露痕跡的冰山寫法這一部不用。不變的只有一件：他從來沒對布說出口。他當時不知道的事，由老了的魏續用旁白說清楚：「這些，是後來她們告訴我的。」</p>
 <p>設定以 <code>buchan/canon.md</code> 為準，呂布一家（呂布、貂蟬、嚴湘、呂荃、魏續）的事都寫在那裡，別的作品寫到這一家也一律查它。設計《續》時我新定的事，例如魏續被拖走後在表親嚴家住了三年、約 176 年才為了修城搬回五原，也寫回正典，提交訊息標「續與正典」，共 9 次；正典的冰山原則旁邊也註明「《續》不適用」。改原作之前要先跑 <code>python3 buchan/check_canon.py</code>，它擋幾種已經定掉的寫法，例如貂蟬自稱「奴家」（她自稱「妾」）、布叫湘「阿湘」（布叫「湘兒」）。AI 不准自己動 canon.md，要我點頭。</p>
