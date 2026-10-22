@@ -249,7 +249,7 @@ footer.foot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:16
 </ol>
 <figure><a href="img/sound-fire-frames.webp" target="_blank" rel="noopener"><img src="img/sound-fire-frames.webp" alt="三種火架上的火，各八格動畫" loading="lazy"></a><figcaption>三種火架上的火，各八格動畫</figcaption></figure>
 <p>錯開的做法：每團火從不同的格開始（第 i 團從第 i×3 格），每秒 7 到 9 格輪著，同一張地圖上的火不會一起閃。動畫圖寬度超過 2 格，引擎就不幫它畫腳下的影子。寬度也不能超過 8 格：2026-10-09 有一團灶火的事件格離火太遠，圖被撐到 8 格以上，引擎的角色倍率只收 0.25 到 8，整個播放器壞掉。分層地圖上現在一共 75 團火，季節版、雪景版各自那一份也算在內。</p>
-<p>驗收用 <code>node tests/fire_anim.mjs &lt;地圖&gt; &lt;鍵&gt; &lt;主角 x&gt; &lt;主角 y&gt;</code>：每 130 毫秒截一張，連截 12 張，比每團火附近的畫面，每團火都要在變；負控制是牆上沒有火的一塊不能變。丁原營那張的營火光暈整片在閃，自動判斷抓不出火，改成一區一區比對。</p>
+<p>驗收用 <code>node tests/fire_anim.mjs &lt;地圖&gt; &lt;鍵&gt; &lt;主角 x&gt; &lt;主角 y&gt;</code>：截一張停 130 毫秒，連截 12 張，比每團火附近的畫面，每團火都要在變；負控制是牆上沒有火的一塊不能變。丁原營那張的營火光暈整片在閃，自動判斷抓不出火，改成一區一區比對。</p>
 <figure><a href="img/sound-fire-diff.webp" target="_blank" rel="noopener"><img src="img/sound-fire-diff.webp" alt="五原城破那張圖。左：連拍的第一張。右：約五秒內連拍 12 張，有變動的像素塗成洋紅，只有火焰那幾塊；零星的小點是飄著的火星" loading="lazy"></a><figcaption>五原城破那張圖。左：連拍的第一張。右：約五秒內連拍 12 張，有變動的像素塗成洋紅，只有火焰那幾塊；零星的小點是飄著的火星</figcaption></figure>
 <p>有的火只在某些段落點著。第五章城南宅門邊那盞油燈，事件條件是變數 <code>c5_lamp</code> 等於 0，演到「然後燈滅了。」那一下改掉這個變數，燈就熄了。燈的樣子我定過：只有油燈和火把，不要燈籠，也不要玻璃燈。</p>
 <h2>試過、沒留下來的</h2>
