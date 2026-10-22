@@ -148,6 +148,12 @@ and from the south as image 3 shows them. Beside some doors stand small bronze o
 The picture is cut from a bigger map: fill the frame edge to edge, and anything cut by the edges stays cut straight at the edge.
 No people, no animals, no text, no letters, no numbers, no grid lines, no watermark.
 </code></pre>
+<h3>提示詞裡的辣椒、玉米</h3>
+<p>上面那段有一句「round bamboo trays drying grain and red chilies, strings of red peppers and corn hanging under the eaves」。這是 AI 在 2026-10-21 寫第五版提示詞時加的（提交 <code>fbd5679c</code>），沒對年代。辣椒、玉米是明代以後才從美洲傳進中國的，《續》在東漢。產圖模型照字面畫，五原的原畫裡也畫出來了：AI 逐塊放大找，確定 98 處（修好那幾年的 13 塊裡 80 處，其他時期的 A1、A2 等 18 處），另有 30 處是金黃的穗子，分不出是麥、粟還是小玉米棒。簷下的民房門邊多半掛著一兩串，市集的攤子上還有整箱辣椒。</p>
+<p>2026-10-22，AI 把產線改成能換地方跑，逐句看提示詞的時候才查到。我當時說：「辣椒、玉米 漢代沒有 需要記入公開站 我會笑死...AI未查資料的毛病 對嗎」。我的決定是：「真的有畫出的地方先記錄一下 未來如果有空的時候 再去處理吧」。</p>
+<p>AI 把新地方的提示詞改成曬小米、豆子，簷下掛蒜頭、乾菜（提交 <code>62173ccf</code>）。五原畫好的不重畫。</p>
+<p>之後另一台電腦上的 Claude Sonnet 逐句查了所有提示詞，每條附出處，列出確定 7 條、懷疑 12 條。除了辣椒、玉米，衣服還寫了棉布，棉到宋元才在北方普及，改成麻；胡騎的彎刀到 7 世紀才有，改成環首直刀；茶棚也有問題：漢代喝茶只在四川一帶（西漢王褒〈僮約〉寫到在四川買茶、煮茶），我選了把劇本的茶改成漢代的「漿」，《史記》裡就有「賣漿」這門小生意。改劇本要過審稿閘門，兩位 AI 評審四票都說「茶棚」比較好懂、「漿」會讓人停下來猜，換了三種寫法都沒過；我還是留「漿」。</p>
+<p>呂布的方天畫戟是後世的說法，但它是《香布纏》的正典設定，留著。其他幾條我要 AI 照辣椒那樣處理：之後產圖用的提示詞改掉，畫好的記成待辦。</p>
 <h3>圖例只寫那一片有的顏色</h3>
 <figure><a href="img/walkin-v5-b2.webp" target="_blank" rel="noopener"><img src="img/walkin-v5-b2.webp" alt="第五版 B2：左 色塊配置；中 原畫；右 擋路格（紅）和事件點（藍）疊在原畫上" loading="lazy"></a><figcaption>第五版 B2：左 色塊配置；中 原畫；右 擋路格（紅）和事件點（藍）疊在原畫上</figcaption></figure>
 <p>第五版第一次整塊畫，左上那片把西街畫成一道城牆加一座城門樓。原因是圖例寫了「最下面那條寬的土色帶是城牆」，那片最下面剛好是西街。改成每一片的圖例只寫那一片裡有的顏色，街道寫明「保持全空，上面什麼都不准蓋」，重畫後西街、南北大街、往市的街都是空的路。</p>
@@ -238,12 +244,35 @@ keep its exact shape, position, size, battlements, towers, ramps and steps, and 
 <p>拴著的馬和射箭的兵不畫進原畫，照原本的圖疊在上面；馬和人畫進去就跟地面黏成一張了。</p>
 <p>我看到 A2 路邊有三個水缸，問：「漢代有備這些防火水缸嗎？」配置裡寫的是「北街南邊防火的大水缸」。AI 查到的是《墨子·備城門》：城上「五十步一罌，盛水」，守城時防火攻用的；路邊、門口擺大缸防火（太平缸）查到的是明清紫禁城的做法。三個缸拿掉，原本的位置請 AI 補回地面。</p>
 <figure><a href="img/walkin-vats.webp" target="_blank" rel="noopener"><img src="img/walkin-vats.webp" alt="上：原本三個水缸；下：拿掉以後補回的地面" loading="lazy"></a><figcaption>上：原本三個水缸；下：拿掉以後補回的地面</figcaption></figure>
+<h2>整齊的四塊，牆在接縫錯開</h2>
+<p>整齊的四塊（A3 郡府與倉、B3 市、C2 校場、C3 城北山腳）照西邊四塊的做法分四片畫，拼起來牆在接縫錯開：A3 的北牆在接縫折一下，B3 市牆西邊那道上半段在第 1.6 欄、下半段在第 5 欄。AI 查到的原因是第一片沒有鄰片可以對照，牆整條挪了一到三格，後面的片照著偏掉的接邊畫。西邊四塊的片其實也偏了 1 到 1.7 格，只是偏的方向順著跨接縫的牆，看不出來。</p>
+<p>這一段前後試了五種做法。</p>
+<h3>先畫有角樓的那片</h3>
+<p>四片原本照左上、右上和左下、右下的順序畫。改成先畫有角樓的那片，讓後面的片照著城牆接，結果接縫看得出一條直線，楓樹被切成半棵。</p>
+<h3>城內先畫成一張縮圖</h3>
+<p>我問：「有沒有可能 整塊五原城內做成一塊縮圖?五原城在大地圖的小圖 就這樣做好了?!!」城內六塊先照配置畫成一張 1536×1024 的縮圖，一張圖就沒有接縫，城牆、光線、顏色一次定好；每一塊再照縮圖上那一塊放大重畫。</p>
+<figure><a href="img/walkin-citythumb.webp" target="_blank" rel="noopener"><img src="img/walkin-citythumb.webp" alt="城內六塊畫成的一張縮圖：四面城牆、四座城門、東北角郡府、東南角的市" loading="lazy"></a><figcaption>城內六塊畫成的一張縮圖：四面城牆、四座城門、東北角郡府、東南角的市</figcaption></figure>
+<p>畫回原尺寸，我看了說：「有點Q版了 不是原來的高細節了」。縮圖一格只有約 8 像素，模型照著模糊的小圖補細節，葉子、瓦片、水缸都畫得偏大。一張圖畫的範圍越大、一格分到的像素越少，細節就越粗：原本一片畫 34 格最細，整塊 64 格畫成一張（一格約 16 像素）粗一點，城內縮圖最粗。</p>
+<figure><a href="img/walkin-coarse.webp" target="_blank" rel="noopener"><img src="img/walkin-coarse.webp" alt="A3 正堂同一處原尺寸：左 原本四片；中 整塊先畫一張小圖；右 城內縮圖" loading="lazy"></a><figcaption>A3 正堂同一處原尺寸：左 原本四片；中 整塊先畫一張小圖；右 城內縮圖</figcaption></figure>
+<p>縮圖留給大地圖上五原的小圖用，這是我的意思：「不過你製作的小縮圖可能還是有用，在大地圖上用吧?」西邊四塊退回原本那一版。</p>
+<h3>接縫切開、重疊漸變</h3>
+<p>錯位的四塊先試著不重畫，用原本四片拼：</p>
+<ol>
+<li>每片自動量出偏多少、拉回配置，接縫在重疊的 4 格裡找兩片畫得最像的地方切開。北牆接上了，但兩片把院牆畫成不同材質的地方，切口看得出來。我看了說：「我看到有切到牆的好像都不行」。</li>
+<li>改用西邊四塊那種拼法，重疊的 4 格兩片慢慢換過去。城牆垛口疊出半透明的雙影，院牆一半淡一半實，營柵一邊圓頭、一邊尖頭。我說：「你還是縫得更醜了」「還不如之前的縮圖後重生了」。</li>
+</ol>
+<figure><a href="img/walkin-crossbad.webp" target="_blank" rel="noopener"><img src="img/walkin-crossbad.webp" alt="牆跨接縫的九處：城牆垛口的雙影、院牆一半淡一半實、營柵兩種木樁頭" loading="lazy"></a><figcaption>牆跨接縫的九處：城牆垛口的雙影、院牆一半淡一半實、營柵兩種木樁頭</figcaption></figure>
+<p>AI 的解釋：對齊只能把整片拉回去，兩片已經畫成不同樣子的牆，拉不成一樣。</p>
+<h3>每塊自己先畫一張小圖</h3>
+<p>我選了第三種：每一塊先照它自己的配置畫成一張小圖（一格約 16 像素，一張就沒有接縫），再分四片照小圖放大補細節，每片先對齊小圖那一塊再拼回，整張最後照配置拉回一次。細節比原本四片粗一點，牆都接得起來。A3、B3、C2、C3 用這種，西邊四塊維持原本四片。</p>
+<figure><a href="img/walkin-whole.webp" target="_blank" rel="noopener"><img src="img/walkin-whole.webp" alt="A3 正堂原尺寸：左 每塊先畫一張小圖；右 原本四片加新拼法。左邊瓦片、楓葉大一號" loading="lazy"></a><figcaption>A3 正堂原尺寸：左 每塊先畫一張小圖；右 原本四片加新拼法。左邊瓦片、楓葉大一號</figcaption></figure>
+<p>重畫以後 C2 校場西邊的營柵前多了一排兵器架。我要的三個兵繞著校場跑步，原本的路線西邊貼著第 4 欄，會在 (4,43) 卡住；西邊那段往裡挪 2 格、南邊往上 1 格，還是逆時針繞。</p>
 <h2>一塊怎麼做</h2>
 <p>城的西半邊四塊拼起來是這樣（遊戲裡一塊一張圖，接邊不會並排出現）：</p>
 <figure><a href="img/walkin-four.webp" target="_blank" rel="noopener"><img src="img/walkin-four.webp" alt="左上 A1、右上 A2、左下 B1、右下 B2" loading="lazy"></a><figcaption>左上 A1、右上 A2、左下 B1、右下 B2</figcaption></figure>
 <p>照著做的指令（在 <code>xu/game/</code> 底下跑，<code>K</code> 換成塊的代號）：</p>
 <pre><code>CITY_GROUND=tex python3 src/city.py                       # 一般模式建城：構圖、外框都照原本的物件
-python3 art/wuyuan/anchor.py run K --v5                   # 底圖：四片三輪（左上；右上和左下；右下），拼成 anchor/K_anchor5.webp
+python3 art/wuyuan/whole_first.py K                       # 底圖：整塊先畫一張小圖，四片照它放大，拼成 anchor/K_anchor5.webp（西邊四塊用的是 anchor.py run K --v5 四片三輪）
 python3 art/wuyuan/anchor.py seg K --v5                   # 每件請 AI 畫外框
 python3 art/wuyuan/anchor.py crown K --v5                 # 樹冠的外框
 python3 art/wuyuan/anchor.py segcut K --v5                # 剪遮擋層、量畫上的佔地、院牆搬到畫上的位置 → obj_anchor/K/anchor5/occ.json
@@ -260,7 +289,7 @@ CITY_GROUND=tex CITY_PAINT=anchor5 python3 src/city.py    # 原畫模式建城
 </ul>
 <figure><a href="img/walkin-test-a1.webp" target="_blank" rel="noopener"><img src="img/walkin-test-a1.webp" alt="A1 在遊戲裡試走的十二個點" loading="lazy"></a><figcaption>A1 在遊戲裡試走的十二個點</figcaption></figure>
 <h2>做到哪</h2>
-<p>城的西半邊 A1、A2、B1、B2 做完，我看了說：「好像可以耶。」「我覺得好像畫得還不錯。」整齊的四塊（A3 郡府與倉、B3 市、C1 和 C2 軍營）正在產，城外的 C3 到 C7 接著做。</p>
+<p>城的西半邊 A1、A2、B1、B2 做完，我看了說：「好像可以耶。」「我覺得好像畫得還不錯。」2026-10-22 十三塊都畫好了，在引擎裡試走過：每個劇情點、出口都走得到，路人不站在擋路格上。</p>
 <p>還沒做的：</p>
 <ul>
 <li>門邊的油燈點火，要做成會動的火，另外疊上去。</li>
