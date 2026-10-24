@@ -1,0 +1,139 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>推上 Larch · 仙泉．香布纏．續 製作手記</title><meta name="description" content="2026-10-24，新版推上 Larch。新版只放新地圖，從序幕接到第九章結局，推上去的是 921 張卡。這一章記整份專案送到平台時遇到的容量問題、最後怎麼分批、推完怎麼確認。單張地圖與播放器的限制寫在Larch RPG 引擎實測，這裡只講整包送上去的那一段。"><meta name="theme-color" content="#100c0a">
+<meta property="og:title" content="推上 Larch · 仙泉．香布纏．續 製作手記"><meta property="og:description" content="2026-10-24，新版推上 Larch。新版只放新地圖，從序幕接到第九章結局，推上去的是 921 張卡。這一章記整份專案送到平台時遇到的容量問題、最後怎麼分批、推完怎麼確認。單張地圖與播放器的限制寫在Larch RPG 引擎實測，這裡只講整包送上去的那一段。"><meta property="og:image" content="https://yazelin.github.io/larch-xu-canon/img/larch-online.webp">
+<style>:root{color-scheme:dark;--bg:#100c0a;--card:rgba(20,14,11,.9);--line:rgba(226,184,102,.26);--gold:#e2b866;--gold2:#f0d08f;--red:#c8502e;--fg:#f1e8dd;--dim:#b7a693}
+*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.9 "Noto Serif TC","Noto Serif CJK TC","Songti TC",serif}
+a{color:var(--gold2)}
+.bg{position:fixed;inset:0;z-index:0;background:#000}.bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.9}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,6,5,.6),rgba(8,6,5,.15) 30%,rgba(8,6,5,.15) 70%,rgba(8,6,5,.6)),linear-gradient(180deg,rgba(8,6,5,.35),rgba(8,6,5,.05) 40%,rgba(8,6,5,.65))}
+main{position:relative;z-index:2;max-width:900px;margin:40vh auto 110px;padding:34px 34px 44px;background:var(--card);border:1px solid var(--line);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+h1{color:var(--gold2);font-size:clamp(28px,4.4vw,40px);letter-spacing:.06em;margin:0 0 18px;text-shadow:0 2px 12px #000}
+h1::after{content:"";display:block;width:72px;height:3px;background:var(--red);margin-top:10px}
+h2{color:var(--gold2);font-size:24px;margin-top:60px;padding-left:12px;border-left:3px solid var(--red)}h3{color:var(--fg);margin-top:36px}
+table{border-collapse:collapse;width:100%;font-size:15px;display:block;overflow-x:auto}
+td,th{border:1px solid var(--line);padding:7px 11px;vertical-align:top}th{background:rgba(40,28,20,.9);color:var(--gold2);font-weight:500}tr:nth-child(even) td{background:rgba(40,28,20,.35)}
+blockquote{margin:16px 0;padding:6px 16px;border-left:2px solid var(--gold);color:#dccfc0;background:rgba(40,28,20,.5)}strong{color:var(--gold2);font-weight:600}
+code{font:14px/1.6 ui-monospace,"Noto Sans Mono CJK TC",monospace;background:rgba(0,0,0,.35);padding:1px 5px;border-radius:4px}
+pre{background:rgba(0,0,0,.45);border:1px solid var(--line);padding:14px 16px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}pre code{background:none;padding:0;font-size:13.5px}
+figure{margin:26px 0}figure img{display:block;width:100%;height:auto;border:1px solid var(--line);box-shadow:0 10px 36px rgba(0,0,0,.55)}
+figcaption{color:var(--dim);font-size:14.5px;margin-top:8px;line-height:1.7}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:22px 0}
+.cards a{display:block;text-decoration:none;background:rgba(40,28,20,.55);border:1px solid var(--line);color:var(--fg)}.cards a:hover{border-color:var(--gold)}
+.cards img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}.cards b{display:block;color:var(--gold2);padding:10px 12px 0;font-size:18px}.cards span{display:block;padding:2px 12px 12px;color:var(--dim);font-size:14.5px;line-height:1.6}
+.prog{margin:22px 0 8px;padding:18px 20px;background:rgba(40,28,20,.55);border:1px solid var(--line)}.prog h2{margin:0 0 6px;border:0;padding:0;font-size:20px}.prog .head{display:flex;gap:28px;flex-wrap:wrap;margin:6px 0 14px}.prog .head div{min-width:170px}.prog .head b{display:block;font-size:34px;line-height:1.2;color:var(--gold2)}.prog .head span{color:var(--dim);font-size:14.5px}.prog .row{margin:10px 0}.prog .row .t{display:flex;justify-content:space-between;gap:10px;font-size:15px}.prog .row .t em{font-style:normal;color:var(--gold2);white-space:nowrap}.prog .bar{height:7px;background:rgba(255,255,255,.1);margin:4px 0 2px}.prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--gold))}.prog .n{color:var(--dim);font-size:13.5px;line-height:1.6}.prog .how{color:var(--dim);font-size:13.5px;margin-top:12px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:60px}.pager a{padding:6px 16px;border:1px solid var(--line);border-radius:16px;text-decoration:none;background:rgba(10,7,6,.55)}
+.top{position:fixed;left:0;right:0;top:0;z-index:5;display:flex;align-items:center;gap:14px;padding:12px 24px 22px;
+  background:linear-gradient(180deg,rgba(6,4,3,.9),rgba(6,4,3,.6) 60%,rgba(6,4,3,0));text-shadow:0 1px 3px #000,0 0 12px rgba(0,0,0,.9)}
+.top .brand{color:var(--gold);font-size:21px;line-height:1.25;letter-spacing:.12em;font-weight:600;text-decoration:none;white-space:nowrap}
+.top .brand small{display:block;font-size:12.5px;font-weight:400;letter-spacing:.2em;color:#cfa760}
+.top nav{margin-left:auto;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none}.top nav::-webkit-scrollbar{display:none}
+.top nav a{padding:3px 11px;border:1px solid rgba(226,184,102,.3);border-radius:14px;background:rgba(10,7,6,.55);color:var(--gold);text-decoration:none;font-size:14.5px;line-height:1.7;white-space:nowrap}
+.top nav a.on{background:var(--red);border-color:var(--red);color:#fff}
+footer.foot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;
+  padding:20px 16px calc(10px + env(safe-area-inset-bottom));font-size:13px;color:#d4c6b5;text-shadow:0 1px 3px #000,0 0 10px #000;
+  background:linear-gradient(0deg,rgba(6,4,3,.92),rgba(6,4,3,.7) 60%,rgba(6,4,3,0))}footer.foot a{color:var(--gold);text-decoration:none}
+@media (max-width:760px){body{font-size:16px}main{margin-top:46vh;padding:24px 16px 34px}.top{flex-direction:column;align-items:flex-start;gap:6px;padding:10px 12px 16px}
+  .top .brand{font-size:18px}.top nav{margin-left:0;max-width:100%}.top nav a{padding:2px 8px;font-size:13px}footer.foot{gap:10px;font-size:12px}}</style></head><body>
+<header class="top"><a class="brand" href="index.html"><small>仙泉．香布纏．續</small>推上 Larch</a><nav><a href="how.html">做法</a><a href="script.html">劇本</a><a href="play.html">玩法</a><a href="playtest.html">試玩</a><a href="sprites.html">角色</a><a href="cg.html">CG</a><a href="city.html">建城</a><a href="walkin.html">原畫</a><a href="confirm.html">確認頁</a><a href="sound.html">聲光</a><a href="engine.html">引擎</a><a href="larch.html" class="on">Larch</a></nav></header>
+<div class="bg" aria-hidden="true"><img src="img/larch-online.webp" alt=""></div>
+<main><h1>推上 Larch</h1>
+<!-- bg: img/larch-online.webp -->
+
+<p>2026-10-24，新版推上 Larch。新版只放新地圖，從序幕接到第九章結局，推上去的是 921 張卡。這一章記整份專案送到平台時遇到的容量問題、最後怎麼分批、推完怎麼確認。單張地圖與播放器的限制寫在<a href="engine.html">Larch RPG 引擎實測</a>，這裡只講整包送上去的那一段。</p>
+<figure><a href="img/larch-online.webp" target="_blank" rel="noopener"><img src="img/larch-online.webp" alt="2026-10-24 線上預覽按「開始遊戲」後的第一幕，畫面是城牆下" loading="lazy"></a><figcaption>2026-10-24 線上預覽按「開始遊戲」後的第一幕，畫面是城牆下</figcaption></figure>
+<h2>整份送不上去</h2>
+<p>Larch 的寫入端點收的是一份專案 JSON。圖與音不在裡面：角色、地圖、CG、音效與配樂都放在公開素材庫，專案裡只留封面與一張透明的武器替代圖。會被擋的是這份 JSON 的大小。</p>
+<p>要記兩個上限：整個專案的雲端存檔上限是 128 MB，含所有白板，圖與音不算；單次寫入請求的上限是 80 MB。</p>
+<p><code>push_larch.py</code> 的註解留著兩次失敗：新版整份 115 MB 超過單次請求的上限，107 MB 也被 413 擋過。超過 50 MB 時程式會先 gzip，再送出去。壓縮沒有讓它過關。整份專案存起來要 128 MB 以內，一次送進去要 80 MB 以內，這是後面分批的原因：每一批都不超過單次上限，全部加起來也不超過存檔上限。</p>
+<h2>卡片為什麼有兩份</h2>
+<p>送出去的 <code>project.json</code> 裡，卡片同時存在 <code>boards[0].nodes</code> 與最外層 <code>nodes</code>，兩份是同一張清單。Larch 的預覽播放器讀最外層那一份。<code>push_larch.py</code> 的 <code>slim()</code> 註解寫得很直接：「預覽播放器讀的是最上層那份。」</p>
+<p>2026-10-23 為了省一半大小，推送時把最外層拿掉，只送白板。專案推上去了，線上預覽停在標題，按開始遊戲進不去；預覽快照的 <code>nodes</code> 是 0 張。本機預覽的 <code>serve.py</code> 會從白板補回這兩份，所以本機測不出來。此後 <code>verify()</code> 讀回一定比對白板與最上層的張數，兩邊都要跟本機要送的張數一樣，對不上就停，不開預覽。</p>
+<h2>先送一半，再一批一批補</h2>
+<p>最後的作法寫在 <code>push_larch_split.py</code>。先把卡片照起點連線的順序排，前半用一次 PUT 送一份完整專案，其餘用「新增卡片」的端點分批 POST。前半預設最多 40 MB，這次湊到 246 張、36.4 MB；後半 675 張分五批，9.7、9.9、9.8、10.0、0.5 MB。</p>
+<table>
+<thead>
+<tr>
+<th>批次</th>
+<th style="text-align: right;">卡數</th>
+<th style="text-align: right;">送出大小</th>
+<th>寫完的 ETag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>前半 PUT</td>
+<td style="text-align: right;">246</td>
+<td style="text-align: right;">36.4 MB</td>
+<td>44</td>
+</tr>
+<tr>
+<td>POST 第 1 批</td>
+<td style="text-align: right;">47</td>
+<td style="text-align: right;">9.7 MB</td>
+<td>45</td>
+</tr>
+<tr>
+<td>POST 第 2 批</td>
+<td style="text-align: right;">330</td>
+<td style="text-align: right;">9.9 MB</td>
+<td>46</td>
+</tr>
+<tr>
+<td>POST 第 3 批</td>
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">9.8 MB</td>
+<td>47</td>
+</tr>
+<tr>
+<td>POST 第 4 批</td>
+<td style="text-align: right;">246</td>
+<td style="text-align: right;">10.0 MB</td>
+<td>48</td>
+</tr>
+<tr>
+<td>POST 第 5 批</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.5 MB</td>
+<td>49</td>
+</tr>
+</tbody>
+</table>
+<p>前半 PUT 花 29 秒。每次寫入都帶上一個 ETag，寫完讀回新的 ETag，下一批接著用；寫入時帶 <code>If-Match</code>，別條線同時改同一個專案會撞 ETag，不會悄悄蓋掉。表裡的 ETag 從 44 走到 49。</p>
+<p>參數是上限，每批不一定裝滿。一張卡不能切開，湊到下一張會超過就換批，所以第 2 批 330 張只有 9.9 MB，第 5 批 9 張只有 0.5 MB。前半先送，是因為後面任一批失敗時，Larch 上還是一份從序幕開始、可以讀的專案。要接續時用 <code>--resume</code> 讀回已有的卡，只補缺的；它不會修已經寫錯的卡。後半每批只送一份卡片，讀回時白板與最上層都補到 921 張。</p>
+<p><code>push_larch_split.py</code> 的檔頭寫「失敗一律直接停，不重試」。只有 429 例外：<code>push_larch.py</code> 的 <code>request()</code> 會照 <code>Retry-After</code> 等完再送，因為 429 表示這次沒有寫進去，重送安全。其他錯誤直接拋出。停在半路時，專案是只有前半的那一版；上一個完整版本留在 Larch 的版本紀錄，程式在推送前也會擋下推到舊版專案。</p>
+<p>新版只送從起點走得到的卡：</p>
+<pre><code class="language-text">只送從起點走得到的卡：921 張（另外 0 張還沒接上，這次不送）
+</code></pre>
+<h2>素材走 CDN</h2>
+<p>這次新進版控的圖有 258 張：100 張 CG、158 張立繪差分。遊戲從公開素材庫的固定 CDN 網址取圖，Larch 專案裡只留封面 <code>xu-cg-title</code> 與透明替代圖 <code>xu_w-none</code>。讀回時，專案裡有 3,760 個不同的 CDN 網址，Larch 素材只有那兩個。</p>
+<p>圖放在 CDN，換圖不必重傳整份專案，專案 JSON 也不會被圖片撐大。代價是線上預覽要載得到 CDN；推完的檢查要把素材請求一起看。</p>
+<h2>推完一定要開線上預覽</h2>
+<p>2026-10-24 推完，開線上預覽：標題畫面有「成就」按鈕，按「開始遊戲」進得去，第一幕城牆下正常顯示。頁面錯誤 0，CDN 請求成功 7 個，1 個 mp3 回 <code>net::ERR_ABORTED</code>，畫面照常。聲音那一項還要人聽，不能只看請求。</p>
+<p>本機預覽看不出最上層少一份，這件事只有線上預覽會抓到。ETag 對上只證明卡片寫進去了，還要按開始遊戲；證明不了播放器讀得到。</p>
+<h2>結果與還沒做的事</h2>
+<p>讀回 ETag 49，白板 921 張，最上層 921 張，跟本機要送的 921 張一致。遠端讀回的緊湊 JSON 約 111 MiB。線上預覽按開始遊戲進得去，第一幕正常。</p>
+<p>這一節只說推得上去、進得去，沒有說全劇走通。這次推的是 10-24 清晨的建置；推完之後，逐格走路模擬器在這份推送用的建置仍停在第二章 B1，修正版在另一個建置走通，還沒有重新建置與推送。詳情寫在<a href="playtest.html">試玩與回饋</a>。</p>
+<p>下一個版本還能做的瘦身，是把重複的觸發與條件收進 RPG 系統的公用事件。成就已經這樣做過：最早每張地圖插一個條件事件，檔案多 8.5 MB；改成公用事件後只多約 0.18 MB（<code>xu/game/docs/成就.md</code>）。卡片再長下去，先跑 <code>--dry-run</code> 算前半與每批多大，再決定要不要調 <code>SPLIT_FIRST_MB</code>、<code>SPLIT_BATCH_MB</code>，會比送到一半才被擋好處理。</p><div class="pager"><a href="engine.html">← 上一章</a><a href="index.html">回目錄</a></div></main>
+<footer class="foot"><span>仙泉．香布纏．續 · 製作手記 · 作者 亞澤 · 內容授權 CC BY-NC 4.0</span>
+<a href="https://github.com/yazelin/larch-xu-canon" target="_blank" rel="noopener">GitHub</a><a href="https://www.facebook.com/yaze.lin.gm" target="_blank" rel="noopener">Facebook</a>
+<a href="https://buymeacoffee.com/yazelin" target="_blank" rel="noopener">請我喝咖啡</a><a href="https://yazelin.github.io/" target="_blank" rel="noopener">亞澤的部落格</a></footer>
+<script>
+/* yz-promo-footer (trimmed) | 三件套+BMC 注意力效果 | https://github.com/yazelin/promo-footer-skill
+   對 footer 既有的 Buy Me a Coffee 連結加 bobbing + 講話氣泡（不重新注入連結）。 */
+(function(){"use strict";
+if(window.__yzPromoInit)return;window.__yzPromoInit=1;
+try{if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return}catch(e){}
+var LINES=["嘿，這裡這裡，我是咖啡按鈕","我是一顆很努力的按鈕，求被點一下","噓，亞澤不知道我在偷偷拉贊助","你看我跳得這麼賣力，不請一杯嗎？","不請也沒關係，你來玩我就很開心","一杯咖啡，是下一個作品的燃料","你的咖啡會變成下一個作品，真的","咖啡因進入亞澤體內，程式碼就會自己寫完","用愛發電中，咖啡因可提升發電效率","覺得好玩嗎？抖內一下下","這個網站沒有廣告，只有我這顆按鈕"];
+var CSS="@keyframes yzIdle{0%,55%,100%{transform:translateY(0)}62%{transform:translateY(-4px)}70%{transform:translateY(0)}78%{transform:translateY(-2px)}84%{transform:translateY(0)}}.yz-idle{animation:yzIdle 2.6s ease-in-out infinite}@keyframes yzHop{0%,100%{transform:translateY(0)}20%{transform:translateY(-6px) scale(1.04)}40%{transform:translateY(0) scale(1)}55%{transform:translateY(-3px)}70%{transform:translateY(0)}}.yz-hop{animation:yzHop .9s cubic-bezier(.36,.07,.19,.97)}.yz-bubble{position:fixed;z-index:2147483000;max-width:200px;padding:6px 11px;border-radius:14px;background:#fffdf7;color:#4a3f35;border:1px solid rgba(0,0,0,.1);box-shadow:0 4px 14px rgba(0,0,0,.18);font:13px/1.5 system-ui,-apple-system,'Noto Sans TC',sans-serif;pointer-events:none;opacity:0;transform:translateY(5px);transition:opacity .25s ease,transform .25s ease}.yz-bubble.yz-on{opacity:1;transform:translateY(0)}.yz-bubble::after{content:'';position:absolute;left:var(--yz-tail,50%);margin-left:-6px;border:6px solid transparent}.yz-bubble.yz-above::after{bottom:-6px;border-bottom:0;border-top:6px solid #fffdf7}.yz-bubble.yz-below::after{top:-6px;border-top:0;border-bottom:6px solid #fffdf7}";
+var bubble,anchor;
+function addCss(){if(document.getElementById("yz-promo-css"))return;var s=document.createElement("style");s.id="yz-promo-css";s.textContent=CSS;document.head.appendChild(s)}
+function findAnchor(){var as=document.querySelectorAll('a[href*="buymeacoffee.com/yazelin"]');if(!as.length)return null;var vis=[],i,r;for(i=0;i<as.length;i++){r=as[i].getBoundingClientRect();if(r.width||r.height)vis.push(as[i])}var pool=vis.length?vis:[].slice.call(as);return pool[pool.length-1]}
+function hop(){anchor.classList.remove("yz-hop");void anchor.offsetWidth;anchor.classList.add("yz-hop")}
+var shown=0,MAX_SHOWS=3;
+function say(){if(document.hidden)return;var r=anchor.getBoundingClientRect();if(!r.width&&!r.height)return;if(r.bottom<0||r.top>innerHeight)return;if(shown>=MAX_SHOWS)return;shown++;bubble.textContent=LINES[Math.floor(Math.random()*LINES.length)];bubble.classList.remove("yz-on","yz-above","yz-below");bubble.style.left="0px";bubble.style.top="0px";var bw=bubble.offsetWidth,bh=bubble.offsetHeight,cx=r.left+r.width/2;var left=Math.max(8,Math.min(cx-bw/2,innerWidth-bw-8));var above=r.top-bh-12>=8;bubble.style.left=left+"px";bubble.style.top=(above?r.top-bh-12:r.bottom+12)+"px";bubble.classList.add(above?"yz-above":"yz-below");bubble.style.setProperty("--yz-tail",Math.max(12,Math.min(cx-left,bw-12))+"px");hop();requestAnimationFrame(function(){bubble.classList.add("yz-on")});setTimeout(function(){bubble.classList.remove("yz-on")},4200)}
+function start(){addCss();anchor=findAnchor();if(!anchor)return false;try{if(getComputedStyle(anchor).display==="inline")anchor.style.display="inline-block"}catch(e){}anchor.classList.add("yz-idle");anchor.addEventListener("animationend",function(e){if(e.animationName==="yzHop")anchor.classList.remove("yz-hop")});bubble=document.createElement("div");bubble.className="yz-bubble";bubble.setAttribute("aria-hidden","true");document.body.appendChild(bubble);window.__yzPromo=say;(function loop(first){if(shown>=MAX_SHOWS)return;setTimeout(function(){say();loop(false)},first?18e3+Math.random()*12e3:9e4+Math.random()*9e4)})(true);return true}
+function boot(){var tries=0;(function t(){if(start())return;if(++tries<20)setTimeout(t,1500)})()}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+})();
+</script></body></html>

@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Larch RPG 引擎實測 · 仙泉．香布纏．續 製作手記</title><meta name="description" content="《續》現在是 111 張地圖、609 張卡。做的過程踩到 Larch RPG 引擎很多條上限，最常見的樣子是整張地圖只剩一行「這張地圖的資料無法讀取」。這一章一條一條記：哪一天踩到、怎麼發現的、怎麼繞過、現在用哪個檢查擋住。大部分是 AI 讀本機預覽器附的引擎原始碼、在本機預覽實測出來的，幾條是我試"><meta name="theme-color" content="#100c0a">
-<meta property="og:title" content="Larch RPG 引擎實測 · 仙泉．香布纏．續 製作手記"><meta property="og:description" content="《續》現在是 111 張地圖、609 張卡。做的過程踩到 Larch RPG 引擎很多條上限，最常見的樣子是整張地圖只剩一行「這張地圖的資料無法讀取」。這一章一條一條記：哪一天踩到、怎麼發現的、怎麼繞過、現在用哪個檢查擋住。大部分是 AI 讀本機預覽器附的引擎原始碼、在本機預覽實測出來的，幾條是我試"><meta property="og:image" content="https://yazelin.github.io/larch-xu-canon/img/engine-error.webp">
+<title>Larch RPG 引擎實測 · 仙泉．香布纏．續 製作手記</title><meta name="description" content="《續》寫這一章時（2026-10-21）是 111 張地圖、609 張卡；2026-10-24 新版是 278 張地圖、921 張卡。做的過程踩到 Larch RPG 引擎很多條上限，最常見的樣子是整張地圖只剩一行「這張地圖的資料無法讀取」。這一章一條一條記：哪一天踩到、怎麼發現的、怎麼繞過、現在用"><meta name="theme-color" content="#100c0a">
+<meta property="og:title" content="Larch RPG 引擎實測 · 仙泉．香布纏．續 製作手記"><meta property="og:description" content="《續》寫這一章時（2026-10-21）是 111 張地圖、609 張卡；2026-10-24 新版是 278 張地圖、921 張卡。做的過程踩到 Larch RPG 引擎很多條上限，最常見的樣子是整張地圖只剩一行「這張地圖的資料無法讀取」。這一章一條一條記：哪一天踩到、怎麼發現的、怎麼繞過、現在用"><meta property="og:image" content="https://yazelin.github.io/larch-xu-canon/img/engine-error.webp">
 <style>:root{color-scheme:dark;--bg:#100c0a;--card:rgba(20,14,11,.9);--line:rgba(226,184,102,.26);--gold:#e2b866;--gold2:#f0d08f;--red:#c8502e;--fg:#f1e8dd;--dim:#b7a693}
 *{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.9 "Noto Serif TC","Noto Serif CJK TC","Songti TC",serif}
 a{color:var(--gold2)}
@@ -35,10 +35,10 @@ footer.foot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:16
   background:linear-gradient(0deg,rgba(6,4,3,.92),rgba(6,4,3,.7) 60%,rgba(6,4,3,0))}footer.foot a{color:var(--gold);text-decoration:none}
 @media (max-width:760px){body{font-size:16px}main{margin-top:46vh;padding:24px 16px 34px}.top{flex-direction:column;align-items:flex-start;gap:6px;padding:10px 12px 16px}
   .top .brand{font-size:18px}.top nav{margin-left:0;max-width:100%}.top nav a{padding:2px 8px;font-size:13px}footer.foot{gap:10px;font-size:12px}}</style></head><body>
-<header class="top"><a class="brand" href="index.html"><small>仙泉．香布纏．續</small>Larch RPG 引擎實測</a><nav><a href="how.html">做法</a><a href="script.html">劇本</a><a href="sprites.html">角色</a><a href="cg.html">CG</a><a href="city.html">建城</a><a href="walkin.html">原畫</a><a href="confirm.html">確認頁</a><a href="sound.html">聲光</a><a href="engine.html" class="on">引擎</a></nav></header>
+<header class="top"><a class="brand" href="index.html"><small>仙泉．香布纏．續</small>Larch RPG 引擎實測</a><nav><a href="how.html">做法</a><a href="script.html">劇本</a><a href="play.html">玩法</a><a href="playtest.html">試玩</a><a href="sprites.html">角色</a><a href="cg.html">CG</a><a href="city.html">建城</a><a href="walkin.html">原畫</a><a href="confirm.html">確認頁</a><a href="sound.html">聲光</a><a href="engine.html" class="on">引擎</a><a href="larch.html">Larch</a></nav></header>
 <div class="bg" aria-hidden="true"><img src="img/engine-error.webp" alt=""></div>
 <main><h1>Larch RPG 引擎實測</h1>
-<p>《續》現在是 111 張地圖、609 張卡。做的過程踩到 Larch RPG 引擎很多條上限，最常見的樣子是整張地圖只剩一行「這張地圖的資料無法讀取」。這一章一條一條記：哪一天踩到、怎麼發現的、怎麼繞過、現在用哪個檢查擋住。大部分是 AI 讀本機預覽器附的引擎原始碼、在本機預覽實測出來的，幾條是我試玩時看到的。想用 Larch 做 RPG 的人，動手前可以把這一章當清單看一遍。</p>
+<p>《續》寫這一章時（2026-10-21）是 111 張地圖、609 張卡；2026-10-24 新版是 278 張地圖、921 張卡。做的過程踩到 Larch RPG 引擎很多條上限，最常見的樣子是整張地圖只剩一行「這張地圖的資料無法讀取」。這一章一條一條記：哪一天踩到、怎麼發現的、怎麼繞過、現在用哪個檢查擋住。大部分是 AI 讀本機預覽器附的引擎原始碼、在本機預覽實測出來的，幾條是我試玩時看到的。想用 Larch 做 RPG 的人，動手前可以把這一章當清單看一遍。2026-10-22、23 做玩法、把只放新地圖的新版推上新專案時，又踩到一批，寫在後面〈推上去的新版停在標題〉〈新版玩不通，檢查都過了〉〈做玩法時查到的〉三節。</p>
 <h2>整張地圖讀不出來</h2>
 <figure><a href="img/engine-error.webp" target="_blank" rel="noopener"><img src="img/engine-error.webp" alt="地圖讀不出來時，畫面上只有這一行" loading="lazy"></a><figcaption>地圖讀不出來時，畫面上只有這一行</figcaption></figure>
 <p>畫面上只看得到這一行。2026-10-21 寫這一章時，AI 在本機預覽把下表大部分重跑了一次：故意弄壞一張測試用的地圖，原因要從頁面的文字裡讀，例如「RPG Error: 角色動畫格式不正確」。下表的「引擎報的原因」除了任務提示那一條，都是這次重跑抄下來的。</p>
@@ -103,6 +103,7 @@ footer.foot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:16
 </tbody>
 </table>
 <p>任務提示那一條的經過：2026-10-19 AI 在做瀏覽器測試加速，跑到第五章發現趕工那張地圖進不去。任務提示（左上角那個「遊戲任務」）有 18 筆，當時引擎上限 16。AI 先拆成 16 筆、在 <code>check_static</code> 加了筆數檢查；我去問 Larch 能不能放寬。Larch 回覆這是他們自己設的上限，先放寬到 64，同一天就取消了，18 筆還原。當晚任務提示的字數、條件數上限也取消了。</p>
+<p>10-22、23 又查到五條規則（事件數、移動路線、分頁、角色圖、id），整理在後面〈新版玩不通，檢查都過了〉的表裡。</p>
 <h2>整個畫面壞掉的那幾種</h2>
 <p>比讀不出一張地圖更嚴重的，是整個畫面、整個播放器壞掉。踩過的：</p>
 <ul>
@@ -166,15 +167,17 @@ footer.foot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:16
 <li>來回走：我定的是只有巡邏的兵來回走，其他人來回走很怪。</li>
 <li>事件不能跟著人走。第五章巡兵的視線，是用「停靠點加每一點一張光」做出來的，寫在<a href="sound.html">配樂、音效與天氣光影</a>。</li>
 </ul>
-<h2>HUD 最多 8 個</h2>
+<h2>HUD：一個擴充功能最多 8 個</h2>
 <p>《續》自己做了一個外掛 <code>xu-voice</code>，裡面 8 個 HUD：說不出口、蓋板、地窖的米、準備出路、年份與刻痕、乾糧、右上的時鐘、心境面板。</p>
-<p>2026-10-18 加到第 9 個時，所有 HUD 一起不見，地圖和事件照跑，沒有任何錯誤訊息。所以心境面板和升階的小提示合成一個 HUD。2026-10-20 我問「應該都不限制了吧」，前一天 Larch 才取消了任務提示的上限。AI 用當天 13:17 更新的 Larch 程式重測：8 個全部載入，10 個、16 個一個都沒有。2026-10-21 寫這一章時，8 個和 10 個又各跑了一次，結果一樣。這個 8 是實測值，原始碼裡沒找到寫明的那一行。</p>
+<p>2026-10-18 加到第 9 個時，所有 HUD 一起不見，地圖和事件照跑，沒有任何錯誤訊息。所以心境面板和升階的小提示合成一個 HUD。2026-10-20 我問「應該都不限制了吧」，前一天 Larch 才取消了任務提示的上限。AI 用當天 13:17 更新的 Larch 程式重測：8 個全部載入，10 個、16 個一個都沒有。2026-10-21 寫這一章時，8 個和 10 個又各跑了一次，結果一樣。那時這個 8 是實測值，原始碼裡沒找到寫明的那一行。</p>
+<p>2026-10-23 做成就時，AI 找到了那一行：播放器檢查擴充功能時寫著「一個擴充功能最多 8 個常駐 UI」，超過就整個擴充功能驗證失敗，它的 HUD 一個都不載入。上限是一個擴充功能各算各的。AI 另開一個測試用的擴充功能來量（<code>tests/hud_plugin2_probe.mjs</code>）：它放 2 個、8 個，<code>xu-voice</code> 原本的 8 個都還在，最多 16 個一起載入；它塞到 9 個，只有它自己的 HUD 全部不見，<code>xu-voice</code> 照舊。所以真的要第 9 個面板，放進第二個擴充功能就好。多開的要自己排位置，16 個擠在四個角會疊在一起。</p>
 <figure><a href="img/engine-hud.webp" target="_blank" rel="noopener"><img src="img/engine-hud.webp" alt="上：原本 8 個 HUD，右上角的年份時鐘在（截圖時時鐘把 223 年算成黃初三年，寫這一章時才發現，已經改成黃初四年）。下：加到 10 個，一個都沒載入" loading="lazy"></a><figcaption>上：原本 8 個 HUD，右上角的年份時鐘在（截圖時時鐘把 223 年算成黃初三年，寫這一章時才發現，已經改成黃初四年）。下：加到 10 個，一個都沒載入</figcaption></figure>
 <p>原始碼裡查得到的是另外幾條：</p>
 <ul>
 <li>HUD 的寬高被夾在 32 到 640 像素，只能貼四個角。「說不出口」因此是偏左上的一個大方塊，沒辦法放正中間；下雪也因此沒辦法用 HUD 做。</li>
 <li>HUD 要有 <code>visibleVariable</code> 才會載入。永遠開著的 HUD，用一個永遠為真的變數 <code>hud_on</code>。</li>
-<li>HUD 只能讀變數，不能點了去觸發事件。心境面板沒有手動打開的按鈕，升階和存檔點時自己跳出來約五秒。</li>
+<li>HUD 不能點了去觸發事件。心境面板沒有手動打開的按鈕，升階和存檔點時自己跳出來約五秒。</li>
+<li>HUD 可以寫變數（2026-10-23 做成就時用過）：擴充功能要有 <code>variables:write</code> 權限，HUD 送 <code>larch:set</code>，而且那個 HUD 要看得見，播放器才收。宣告了要寫的變數卻沒給這個權限，整個擴充功能的 HUD 都不載入。</li>
 <li>左上角的地名、血量那一列，引擎沒有一張地圖一張地圖關掉的開關，對話時會自己淡出。</li>
 </ul>
 <h2>主角的樣子跟著資料庫走</h2>
@@ -210,17 +213,89 @@ footer.foot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:16
 <li>地圖每一幀的時間差最多算 50 毫秒。只把時鐘加速的話，3 倍以上走路就追不上，所以每個真的幀拆成最多 6 個小幀。</li>
 <li>引擎有「點地圖自動走路」：點一格，它自己找路走過去，路會避開觸碰事件。</li>
 <li>主角還在走路動畫、或者事件和對話開著的時候，引擎不收方向鍵。</li>
+<li>點任務框，主角只走一步，不代表走不出去：引擎自己找路時會避開一些事件格。要驗玩家走不走得過，照算出來的路線一格一格送方向鍵（<code>tests/lib.mjs</code> 的 <code>tapKey</code>；<code>page.keyboard</code> 打不進地圖那一層）。這一條是 2026-10-23 驗新版時摸到的。</li>
 </ul>
 <p>日常驗內容不開瀏覽器：<code>xu/game/tools/sim/</code> 照引擎的事件語意（分頁、自動、條件、平行、各種條件判斷）用 Node 重做一遍，整部遊戲不到一秒走完。它模擬不到的是走路和碰撞、名牌遮擋、介面外觀、計時細節、音訊和存檔視窗，這幾樣靠短測和截圖。截圖要等畫面上的「NOW LOADING」消失，一次只跑一個瀏覽器測試。</p>
+<h2>推上去的新版停在標題</h2>
+<p>2026-10-23 清晨，只放新地圖的新版第一次推上一個新的 Larch 專案（<code>52a99bd9</code>）。整份專案 JSON 107 MB，送出去被擋回 413。專案 JSON 裡的卡片本來就存兩份：最外層的 <code>nodes</code>、<code>edges</code>，和 <code>boards[0]</code> 裡的同一份。AI 以為最外層那份是重複的，官方編輯器存檔也是這樣存，就把它拿掉，49 MB 推上去了。讀回來比：故事卡 714 張、CDN 網址 2736 個，都跟本機組出來的一樣。</p>
+<p>AI 開線上預覽才發現：標題畫面正常，按「開始遊戲」不動。AI 去讀預覽播放器拿到的那份資料：新專案最外層的 <code>nodes</code> 0 張、<code>edges</code> 0 條；舊的《續》專案有送最外層那份，609 張、22 條，同一支測試進得了遊戲。預覽播放器讀的是最外層那一份。</p>
+<p>本機測不出來，是因為本機預覽（<a href="https://github.com/yazelin/larch-preview" target="_blank" rel="noopener">larch-preview</a>）把專案交給播放器之前，會從白板補回 <code>nodes</code>、<code>edges</code>，模仿上架遊戲的做法，所以本機試玩全過。</p>
+<p>修法在 <code>xu/game/src/push_larch.py</code> 的 <code>slim()</code>：最外層的 <code>nodes</code>、<code>edges</code> 跟白板同一份一起送；新版只送從起點走得到的卡（連線，加上卡片內容裡提到的任何卡 id，寧可多算）。新版 714 張裡走得到的是 195 張，第五章以後還沒接上的 519 張這次不送，兩份加起來 48.9 MB。讀回時也比最外層 <code>nodes</code> 的張數跟白板一樣。推完除了讀回比數字，還要開線上預覽、按開始遊戲、翻幾句。</p>
+<h2>新版玩不通，檢查都過了</h2>
+<p>同一天重推之前，又發現已經推上去的新版第一、二章玩不通。<code>check_static</code>、本機逐句比對、讀回卡數都過了，下面三種它們都抓不到（<code>1ef2bea5</code>）：</p>
+<ul>
+<li>走不到。走進原畫的地圖，AI 會把原畫上比構圖多畫出來、站得住的物件記成障礙（<code>occ.json</code> 的 <code>_extras</code>）。院子的門口在構圖裡只是院牆的一個缺口，登城道最下面一階也常被誤判，嚴家、魏家的院子、燒過的五原的城頭整片走不到。現在院門那一段（院牆上下各 3 列）、登城道、城門洞周圍兩格不吃這個判斷（<code>src/city.py</code> 的 <code>keep_open()</code>）。</li>
+<li>事件放錯格。原畫的物件常比構圖偏一兩列，照構圖寫死的事件會跑到物件正中間：逃難的路那口井的事件放在井的正中間，旁邊一格都站不到。平移過來的柴堆跑到城頭的走道上；燒過的五原有一位婦人站在登城道唯一的一階上，整條路被她擋住。城破那一場，布站在沒有登城道的城頭上，AI 在牆腳上方放一個看不見、內容一樣的事件，任務框改指它。</li>
+<li>整張讀不出來。搬到新地圖時重算人物的走位，有幾條被截成空路線，引擎碰到一條空的，整張就「資料無法讀取」：城破、燒過的五原、第四章門檻三張，另外還有重複的事件 id。空路線改成往旁邊是牆的方向走一步（撞牆不動），最後照原本的方向轉身。</li>
+</ul>
+<p>10-22、23 這兩天碰到的引擎規則整理成下表。「引擎報的原因」是 AI 寫這一節時，從本機預覽器附的引擎原始碼（<code>rpg-core</code>）抄的；larch.ink 線上的播放器是同一個檔，256 那一條線上也有。</p>
+<table>
+<thead>
+<tr>
+<th>規則</th>
+<th>引擎報的原因</th>
+<th>碰到的地方、現在的做法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一張地圖最多 256 個事件，圖層最多 16 層</td>
+<td>事件數量不可超過 256</td>
+<td>第一章逃難的路走進邊界那一塊 275 個、第五章宵禁的街 281 個；同一列的遮擋層合併（見下面）</td>
+</tr>
+<tr>
+<td>移動要選主角或這個角色，路線 1–8 段、每段 1–20 步</td>
+<td>移動需選擇主角或這個角色，路線 1–8 段、每段 1–20 步</td>
+<td>新版重算走位截成空路線；改成往牆走一步</td>
+</tr>
+<tr>
+<td>主角事件不能有分頁，空的也不行；一個事件最多 98 頁；每一頁的 actor 只能是 none 或 npc</td>
+<td>事件分頁格式不正確</td>
+<td>自由時間給主角事件加了空的分頁，第四章開場停在讀取畫面；曹營的休息點一個事件 200 頁，改成每張圖只放自己那個時代的年份（<a href="play.html">玩法</a>）</td>
+</tr>
+<tr>
+<td>每一頁都要一張合格的角色圖，看不見的事件也要</td>
+<td>角色動畫格式不正確</td>
+<td>看不見的事件，每一頁放一張透明的角色圖（<code>mapkit.INVISIBLE</code>）</td>
+</tr>
+<tr>
+<td>事件 id 在一張地圖裡不重複、頁 id 在一個事件裡不重複，最長 80 字，只能英數、底線、連字號</td>
+<td>ID 必須唯一，且只能包含英數、底線、連字號；分頁 ID 必須唯一</td>
+<td>新版那三張讀不出來的地圖，除了空路線，也查到重複的 id</td>
+</tr>
+</tbody>
+</table>
+<h3>怎麼抓到的</h3>
+<p>這幾種都要等引擎讀地圖那一刻才報錯，畫面上只有一行「這張地圖的資料無法讀取」。現在推之前多兩道：</p>
+<ul>
+<li>逐張載入。要推的地圖，一張一張在本機播放器裡換起點、按開始遊戲、等地圖出來，讀不出來的記下畫面上的原因；<code>tests/probe_mapload.mjs</code> 單獨載一張，把引擎藏在畫面外的錯誤印出來。10-23 早上這樣載了要推的 106 張，抓到第一章逃難的路走進邊界那一塊；第五章宵禁的街還沒接上新版，接上時也會讀不出來，一起修。</li>
+<li>任務目標走不走得到。<code>tests/check_reach.py</code> 從主角起點照擋路格走一遍，站著不動的人也算擋路；任務框指的目標，踩的要站得上去，按的要能站到旁邊一格。看不見、自己會演的事件（任務框寫「等：……」那種）不用走過去，不算。負控制是院子四面圍住、目標在裡面，要抓到；牆開一個口，就要放過。新版要推的 271 條任務提示，修完是 0 條走不到。</li>
+</ul>
+<p><code>check_static</code> 也補上上表後四列的規則，拿修之前的建置跑，城破、燒過的五原都抓得到。</p>
+<p>256 那一條，我問過：「你確定是在本機預覽還是 Larch 上？256 上限是真的嗎」。提交訊息記的是：larch.ink 線上的播放器一樣有這一句。修法是 <code>src/occ_merge.py</code>：同一列（圖框下緣同一列，引擎照它排前後）左右相接或重疊的原畫遮擋層，合成一張圖、一個事件，都是同一張原畫剪的，畫面不變。只對超過 240 個事件的地圖做，5 張地圖少了 250 個事件，最多剩 239 個。把後面永遠站不到人的遮擋層拿掉也算過，只省得了 3 個，沒有用。</p>
+<p>第八、九章接上新版之前，也照這套跑過：假設原畫都畫好的建置，<code>check_static</code> 198 條到 0 條，走不到 2 條到 0 條，其中一條是檢查自己的誤報（看不見的自動事件被當成要走過去，修好附負控制）；第八、九章 33 張地圖加第六章一張，在本機播放器逐張載入都載得起來。</p>
+<h2>做玩法時查到的</h2>
+<p>2026-10-22、23 做<a href="play.html">玩法</a>那一章的系統時，又摸到幾條：</p>
+<ul>
+<li>任務框只顯示第一條條件全部成立的提示。可做可不做的提示排在主線前面，就會一直蓋住主線，玩家以為非做不可，自動試玩也卡住。</li>
+<li>RPG 系統設定裡可以放公用事件：每張地圖都檢查，最多 40 個，只有條件和動作，沒有分頁。引擎每 180 毫秒、沒有其他事件在跑的時候才開始一個，對話開著時不跑。</li>
+<li>標題畫面只讀得到「跨週目保留」的變數，一般變數在標題永遠是預設值。標題和 HUD 的 iframe 沒有 <code>allow-same-origin</code>，<code>localStorage</code> 一讀就丟 SecurityError，<code>window.larch</code> 是 undefined；標題 HTML 裡的內嵌程式可以跑。</li>
+<li>專案 JSON 的卡片存兩份（最外層的 <code>nodes</code> 和 <code>boards[0].nodes</code>），每張地圖多插一點，檔案就多兩倍。成就最早每張地圖插一個條件事件，多了 8.5 MB；改成公用事件只多 0.18 MB。</li>
+<li>小遊戲卡在播放器裡是沙盒 iframe。卡片裡再開一層 iframe，那一層也在沙盒裡，送出來的訊息來源是字串 <code>'null'</code>，卡片只認網址來源的話，訊息全被丟掉。</li>
+<li>地圖用 <code>jump</code> 跳到小遊戲卡，卡片再用一般連線接回同一張地圖，主角回到跳走前那一格（本機量過，跳走前站在 (8,12)，回來也是 (8,12)），不回地圖起點；那張地圖的 auto 事件會再跑一次。</li>
+</ul>
 <h2>不讓同一個坑再踩一次</h2>
-<p>上面這些，大部分踩到以後都變成一項檢查，多半配一個負控制，故意弄壞，要抓得到。事件 id 的字元、<code>hop</code> 的 <code>times</code>、地圖大小這三條，目前靠產地圖的程式照規矩寫，<code>check_static</code> 沒有另外檢查。平常跑的幾道：</p>
+<p>上面這些，大部分踩到以後都變成一項檢查，多半配一個負控制，故意弄壞，要抓得到。<code>hop</code> 的 <code>times</code>、地圖大小這兩條，目前靠產地圖的程式照規矩寫，<code>check_static</code> 沒有另外檢查；事件 id 的字元，2026-10-22 起也查了。平常跑的幾道：</p>
 <pre><code class="language-bash">cd xu/game
 python3 src/build.py            # 產 dist/project.json
 python3 tests/check_static.py   # 白名單、上限、每格一個事件、角色圖上限、配樂……
 python3 tests/check_crowd.py    # 路人：撞臉、站在牆裡、走不到、隨機動作的上限
 node tools/sim/lint.mjs         # 跳轉、任務提示、變數、劇情進度打錯字
+python3 tests/check_reach.py    # 新版：任務框指的目標走不走得到
+node tests/probe_mapload.mjs &lt;起點卡 id&gt;   # 單獨載一張地圖，印出引擎藏在畫面外的錯誤
 </code></pre>
-<p>地圖正在照這些上限整個重做：五原拆成好幾張 64×64，城裡用 wide 鏡頭，每一塊的邊一格一格接起來。整張畫當地圖、人走到屋後被擋住的做法在<a href="walkin.html">走進原畫</a>，一件一件拼的第一套在<a href="city.html">建城工法：拼出來的城</a>。</p><div class="pager"><a href="sound.html">← 上一章</a><a href="index.html">回目錄</a></div></main>
+<p>推上 Larch 之前，要推的地圖逐張在本機播放器載入一次；推完開線上預覽，按開始遊戲，翻幾句。</p>
+<p>地圖正在照這些上限整個重做：五原拆成好幾張 64×64，城裡用 wide 鏡頭，每一塊的邊一格一格接起來。整張畫當地圖、人走到屋後被擋住的做法在<a href="walkin.html">走進原畫</a>，一件一件拼的第一套在<a href="city.html">建城工法：拼出來的城</a>。</p><div class="pager"><a href="sound.html">← 上一章</a><a href="larch.html">下一章 →</a></div></main>
 <footer class="foot"><span>仙泉．香布纏．續 · 製作手記 · 作者 亞澤 · 內容授權 CC BY-NC 4.0</span>
 <a href="https://github.com/yazelin/larch-xu-canon" target="_blank" rel="noopener">GitHub</a><a href="https://www.facebook.com/yaze.lin.gm" target="_blank" rel="noopener">Facebook</a>
 <a href="https://buymeacoffee.com/yazelin" target="_blank" rel="noopener">請我喝咖啡</a><a href="https://yazelin.github.io/" target="_blank" rel="noopener">亞澤的部落格</a></footer>

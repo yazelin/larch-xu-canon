@@ -35,7 +35,7 @@ footer.foot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:16
   background:linear-gradient(0deg,rgba(6,4,3,.92),rgba(6,4,3,.7) 60%,rgba(6,4,3,0))}footer.foot a{color:var(--gold);text-decoration:none}
 @media (max-width:760px){body{font-size:16px}main{margin-top:46vh;padding:24px 16px 34px}.top{flex-direction:column;align-items:flex-start;gap:6px;padding:10px 12px 16px}
   .top .brand{font-size:18px}.top nav{margin-left:0;max-width:100%}.top nav a{padding:2px 8px;font-size:13px}footer.foot{gap:10px;font-size:12px}}</style></head><body>
-<header class="top"><a class="brand" href="index.html"><small>仙泉．香布纏．續</small>一個人跟 AI 怎麼做完一部 RPG</a><nav><a href="how.html" class="on">做法</a><a href="script.html">劇本</a><a href="sprites.html">角色</a><a href="cg.html">CG</a><a href="city.html">建城</a><a href="walkin.html">原畫</a><a href="confirm.html">確認頁</a><a href="sound.html">聲光</a><a href="engine.html">引擎</a></nav></header>
+<header class="top"><a class="brand" href="index.html"><small>仙泉．香布纏．續</small>一個人跟 AI 怎麼做完一部 RPG</a><nav><a href="how.html" class="on">做法</a><a href="script.html">劇本</a><a href="play.html">玩法</a><a href="playtest.html">試玩</a><a href="sprites.html">角色</a><a href="cg.html">CG</a><a href="city.html">建城</a><a href="walkin.html">原畫</a><a href="confirm.html">確認頁</a><a href="sound.html">聲光</a><a href="engine.html">引擎</a><a href="larch.html">Larch</a></nav></header>
 <div class="bg" aria-hidden="true"><img src="img/how-autoplayer.webp" alt=""></div>
 <main><h1>一個人跟 AI 怎麼做完一部 RPG</h1>
 <!-- bg: img/how-autoplayer.webp -->
@@ -194,7 +194,7 @@ assert(s2 === 29, `再按住：走出門洞外那一排關門停一下（停在 
 <p>推之前，我的 Larch 編輯器分頁要關掉（根目錄 <code>AGENTS.md</code> 第 3 條）。編輯器開著，會把它快取的舊狀態推回伺服器，靜默蓋掉腳本剛推的版本，完全不報錯。2026-09-05 在另一部作品，我只是進編輯器填更新說明，95 張卡被打回 80 張。2026-09-26 前作《仙泉．香布纏》又一次，這次卡數完全一樣，6 張新圖被換回舊圖。所以推完讀回來要比內容，不只比卡數。</p>
 <p>推送用 <code>xu/game/src/push_larch.py</code>：先讀遠端最新版本的 ETag，帶著它覆寫，拿不到 ETag 就停，免得蓋掉別人的新版本；讀回來檢查一個 board、一個起點、Larch 素材只有兩個、沒有殘留本機素材路徑，印出卡數和 CDN 網址數。三次推送：10-14 483 張卡；10-18 573 張，推之前先把遠端舊版整包備份，讀回後跟本機的節點 id 逐一對上；10-21 609 張，讀回逐張比對一致。10-18 那次推之前，第一到九章（含兩個結局）的完整遊玩測試和 35 支生活小事短測都重跑過，合計 44 項全過。推之前一定重跑，是另一部作品 2026-10-17 吃過的虧：最後一個改動之後沒重跑全劇試玩就推，三張地圖都讀不出來。</p>
 <p>素材分流是我指定的：Larch 素材庫只放一定要由 Larch 託管的，封面 <code>xu-cg-title</code> 和 RPG 用的透明替代武器圖 <code>xu_w-none</code>。其他圖、音效、配樂都放公開素材庫 <a href="https://github.com/yazelin/larch-buchan-art" target="_blank" rel="noopener">yazelin/larch-buchan-art</a>，用固定的 tag 走 jsDelivr。圖一改就打新 tag（例如 <code>xu-card-m-g3a-r2</code>），下載回來跟本機比 SHA-256。10-14 第一次分流有 1,126 個素材引用、226 個 tag，逐一驗收 226/226；10-21 站姿縮小的 55 張走路圖又推了 28 個新 tag。</p>
-<p>10-21 我決定不交 Larch 第三屆挑戰，目標是上 Steam，以完整度為準。推上去的這一版給別人備份或接手，地圖整個重做。</p>
+<p>10-21 我決定不交 Larch 第三屆挑戰，目標是上 Steam，以完整度為準。推上去的這一版給別人備份或接手，地圖整個重做。10-23 改變主意：只放新地圖的新版開一個新的 Larch 專案，10/24 前推上去交第三屆挑戰，做到哪一章就交到哪一章。新版第一次推上去，讀回的數字都對，線上預覽卻停在標題，經過寫在<a href="engine.html">Larch RPG 引擎實測</a>。</p>
 <h2>現在在做：地圖重做</h2>
 <p>地圖重做先做五原：一張地圖最大 64×64 格，五原切成 13 塊相連，再加屋內。做完要把第零幕到第四章、第九章在五原的劇情搬到新地圖，現在約 35 張五原的地圖卡要對到新的 13 塊，測試跟著改。做法在<a href="city.html">建城工法：拼出來的城</a>和<a href="walkin.html">走進原畫</a>。其他章：<a href="script.html">劇本與心聲</a>、<a href="sprites.html">角色與走路圖</a>、<a href="cg.html">CG</a>、<a href="sound.html">配樂、音效與天氣光影</a>、<a href="engine.html">Larch RPG 引擎實測</a>。</p><div class="pager"><a href="index.html">← 目錄</a><a href="script.html">下一章 →</a></div></main>
 <footer class="foot"><span>仙泉．香布纏．續 · 製作手記 · 作者 亞澤 · 內容授權 CC BY-NC 4.0</span>

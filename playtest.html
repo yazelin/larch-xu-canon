@@ -1,0 +1,205 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>試玩與回饋 · 仙泉．香布纏．續 製作手記</title><meta name="description" content="《續》的試玩分兩層：一層是人真的坐下來玩，覺得哪裡不對就留一句；另一層是程式替人先走一遍，把走不到、對不上、數值不合理的地方找出來。2026-10-23、24 這一輪，兩層都用上了。回饋怎麼變成修改，前面一個人跟 AI 怎麼做完一部 RPG已經寫過 10-20 以前的流程；這一章接最近這一輪，記工具"><meta name="theme-color" content="#100c0a">
+<meta property="og:title" content="試玩與回饋 · 仙泉．香布纏．續 製作手記"><meta property="og:description" content="《續》的試玩分兩層：一層是人真的坐下來玩，覺得哪裡不對就留一句；另一層是程式替人先走一遍，把走不到、對不上、數值不合理的地方找出來。2026-10-23、24 這一輪，兩層都用上了。回饋怎麼變成修改，前面一個人跟 AI 怎麼做完一部 RPG已經寫過 10-20 以前的流程；這一章接最近這一輪，記工具"><meta property="og:image" content="https://yazelin.github.io/larch-xu-canon/img/playtest-feedback.webp">
+<style>:root{color-scheme:dark;--bg:#100c0a;--card:rgba(20,14,11,.9);--line:rgba(226,184,102,.26);--gold:#e2b866;--gold2:#f0d08f;--red:#c8502e;--fg:#f1e8dd;--dim:#b7a693}
+*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.9 "Noto Serif TC","Noto Serif CJK TC","Songti TC",serif}
+a{color:var(--gold2)}
+.bg{position:fixed;inset:0;z-index:0;background:#000}.bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.9}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,6,5,.6),rgba(8,6,5,.15) 30%,rgba(8,6,5,.15) 70%,rgba(8,6,5,.6)),linear-gradient(180deg,rgba(8,6,5,.35),rgba(8,6,5,.05) 40%,rgba(8,6,5,.65))}
+main{position:relative;z-index:2;max-width:900px;margin:40vh auto 110px;padding:34px 34px 44px;background:var(--card);border:1px solid var(--line);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+h1{color:var(--gold2);font-size:clamp(28px,4.4vw,40px);letter-spacing:.06em;margin:0 0 18px;text-shadow:0 2px 12px #000}
+h1::after{content:"";display:block;width:72px;height:3px;background:var(--red);margin-top:10px}
+h2{color:var(--gold2);font-size:24px;margin-top:60px;padding-left:12px;border-left:3px solid var(--red)}h3{color:var(--fg);margin-top:36px}
+table{border-collapse:collapse;width:100%;font-size:15px;display:block;overflow-x:auto}
+td,th{border:1px solid var(--line);padding:7px 11px;vertical-align:top}th{background:rgba(40,28,20,.9);color:var(--gold2);font-weight:500}tr:nth-child(even) td{background:rgba(40,28,20,.35)}
+blockquote{margin:16px 0;padding:6px 16px;border-left:2px solid var(--gold);color:#dccfc0;background:rgba(40,28,20,.5)}strong{color:var(--gold2);font-weight:600}
+code{font:14px/1.6 ui-monospace,"Noto Sans Mono CJK TC",monospace;background:rgba(0,0,0,.35);padding:1px 5px;border-radius:4px}
+pre{background:rgba(0,0,0,.45);border:1px solid var(--line);padding:14px 16px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}pre code{background:none;padding:0;font-size:13.5px}
+figure{margin:26px 0}figure img{display:block;width:100%;height:auto;border:1px solid var(--line);box-shadow:0 10px 36px rgba(0,0,0,.55)}
+figcaption{color:var(--dim);font-size:14.5px;margin-top:8px;line-height:1.7}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:22px 0}
+.cards a{display:block;text-decoration:none;background:rgba(40,28,20,.55);border:1px solid var(--line);color:var(--fg)}.cards a:hover{border-color:var(--gold)}
+.cards img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}.cards b{display:block;color:var(--gold2);padding:10px 12px 0;font-size:18px}.cards span{display:block;padding:2px 12px 12px;color:var(--dim);font-size:14.5px;line-height:1.6}
+.prog{margin:22px 0 8px;padding:18px 20px;background:rgba(40,28,20,.55);border:1px solid var(--line)}.prog h2{margin:0 0 6px;border:0;padding:0;font-size:20px}.prog .head{display:flex;gap:28px;flex-wrap:wrap;margin:6px 0 14px}.prog .head div{min-width:170px}.prog .head b{display:block;font-size:34px;line-height:1.2;color:var(--gold2)}.prog .head span{color:var(--dim);font-size:14.5px}.prog .row{margin:10px 0}.prog .row .t{display:flex;justify-content:space-between;gap:10px;font-size:15px}.prog .row .t em{font-style:normal;color:var(--gold2);white-space:nowrap}.prog .bar{height:7px;background:rgba(255,255,255,.1);margin:4px 0 2px}.prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--gold))}.prog .n{color:var(--dim);font-size:13.5px;line-height:1.6}.prog .how{color:var(--dim);font-size:13.5px;margin-top:12px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:60px}.pager a{padding:6px 16px;border:1px solid var(--line);border-radius:16px;text-decoration:none;background:rgba(10,7,6,.55)}
+.top{position:fixed;left:0;right:0;top:0;z-index:5;display:flex;align-items:center;gap:14px;padding:12px 24px 22px;
+  background:linear-gradient(180deg,rgba(6,4,3,.9),rgba(6,4,3,.6) 60%,rgba(6,4,3,0));text-shadow:0 1px 3px #000,0 0 12px rgba(0,0,0,.9)}
+.top .brand{color:var(--gold);font-size:21px;line-height:1.25;letter-spacing:.12em;font-weight:600;text-decoration:none;white-space:nowrap}
+.top .brand small{display:block;font-size:12.5px;font-weight:400;letter-spacing:.2em;color:#cfa760}
+.top nav{margin-left:auto;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none}.top nav::-webkit-scrollbar{display:none}
+.top nav a{padding:3px 11px;border:1px solid rgba(226,184,102,.3);border-radius:14px;background:rgba(10,7,6,.55);color:var(--gold);text-decoration:none;font-size:14.5px;line-height:1.7;white-space:nowrap}
+.top nav a.on{background:var(--red);border-color:var(--red);color:#fff}
+footer.foot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;
+  padding:20px 16px calc(10px + env(safe-area-inset-bottom));font-size:13px;color:#d4c6b5;text-shadow:0 1px 3px #000,0 0 10px #000;
+  background:linear-gradient(0deg,rgba(6,4,3,.92),rgba(6,4,3,.7) 60%,rgba(6,4,3,0))}footer.foot a{color:var(--gold);text-decoration:none}
+@media (max-width:760px){body{font-size:16px}main{margin-top:46vh;padding:24px 16px 34px}.top{flex-direction:column;align-items:flex-start;gap:6px;padding:10px 12px 16px}
+  .top .brand{font-size:18px}.top nav{margin-left:0;max-width:100%}.top nav a{padding:2px 8px;font-size:13px}footer.foot{gap:10px;font-size:12px}}</style></head><body>
+<header class="top"><a class="brand" href="index.html"><small>仙泉．香布纏．續</small>試玩與回饋</a><nav><a href="how.html">做法</a><a href="script.html">劇本</a><a href="play.html">玩法</a><a href="playtest.html" class="on">試玩</a><a href="sprites.html">角色</a><a href="cg.html">CG</a><a href="city.html">建城</a><a href="walkin.html">原畫</a><a href="confirm.html">確認頁</a><a href="sound.html">聲光</a><a href="engine.html">引擎</a><a href="larch.html">Larch</a></nav></header>
+<div class="bg" aria-hidden="true"><img src="img/playtest-feedback.webp" alt=""></div>
+<main><h1>試玩與回饋</h1>
+<!-- bg: img/playtest-feedback.webp -->
+
+<p>《續》的試玩分兩層：一層是人真的坐下來玩，覺得哪裡不對就留一句；另一層是程式替人先走一遍，把走不到、對不上、數值不合理的地方找出來。2026-10-23、24 這一輪，兩層都用上了。回饋怎麼變成修改，前面<a href="how.html">一個人跟 AI 怎麼做完一部 RPG</a>已經寫過 10-20 以前的流程；這一章接最近這一輪，記工具、指令、實際抓到的問題，還有模擬器仍然看不到的地方。</p>
+<h2>按 F，寫一句</h2>
+<p>本機預覽用 <a href="https://github.com/yazelin/larch-preview" target="_blank" rel="noopener">larch-preview</a>。玩到不對的地方按 F，出現回饋欄，寫一句，存下來。預覽會自動附一張截圖，寫進 <code>dist-city/new/feedback/feedback.jsonl</code>，圖放在同一個資料夾。</p>
+<p>RPG 地圖上的回饋，除了一句話，還會記下地圖、主角座標、方向、當時的劇情變數與最近幾個變動。對話框裡是哪一句，檔案沒有這個欄位。<code>xu/README.md</code> 寫得很清楚：「台詞本身抓不到。」所以回饋要自己寫清楚是在哪一句、哪個畫面，AI 才有辦法對回程式。</p>
+<p>到 10-24，<code>dist-city/new/feedback/feedback.jsonl</code> 有 125 則，狀態都還是 <code>open</code>。讀回饋用 <code>larch-preview</code> 附的 <code>lp.feedback list</code>；處理完用 <code>lp.feedback done</code>，寫上改了什麼。狀態沒有逐筆關閉，不代表沒有修，只代表回饋檔沒有跟著更新。</p>
+<figure><a href="img/playtest-feedback.webp" target="_blank" rel="noopener"><img src="img/playtest-feedback.webp" alt="2026-10-23 晚間我在本機預覽留下的回饋，畫面是五原城頭的斜階；回饋寫著這排樓梯的牆擋要整個向上平移一格，能走的範圍才會跟圖對得上" loading="lazy"></a><figcaption>2026-10-23 晚間我在本機預覽留下的回饋，畫面是五原城頭的斜階；回饋寫著這排樓梯的牆擋要整個向上平移一格，能走的範圍才會跟圖對得上</figcaption></figure>
+<h2>一則回饋怎麼變成修正</h2>
+<p>10-23 深夜那一則是斜階的牆擋。回饋原文：</p>
+<blockquote>
+<p>這排樓梯的牆擋 應該整個向上平移1格,能走範圍才會跟圖比較對得起來 <!-- speak-tw-ok：回饋原話，保留原句 --></p>
+</blockquote>
+<p>地圖是 <code>m-z4</code>，座標 <code>(17,7)</code>。原因是 <code>art/wuyuan/plan.yaml</code> 的階梯格讓可站的位置壓在畫上斜階的南側牆面。修正新增 <code>art/wuyuan/walk_review.json</code>，把斜階所在的北牆帶由 <code>y=6～9</code> 移到 <code>y=5～8</code>，與城頭走道重合的 <code>y=5</code> 保持可走。同一張完整時期原畫也用在 <code>m-z7</code>，兩張一起修。人、旗杆、原畫都沒有搬動。</p>
+<p>驗證從 <code>m-z4</code> 起點 <code>(11,10)</code> 走上斜階，走到旗杆旁的布；全專案 478 條任務提示，走不到的目標 0 條。</p>
+<figure><a href="img/playtest-stairs.webp" target="_blank" rel="noopener"><img src="img/playtest-stairs.webp" alt="斜階牆擋修前與修後的對照圖" loading="lazy"></a><figcaption>斜階牆擋修前與修後的對照圖</figcaption></figure>
+<p>另一則是 23:36 的大孩子換圖。回饋說「本來好像是對的，現在錯了」。原因是建置後段的換圖把九歲的 <code>kid9</code> 與三個大孩子當成同一組，避免撞臉時又換回 <code>kid9</code>。修正讓大孩子先保留三款圖，並把 <code>kid9</code> 排除在大孩子可換的圖之外。全專案掃描後，<code>m-z1</code> 與 <code>m-z6</code> 共六個大孩子都用 <code>bigkid</code>，三人不重複，沒有大孩子用到 <code>kid9</code>。</p>
+<p>兩則都有地圖、座標、變數與截圖，可以對回程式。回饋寫得越靠近畫面，修正越不容易找錯地方。</p>
+<h2>走路模擬器</h2>
+<p>邏輯模擬器 <code>tools/sim/run.mjs</code> 讀建置好的 <code>project.json</code>，照 rpg-engine 的事件語意重做一遍：事件頁、once、auto、condition、選項、跳圖、變數。不開瀏覽器，整部這次跑大約一秒。它回答的是「事件接不接得下去」，回答不了「走不走得到」。</p>
+<pre><code class="language-bash">cd xu/game
+node tools/sim/run.mjs --project dist-city/new/project.json --pick first --until-line 全書終
+</code></pre>
+<p><code>--pick</code> 有三種選法：<code>first</code> 永遠選第一個選項，<code>last</code> 永遠選最後一個，<code>rot</code> 依序選第 1、2、3 個再回頭。<code>--pick all</code> 一次跑這三種。2026-10-24 推送用的建置，三種都讀到「全書終」：<code>first</code> 2,035 句、<code>last</code> 2,259 句、<code>rot</code> 2,180 句，結局分別是喝、不喝、喝。</p>
+<p>逐格走路模擬器 <code>walk.mjs</code> 補上這一層。它直接呼叫本機預覽器附的 <code>rpg-core</code>，用同一套碰撞、事件範圍與 BFS，玩家一次走一格，途中踩到觸發就照引擎順序演，卡住時停下來，列出地圖、座標、階段與原因。</p>
+<pre><code class="language-bash">node tools/sim/walk.mjs --project dist-city/new/project.json --pick all --no-pockets
+</code></pre>
+<p>同一份推送用建置，三種選法都停在第二章 B1 的 <code>(62,53)</code>，階段 <code>c2_tocamp</code>，原因是 <code>navigation-cycle</code>。步數會隨建置變動；這次重跑是 1,274 步，先前報告的建置不同，是 1,295 步，卡點相同。任務按鈕的對照走法，<code>first</code> 與 <code>rot</code> 到得了結局，<code>last</code> 停在第五章 A2 的 <code>(5,32)</code>。</p>
+<p>第二章的往返追下去，是 B1 的東側邊界把玩家送到 B2，B2 的任務指向北邊出口，格子最短路先往左踩到西側回程出口，回到 B1，再重來。修正把 B2 這一步的導引改成 <code>edge-n-40</code>，玩家沿內部通道進 A2，再正常踩 <code>b2-south</code>，沒有新增跳圖捷徑。第五章任務按鈕的巡兵迴圈、第六章押隊的三個封閉口袋與夜逃火光迴圈也一起修了。</p>
+<p>修正版放在獨立建置 <code>dist-city/stuck2tmp</code> 驗，三種選法都走到結局：</p>
+<table>
+<thead>
+<tr>
+<th>選法</th>
+<th>邏輯模擬器，推送用建置</th>
+<th>逐格走路，推送用建置</th>
+<th>逐格走路，修正版</th>
+<th>任務按鈕，修正版</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>first</code></td>
+<td>2,035 句，喝</td>
+<td>停在 B1 <code>(62,53)</code></td>
+<td>7,984 步，喝</td>
+<td>8,186 步</td>
+</tr>
+<tr>
+<td><code>last</code></td>
+<td>2,259 句，不喝</td>
+<td>停在 B1 <code>(62,53)</code></td>
+<td>12,699 步，不喝</td>
+<td>13,036 步</td>
+</tr>
+<tr>
+<td><code>rot</code></td>
+<td>2,180 句，喝</td>
+<td>停在 B1 <code>(62,53)</code></td>
+<td>12,283 步，喝</td>
+<td>12,605 步</td>
+</tr>
+</tbody>
+</table>
+<p><code>stuck2tmp</code> 驗完已刪除；修正寫在場景對照與回歸測試裡，推送用建置還沒有重跑，也還沒有重新推上 Larch。線上那 921 張卡仍是舊的走路版本。邏輯模擬器三種都到結局，不代表走得到；這次就是邏輯過關、走路卡在同一格。</p>
+<p>走路模擬器仍然代替不了人。它不重演原生隨機 NPC 的走動與實際等候時間，不跑對話框、選單、計時動畫、音訊與素材載入；戰鬥一律假定勝利，動作戰鬥只走到相鄰格假定攻擊成功。畫面中的位置有沒有對齊原畫，也不在它的判定範圍。</p>
+<h2>靜態檢查與關係檢查</h2>
+<p><code>check_static.py</code> 讀建置好的 JSON，對劇本、事件、卡片 id、素材、引擎上限、成就與結局。指令要指定建置：</p>
+<pre><code class="language-bash">XU_DIST=dist-city/new XU_NEW=1 python3 tests/check_static.py
+</code></pre>
+<p>建置與檢查要用同一份稿。別條線在改劇本時，建置加 <code>XU_SCRIPT_PIN=dirty</code>，檢查也要用同一個值。只給其中一邊加，會拿新稿對舊建置，跑出一批對不上的台詞。10-23 的驗收報告記 0 FAIL。這支不開瀏覽器，畫面的事抓不到。</p>
+<p>10-24 拿推送用建置重跑，出現 18 條 FAIL：7 條是劇本有台詞、建置沒用到；11 條是建置有句子、劇本沒有。全部在第九章尾段。原因是建置是 04:56 寫的，<code>xu/劇本_第九章_那碗水.md</code> 與 <code>src/ch9_maps.py</code> 在 09:02、09:08 又改過。下一輪要讓建置與檢查用同一份稿，再重跑。</p>
+<p><code>check_rel.py</code> 管關係點數。它建一次專案，列舉互斥選法的每一種組合，算每個人最差與最佳會拿到幾點，再對上限、設計目標、階數門檻與升階小場。2026-10-24 推送用建置的結果：</p>
+<table>
+<thead>
+<tr>
+<th>人</th>
+<th style="text-align: right;">最差</th>
+<th style="text-align: right;">最佳</th>
+<th style="text-align: right;">上限</th>
+<th style="text-align: right;">設計目標</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>布</td>
+<td style="text-align: right;">160</td>
+<td style="text-align: right;">163</td>
+<td style="text-align: right;">123</td>
+<td style="text-align: right;">125</td>
+</tr>
+<tr>
+<td>湘</td>
+<td style="text-align: right;">121</td>
+<td style="text-align: right;">123</td>
+<td style="text-align: right;">93</td>
+<td style="text-align: right;">90</td>
+</tr>
+<tr>
+<td>荃</td>
+<td style="text-align: right;">85</td>
+<td style="text-align: right;">88</td>
+<td style="text-align: right;">65</td>
+<td style="text-align: right;">65</td>
+</tr>
+<tr>
+<td>娘</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr>
+<td>蟬</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr>
+<td>成素</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">7</td>
+</tr>
+</tbody>
+</table>
+<p>上限是最高階的門檻，設計目標是設計文件第十節的建議。布的上限 123 比目標 125 少 2 點，檢查會提醒供給少 2 點、要補事件；其他五位的上限都到得了目標。掛點 1,354 處、213 種，沒有證據 0 處。</p>
+<p>檢查器本身也要有負控制。<code>--neg</code> 把蟬的掛點全部拿掉，檢查必須抓到蟬的缺口與沒掛上的列；抓不到就代表檢查壞了，不能說遊戲沒問題。</p>
+<h2>兩個模型疊圖看劇本</h2>
+<p>模擬器看邏輯，看不見畫面。<code>qa_capture.mjs</code> 用瀏覽器照任務框玩，每出現一句新台詞或新選項就截一張圖；序到第一章約 15 分鐘、500 張。<code>qa_judge.py</code> 把截圖、劇本那一節、模擬器預期的句子與程式量到的事實配成題，問兩個不同家族的看圖模型。兩個都報同一類才算確定，只有一個報算待看。</p>
+<p>它抓的是畫面與劇本疊不起來：旁白說布坐在木樁上，畫面沒有布；選心聲時 CG 不見；人站在牆上。這類問題邏輯模擬器與靜態檢查都不會報。</p>
+<h2>模擬器看不到的</h2>
+<p>走路模擬器補了碰撞與途中觸發，還是沒有補完真人玩的那一層：</p>
+<ul>
+<li>對話框、選單、名牌遮擋、字卡與 CG 的實際外觀。</li>
+<li>計時、動畫、rAF，以及需要等巡兵轉向的重試。</li>
+<li>戰鬥輸贏與動作戰鬥的按鍵過程，模擬器一律假定勝利。</li>
+<li>音訊、素材載入、存檔視窗、換造型後的畫面。</li>
+<li>原生隨機 NPC 的走動與我當時的人物位置。</li>
+</ul>
+<p>所以最後還是要人開瀏覽器玩。10-24 的線上預覽這次只驗到按開始遊戲與第一幕，沒有從頭玩到結局；推送用建置的走路也還卡在第二章。下一輪先把修正版重新建置、推上去，再從頭走一次。</p><div class="pager"><a href="play.html">← 上一章</a><a href="sprites.html">下一章 →</a></div></main>
+<footer class="foot"><span>仙泉．香布纏．續 · 製作手記 · 作者 亞澤 · 內容授權 CC BY-NC 4.0</span>
+<a href="https://github.com/yazelin/larch-xu-canon" target="_blank" rel="noopener">GitHub</a><a href="https://www.facebook.com/yaze.lin.gm" target="_blank" rel="noopener">Facebook</a>
+<a href="https://buymeacoffee.com/yazelin" target="_blank" rel="noopener">請我喝咖啡</a><a href="https://yazelin.github.io/" target="_blank" rel="noopener">亞澤的部落格</a></footer>
+<script>
+/* yz-promo-footer (trimmed) | 三件套+BMC 注意力效果 | https://github.com/yazelin/promo-footer-skill
+   對 footer 既有的 Buy Me a Coffee 連結加 bobbing + 講話氣泡（不重新注入連結）。 */
+(function(){"use strict";
+if(window.__yzPromoInit)return;window.__yzPromoInit=1;
+try{if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return}catch(e){}
+var LINES=["嘿，這裡這裡，我是咖啡按鈕","我是一顆很努力的按鈕，求被點一下","噓，亞澤不知道我在偷偷拉贊助","你看我跳得這麼賣力，不請一杯嗎？","不請也沒關係，你來玩我就很開心","一杯咖啡，是下一個作品的燃料","你的咖啡會變成下一個作品，真的","咖啡因進入亞澤體內，程式碼就會自己寫完","用愛發電中，咖啡因可提升發電效率","覺得好玩嗎？抖內一下下","這個網站沒有廣告，只有我這顆按鈕"];
+var CSS="@keyframes yzIdle{0%,55%,100%{transform:translateY(0)}62%{transform:translateY(-4px)}70%{transform:translateY(0)}78%{transform:translateY(-2px)}84%{transform:translateY(0)}}.yz-idle{animation:yzIdle 2.6s ease-in-out infinite}@keyframes yzHop{0%,100%{transform:translateY(0)}20%{transform:translateY(-6px) scale(1.04)}40%{transform:translateY(0) scale(1)}55%{transform:translateY(-3px)}70%{transform:translateY(0)}}.yz-hop{animation:yzHop .9s cubic-bezier(.36,.07,.19,.97)}.yz-bubble{position:fixed;z-index:2147483000;max-width:200px;padding:6px 11px;border-radius:14px;background:#fffdf7;color:#4a3f35;border:1px solid rgba(0,0,0,.1);box-shadow:0 4px 14px rgba(0,0,0,.18);font:13px/1.5 system-ui,-apple-system,'Noto Sans TC',sans-serif;pointer-events:none;opacity:0;transform:translateY(5px);transition:opacity .25s ease,transform .25s ease}.yz-bubble.yz-on{opacity:1;transform:translateY(0)}.yz-bubble::after{content:'';position:absolute;left:var(--yz-tail,50%);margin-left:-6px;border:6px solid transparent}.yz-bubble.yz-above::after{bottom:-6px;border-bottom:0;border-top:6px solid #fffdf7}.yz-bubble.yz-below::after{top:-6px;border-top:0;border-bottom:6px solid #fffdf7}";
+var bubble,anchor;
+function addCss(){if(document.getElementById("yz-promo-css"))return;var s=document.createElement("style");s.id="yz-promo-css";s.textContent=CSS;document.head.appendChild(s)}
+function findAnchor(){var as=document.querySelectorAll('a[href*="buymeacoffee.com/yazelin"]');if(!as.length)return null;var vis=[],i,r;for(i=0;i<as.length;i++){r=as[i].getBoundingClientRect();if(r.width||r.height)vis.push(as[i])}var pool=vis.length?vis:[].slice.call(as);return pool[pool.length-1]}
+function hop(){anchor.classList.remove("yz-hop");void anchor.offsetWidth;anchor.classList.add("yz-hop")}
+var shown=0,MAX_SHOWS=3;
+function say(){if(document.hidden)return;var r=anchor.getBoundingClientRect();if(!r.width&&!r.height)return;if(r.bottom<0||r.top>innerHeight)return;if(shown>=MAX_SHOWS)return;shown++;bubble.textContent=LINES[Math.floor(Math.random()*LINES.length)];bubble.classList.remove("yz-on","yz-above","yz-below");bubble.style.left="0px";bubble.style.top="0px";var bw=bubble.offsetWidth,bh=bubble.offsetHeight,cx=r.left+r.width/2;var left=Math.max(8,Math.min(cx-bw/2,innerWidth-bw-8));var above=r.top-bh-12>=8;bubble.style.left=left+"px";bubble.style.top=(above?r.top-bh-12:r.bottom+12)+"px";bubble.classList.add(above?"yz-above":"yz-below");bubble.style.setProperty("--yz-tail",Math.max(12,Math.min(cx-left,bw-12))+"px");hop();requestAnimationFrame(function(){bubble.classList.add("yz-on")});setTimeout(function(){bubble.classList.remove("yz-on")},4200)}
+function start(){addCss();anchor=findAnchor();if(!anchor)return false;try{if(getComputedStyle(anchor).display==="inline")anchor.style.display="inline-block"}catch(e){}anchor.classList.add("yz-idle");anchor.addEventListener("animationend",function(e){if(e.animationName==="yzHop")anchor.classList.remove("yz-hop")});bubble=document.createElement("div");bubble.className="yz-bubble";bubble.setAttribute("aria-hidden","true");document.body.appendChild(bubble);window.__yzPromo=say;(function loop(first){if(shown>=MAX_SHOWS)return;setTimeout(function(){say();loop(false)},first?18e3+Math.random()*12e3:9e4+Math.random()*9e4)})(true);return true}
+function boot(){var tries=0;(function t(){if(start())return;if(++tries<20)setTimeout(t,1500)})()}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+})();
+</script></body></html>

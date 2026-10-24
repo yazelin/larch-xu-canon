@@ -35,7 +35,7 @@ footer.foot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:16
   background:linear-gradient(0deg,rgba(6,4,3,.92),rgba(6,4,3,.7) 60%,rgba(6,4,3,0))}footer.foot a{color:var(--gold);text-decoration:none}
 @media (max-width:760px){body{font-size:16px}main{margin-top:46vh;padding:24px 16px 34px}.top{flex-direction:column;align-items:flex-start;gap:6px;padding:10px 12px 16px}
   .top .brand{font-size:18px}.top nav{margin-left:0;max-width:100%}.top nav a{padding:2px 8px;font-size:13px}footer.foot{gap:10px;font-size:12px}}</style></head><body>
-<header class="top"><a class="brand" href="index.html"><small>仙泉．香布纏．續</small>建城工法：拼出來的城</a><nav><a href="how.html">做法</a><a href="script.html">劇本</a><a href="sprites.html">角色</a><a href="cg.html">CG</a><a href="city.html" class="on">建城</a><a href="walkin.html">原畫</a><a href="confirm.html">確認頁</a><a href="sound.html">聲光</a><a href="engine.html">引擎</a></nav></header>
+<header class="top"><a class="brand" href="index.html"><small>仙泉．香布纏．續</small>建城工法：拼出來的城</a><nav><a href="how.html">做法</a><a href="script.html">劇本</a><a href="play.html">玩法</a><a href="playtest.html">試玩</a><a href="sprites.html">角色</a><a href="cg.html">CG</a><a href="city.html" class="on">建城</a><a href="walkin.html">原畫</a><a href="confirm.html">確認頁</a><a href="sound.html">聲光</a><a href="engine.html">引擎</a><a href="larch.html">Larch</a></nav></header>
 <div class="bg" aria-hidden="true"><img src="img/city-whole.webp" alt=""></div>
 <main><h1>建城工法：拼出來的城</h1>
 <p>五原是《續》地圖重做的第一座城。第一套做法是把一座城拆成零件，一件一件產，再照一份配置拼回去：地面用無縫貼圖拼，屋子在綠幕上一棟一棟產，牆整圈產再切成九格，城牆連城門、角樓一起產。這一章記下每一步的做法、指令和數字，我定過的規矩，還有試過就丟掉的做法。</p>
@@ -44,7 +44,7 @@ footer.foot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:16
 <h2>一張地圖最大 64 格，城要拆成好幾塊</h2>
 <p>舊版《續》最大的一張五原是 56×40 格。一格半公尺，實際只有 28×20 公尺，看起來像只有幾戶的小村。漢代縣城一面城牆常有幾百公尺到一公里，照實際比例畫，一面牆就要上千格。</p>
 <p>Larch 一張地圖最大 64×64 格。AI 實測過，開 65×65 引擎會報「地圖寬高需為 2–64」；編輯器的說明也寫「再大手機就跑不動，想要更大的世界，把它分成幾張地圖，用傳送連起來」。</p>
-<p>2026-10-21 我決定不交 Larch 第三屆挑戰，地圖整個重做，分三層：</p>
+<p>2026-10-21 我決定不交 Larch 第三屆挑戰，地圖整個重做（10-23 改成新版要交，見〈怎麼做〉），分三層：</p>
 <ul>
 <li>大地圖：64×64 格，一格約 18 公里。</li>
 <li>城或村：好幾張 64×64 的塊接起來，走過邊界就換到隔壁那一張的同一個位置。</li>
@@ -112,7 +112,7 @@ footer.foot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:16
 <p>史料筆記放在 <code>xu/考據/</code>。<code>長安.md</code>、<code>下邳與許.md</code> 是另一台電腦上的 Claude Sonnet 只讀查的；<code>洛陽五原晉陽濮陽村落.md</code> 是 Claude 的子代理查的。查到哪些、只看到摘要的有哪些、哪些查不到，各份筆記裡分開記著。</p>
 <h2>先排整座城，一張圖都還沒產</h2>
 <h3>地點表和連結圖</h3>
-<p>重做從兩張 AI 做的網頁開始。<a href="confirm/places/index.html">地點表</a>（<code>xu/game/tools/places.html</code>）列出整部用到的地點、劇情在那裡做什麼、建議拆成幾張。每一列底下我直接寫意見，存在頁面的資料庫，AI 讀得到，像是長安、下邳、許都要大、互動多，軍侯的帳子要能走進去跟他說話。</p>
+<p>重做從兩張 AI 做的網頁開始。<a href="confirm/places/index.html">地點表</a>（<code>xu/game/tools/places.html</code>）列出整部用到的地點、劇情在那裡做什麼、建議拆成幾張。每一列底下我直接寫意見，存在頁面的資料庫，AI 讀得到，像是長安、下邳、許都要大、互動多，軍候的帳子要能走進去跟他說話。</p>
 <p><a href="confirm/links/index.html">連結圖</a>（<code>tools/links.html</code>）定每張地圖的相對位置和出入口。五原分 13 塊：城內 3×2 六塊，城外七塊（四座城門外各一塊，加上校場、墳地、邊牆外的荒原），另外有 4 間屋內。城四面都能進，每一面通到不同的地方；城外先到城外的塊，只有四座城門通城內。</p>
 <p>大地圖我要 AI 照史實位置重排，四周留空畫自然地表。河、海岸、山脈用 Natural Earth 的公開地理資料換算（<code>tools/world_terrain.py</code>），黃河滎陽以東照東漢的河道，淮河下游照漢代直接入海。</p>
 <h3>整座城寫成一份 plan.yaml</h3>

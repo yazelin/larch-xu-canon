@@ -35,7 +35,7 @@ footer.foot{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:16
   background:linear-gradient(0deg,rgba(6,4,3,.92),rgba(6,4,3,.7) 60%,rgba(6,4,3,0))}footer.foot a{color:var(--gold);text-decoration:none}
 @media (max-width:760px){body{font-size:16px}main{margin-top:46vh;padding:24px 16px 34px}.top{flex-direction:column;align-items:flex-start;gap:6px;padding:10px 12px 16px}
   .top .brand{font-size:18px}.top nav{margin-left:0;max-width:100%}.top nav a{padding:2px 8px;font-size:13px}footer.foot{gap:10px;font-size:12px}}</style></head><body>
-<header class="top"><a class="brand" href="index.html"><small>仙泉．香布纏．續</small>劇本與心聲</a><nav><a href="how.html">做法</a><a href="script.html" class="on">劇本</a><a href="sprites.html">角色</a><a href="cg.html">CG</a><a href="city.html">建城</a><a href="walkin.html">原畫</a><a href="confirm.html">確認頁</a><a href="sound.html">聲光</a><a href="engine.html">引擎</a></nav></header>
+<header class="top"><a class="brand" href="index.html"><small>仙泉．香布纏．續</small>劇本與心聲</a><nav><a href="how.html">做法</a><a href="script.html" class="on">劇本</a><a href="play.html">玩法</a><a href="playtest.html">試玩</a><a href="sprites.html">角色</a><a href="cg.html">CG</a><a href="city.html">建城</a><a href="walkin.html">原畫</a><a href="confirm.html">確認頁</a><a href="sound.html">聲光</a><a href="engine.html">引擎</a><a href="larch.html">Larch</a></nav></header>
 <div class="bg" aria-hidden="true"><img src="img/script-unsaid.webp" alt=""></div>
 <main><h1>劇本與心聲</h1>
 <p>《續》全劇約四千句台詞，其中一千多句是魏續的心聲。這一章講這些句子怎麼寫、怎麼改：我試玩時退回了哪些句子，退回的理由怎麼變成寫稿規則和檢查程式，最後怎麼做成一道讓不同家族的 AI 互相審稿的閘門。只看一段的話，我推最後那道閘門：寫稿的 AI 不判自己的稿，換不換進劇本由程式算。</p>
@@ -181,7 +181,7 @@ python3 審稿/runner.py ship &quot;提交訊息&quot; 改過的檔…    # 連�
 </ul>
 <h2>下一步：改前改後給我選</h2>
 <p>閘門判的是讀稿人和評審的口味，跟我的口味不一定一樣。評審稱讚過「你看不出來喔？」，可是全劇四千句幾乎不用「喔」。所以流程最後一步是每章挑一場，把改前、改後匿名成 A、B 給我選，記進 <code>xu/審稿/校正.md</code>；我選舊稿的次數變多，就表示準則或評審偏了，要回頭調。這張表現在還是空的。還沒定的也有幾件：「喔、啦、欸」這類語尾要不要開放；「現在是。」這種短句，比賽評審稱讚，讀稿人卻都標成金句腔。</p>
-<p>地圖怎麼從整張原畫做出來，見<a href="walkin.html">走進原畫</a>；心聲時刻用的 CG 怎麼產，見 <a href="cg.html">CG</a>；整部怎麼跟 AI 分工，見<a href="how.html">一個人跟 AI 怎麼做完一部 RPG</a>。</p><div class="pager"><a href="how.html">← 上一章</a><a href="sprites.html">下一章 →</a></div></main>
+<p>地圖怎麼從整張原畫做出來，見<a href="walkin.html">走進原畫</a>；心聲時刻用的 CG 怎麼產，見 <a href="cg.html">CG</a>；整部怎麼跟 AI 分工，見<a href="how.html">一個人跟 AI 怎麼做完一部 RPG</a>。</p><div class="pager"><a href="how.html">← 上一章</a><a href="play.html">下一章 →</a></div></main>
 <footer class="foot"><span>仙泉．香布纏．續 · 製作手記 · 作者 亞澤 · 內容授權 CC BY-NC 4.0</span>
 <a href="https://github.com/yazelin/larch-xu-canon" target="_blank" rel="noopener">GitHub</a><a href="https://www.facebook.com/yaze.lin.gm" target="_blank" rel="noopener">Facebook</a>
 <a href="https://buymeacoffee.com/yazelin" target="_blank" rel="noopener">請我喝咖啡</a><a href="https://yazelin.github.io/" target="_blank" rel="noopener">亞澤的部落格</a></footer>
